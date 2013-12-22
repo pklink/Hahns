@@ -14,6 +14,9 @@
             "Hahns\\": "src/"
         }
     },
+    "require": {
+        "ext-json": "*"
+    },
     "require-dev": {
         "squizlabs/php_codesniffer": "1.5.1",
         "codeception/codeception": "1.8.1"
