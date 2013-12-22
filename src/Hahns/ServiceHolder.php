@@ -6,6 +6,7 @@ namespace Hahns;
 
 use Hahns\Exception\ServiceDoesNotExistException;
 use Hahns\Exception\ServiceMustBeAnObjectException;
+use Hahns\Exception\ServiceNameMustBeAStringException;
 
 class ServiceHolder
 {
@@ -18,9 +19,14 @@ class ServiceHolder
     /**
      * @param string $name
      * @param \Closure $callable
+     * @throws Exception\ServiceNameMustBeAStringException
      */
     public function register($name, \Closure $callable)
     {
+        if (!is_string($name)) {
+            throw new ServiceNameMustBeAStringException();
+        }
+
         $this->services[$name] = [
             'callable' => $callable
         ];
