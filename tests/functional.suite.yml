@@ -11,6 +11,6 @@ modules:
     enabled: [Filesystem, TestHelper, PhpBrowser, REST]
     config:
       PhpBrowser:
-        url: 'http://localhost:8000/index.php/'
+        url: 'http://localhost:8000/tests/server.php/'
       REST:
-        url: 'http://localhost:8000/index.php/'
+        url: 'http://localhost:8000/tests/server.php/'
