@@ -5,7 +5,6 @@ namespace Hahns;
 
 
 use Hahns\Exception\RouteNotFoundException;
-use Hahns\Response\JsonImpl;
 
 class Router
 {
@@ -102,7 +101,9 @@ class Router
                 // wenn parameter enthaelt muss dieser geparst werden
                 if (count($match) > 0) {
                     // match aus route entfernen
-                    $splittedRoute[$index] = substr($splittedRoute[$index], strlen($match[0]));
+                    $strpos = strpos($splittedRoute[$index], $match[0]);
+                    $strlen = strlen($splittedRoute[$index]);
+                    $splittedRoute[$index] = substr_replace($splittedRoute[$index], '', $strpos, $strlen);
                     if ($splittedRoute[$index] === false) {
                         $splittedRoute[$index] = null;
                     }
@@ -121,7 +122,9 @@ class Router
                         $namedParameter[$name] = $match[0];
 
                         // match aus parsable entfernen
-                        $splittedParsable[$index] = substr($splittedParsable[$index], strlen($match[0]));
+                        $strpos = strpos($splittedParsable[$index], $match[0]);
+                        $strlen = strlen($splittedParsable[$index]);
+                        $splittedParsable[$index] = substr_replace($splittedRoute[$index], '', $strpos, $strlen);
                         if ($splittedParsable[$index] === false) {
                             $splittedParsable[$index] = null;
                         }
