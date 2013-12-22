@@ -50,13 +50,18 @@ class Router
     }
 
     /**
+     * @param string $method
      * @param string $route
      * @param $callback
      */
-    public function get($route, $callback)
+    public function add($method, $route, $callback)
     {
-        $route          = $this->removeLastSlash($route);
-        $this->routes[] = [$route, $callback];
+        if (!isset($this->routes[$method])) {
+            $this->routes[$method] = [];
+        }
+
+        $route                   = $this->removeLastSlash($route);
+        $this->routes[$method][] = [$route, $callback];
     }
 
     /**
@@ -94,7 +99,14 @@ class Router
         $candidates = [];
         $pathDepthOfParsable = $this->getPathDepth($this->parsable);
 
-        foreach ($this->routes as $route) {
+        $method = $_SERVER['REQUEST_METHOD'];
+        if (!isset($this->routes[$method])) {
+            $routes = [];
+        } else {
+            $routes = $this->routes[$method];
+        }
+
+        foreach ($routes as $route) {
             $pathDepth = $this->getPathDepth($route[0]);
 
             if ($pathDepth != $pathDepthOfParsable) {
