@@ -1,0 +1,217 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Hahns by pklink</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">Hahns</h1>
+        <p class="header">micro framework for PHP 5.4+</p>
+
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/pklink/Hahns/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/pklink/Hahns/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/pklink/Hahns">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/pklink">pklink</a></p>
+
+
+      </header>
+      <section>
+        <h1>
+<a name="hahns" class="anchor" href="#hahns"><span class="octicon octicon-link"></span></a>Hahns</h1>
+
+<p>Hahns is a micro framework for PHP 5.4 and higher.</p>
+
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>To install using <a href="http://getcomposer.org/">composer</a>, have the following lines in your <code>composer.json</code> file.</p>
+
+<div class="highlight highlight-json"><pre><span class="p">{</span>
+  <span class="nt">"require"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">"pklink/Hahns"</span><span class="p">:</span> <span class="s2">"*"</span><span class="p">,</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>Create application</p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\Hahns\Hahns</span><span class="p">();</span>
+</pre></div>
+
+<div class="highlight highlight-php"><pre><span class="nv">$app</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'/'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="s2">"hello world!"</span><span class="p">;</span>
+<span class="p">});</span>
+
+<span class="nv">$app</span><span class="o">-&gt;</span><span class="na">delete</span><span class="p">(</span><span class="s1">'/'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="s2">"1"</span><span class="p">;</span>
+<span class="p">});</span>
+</pre></div>
+
+<p>Every GET-request to <code>/</code> will respond</p>
+
+<pre><code>hello world!
+</code></pre>
+
+<p>Every DELETE-request to <code>/</code> will respond</p>
+
+<pre><code>1
+</code></pre>
+
+<h3>
+<a name="parameters-for-routing-callback" class="anchor" href="#parameters-for-routing-callback"><span class="octicon octicon-link"></span></a>Parameters for routing callback</h3>
+
+<p>Hahns will set parameters based on required type automatically</p>
+
+<p>The following types are available:</p>
+
+<ul>
+<li><code>\Hahns\Request</code></li>
+<li><code>\Hahns\Response\JsonImpl</code></li>
+<li><code>\Hahns\ServiceHolder</code></li>
+</ul><div class="highlight highlight-php"><pre><span class="nv">$app</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'/'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">});</span>
+
+<span class="nv">$app</span><span class="o">-&gt;</span><span class="na">patch</span><span class="p">(</span><span class="s1">'/'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\Response\JsonImpl</span> <span class="nv">$response</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">});</span>
+
+<span class="nv">$app</span><span class="o">-&gt;</span><span class="na">post</span><span class="p">(</span><span class="s1">'/cars'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\ServiceHolder</span> <span class="nv">$services</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">});</span>
+
+<span class="nv">$app</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'/cars'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\ServiceHolder</span> <span class="nv">$services</span><span class="p">,</span> <span class="nx">\Hahns\Response\JsonImpl</span> <span class="nv">$response</span><span class="p">,</span> <span class="nx">\Hahns\Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">});</span>
+
+<span class="nv">$app</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'/cars'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\Response\JsonImpl</span> <span class="nv">$response</span><span class="p">,</span> <span class="nx">\Hahns\ServiceHolder</span> <span class="nv">$services</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">});</span>
+</pre></div>
+
+<h3>
+<a name="named-parameters" class="anchor" href="#named-parameters"><span class="octicon octicon-link"></span></a>Named Parameters</h3>
+
+<p>Based on <a href="http://en.wikipedia.org/wiki/Regular_expression">regular expression</a></p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$app</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'/hello/[.+:name]'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\Response\JsonImpl</span> <span class="nv">$response</span><span class="p">,</span> <span class="nx">\Hahns\Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="na">send</span><span class="p">([</span>
+        <span class="s1">'message'</span> <span class="o">=&gt;</span> <span class="nb">sprintf</span><span class="p">(</span><span class="s1">'hello %s %s'</span><span class="p">,</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'first'</span><span class="p">),</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'last'</span><span class="p">))</span>
+<span class="p">});</span>
+
+<span class="nv">$app</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'/hello/[.+:first]/[.+:last]'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\Request</span> <span class="nv">$request</span><span class="p">,</span> <span class="nx">\Hahns\Response\JsonImpl</span> <span class="nv">$response</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="na">send</span><span class="p">([</span>
+        <span class="s1">'message'</span> <span class="o">=&gt;</span> <span class="nb">sprintf</span><span class="p">(</span><span class="s1">'hello %s %s'</span><span class="p">,</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'first'</span><span class="p">),</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'last'</span><span class="p">))</span>
+    <span class="p">]);</span>
+<span class="p">});</span>
+
+<span class="nv">$app</span><span class="o">-&gt;</span><span class="na">delete</span><span class="p">(</span><span class="s1">'/cars/id-[\d+:id]/now'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\Response\JsonImpl</span> <span class="nv">$response</span><span class="p">,</span> <span class="nx">\Hahns\Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="na">send</span><span class="p">([</span>
+        <span class="s1">'message'</span> <span class="o">=&gt;</span> <span class="nb">sprintf</span><span class="p">(</span><span class="s1">'removed card with id `%d`'</span><span class="p">,</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'id'</span><span class="p">))</span>
+    <span class="p">]);</span>
+<span class="p">});</span>
+</pre></div>
+
+<h3>
+<a name="services" class="anchor" href="#services"><span class="octicon octicon-link"></span></a>Services</h3>
+
+<div class="highlight highlight-php"><pre><span class="nv">$app</span><span class="o">-&gt;</span><span class="na">service</span><span class="p">(</span><span class="s1">'myservice'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nv">$service</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\stdClass</span><span class="p">();</span>
+    <span class="nv">$service</span><span class="o">-&gt;</span><span class="na">test</span> <span class="o">=</span> <span class="s1">'hello'</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nv">$service</span><span class="p">;</span>
+<span class="p">});</span>
+
+<span class="nv">$app</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'service-test'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\ServiceHolder</span> <span class="nv">$services</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="nv">$service</span><span class="o">-&gt;</span><span class="na">test</span><span class="p">;</span>
+<span class="p">});</span>
+</pre></div>
+
+<p>Every GET-request to <code>/</code> will respond</p>
+
+<pre><code>hello
+</code></pre>
+
+<h3>
+<a name="404-handling" class="anchor" href="#404-handling"><span class="octicon octicon-link"></span></a>404-Handling</h3>
+
+<p>Default handling is sending a status code of <code>404</code></p>
+
+<p>Additionally you can add own handler:</p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$app</span><span class="o">-&gt;</span><span class="na">notFound</span><span class="p">(</span><span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// do something</span>
+<span class="p">});</span>
+</pre></div>
+
+<h2>
+<a name="reference" class="anchor" href="#reference"><span class="octicon octicon-link"></span></a>Reference</h2>
+
+<h3>
+<a name="hahnshahns" class="anchor" href="#hahnshahns"><span class="octicon octicon-link"></span></a><code>\Hahns\Hahns</code>
+</h3>
+
+<pre><code>void delete(string $route, \Closure $callback)  // register DELETE-route
+void get(string $route, \Closure $callback)     // register GET-route
+void notFound(\Closure $callback)               // add handler for 404
+void patch(string $route, \Closure $callback)   // register PATCH-route
+void post(string $route, \Closure $callback)    // register POST-route
+void put(string $route, \Closure $callback)     // register PUT-route
+void run()                                      // start routing
+void service(string $name, \Closure $callback)  // register service
+</code></pre>
+
+<h3>
+<a name="hahnsrequest" class="anchor" href="#hahnsrequest"><span class="octicon octicon-link"></span></a><code>\Hahns\Request</code>
+</h3>
+
+<p>It is usable as parameter for routing callbacks</p>
+
+<pre><code>mixed get(string $name, mixed $default = null)      // get GET-param $name or $default
+mixed payload(string $name, mixed $default = null)  // get param $name from payload (DELETE, PATCH, PUT) or $default
+mixed post(string $name, mixed $default = null)     // get POST-param $name or $default
+</code></pre>
+
+<h3>
+<a name="hahnsresponsejsonimpl" class="anchor" href="#hahnsresponsejsonimpl"><span class="octicon octicon-link"></span></a><code>\Hahns\Response\JsonImpl</code>
+</h3>
+
+<p>It is usable as parameter for routing callbacks</p>
+
+<pre><code>void   header(string $name, string $value)      // send header $name with value $value
+string send(mixed $data, array $header = [])    // get $data as json-decoded string
+</code></pre>
+
+<h3>
+<a name="hahnsserviceholder" class="anchor" href="#hahnsserviceholder"><span class="octicon octicon-link"></span></a><code>\Hahns\ServiceHolder</code>
+</h3>
+
+<p>It is usable as parameter for routing callbacks</p>
+
+<pre><code>object get(string $name)    // get service with name $name
+</code></pre>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
+  </body>
+</html>
