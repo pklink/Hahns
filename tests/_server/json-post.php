@@ -2,15 +2,15 @@
 
 /* @var \Hahns\Hahns $app */
 
-$app->post('/', function (\Hahns\Response\JsonImpl $response) {
+$app->post('/post', function (\Hahns\Response\JsonImpl $response, \Hahns\Request $request) {
     return $response->send([
         'message' => 'home',
-        'id'      => (int) $_POST['id']
+        'id'      => (int) $request->post('id')
     ]);
 });
 
-$app->post('/hello/[.+:name]', function (\Hahns\Response\JsonImpl $response) {
+$app->post('/hello/[.+:name]', function (\Hahns\Response\JsonImpl $response, \Hahns\Request $request) {
     return $response->send([
-        'message' => $_POST['say']
+        'message' => $request->post('say')
     ]);
 });

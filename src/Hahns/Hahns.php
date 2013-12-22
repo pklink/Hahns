@@ -63,6 +63,15 @@ class Hahns
     }
 
     /**
+     * @param string $route
+     * @param \Closure $callback
+     */
+    public function put($route, \Closure $callback)
+    {
+        $this->router->add('PUT', $route, $callback);
+    }
+
+    /**
      * @param string $name
      * @param \Closure $callback
      */

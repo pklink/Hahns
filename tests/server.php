@@ -8,6 +8,9 @@ $app = new \Hahns\Hahns();
 require '_server/json-get.php';
 require '_server/json-get-serviceholder.php';
 require '_server/json-post.php';
+require '_server/json-put.php';
+require '_server/json-patch.php';
+require '_server/json-delete.php';
 
 // run app
 $app->run();

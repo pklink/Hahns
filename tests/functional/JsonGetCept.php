@@ -1,6 +1,9 @@
 <?php
+
+/* @var \Codeception\Scenario $scenario */
+
 $I = new TestGuy($scenario);
-$I->wantTo('perform actions and see result');
+$I->wantTo('perform some GET requests');
 
 $I->sendGET('/');
 $I->seeResponseIsJson();
