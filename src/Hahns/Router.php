@@ -52,9 +52,9 @@ class Router
     /**
      * @param string $method
      * @param string $route
-     * @param $callback
+     * @param \Closure $callback
      */
-    public function add($method, $route, $callback)
+    public function add($method, $route, \Closure $callback)
     {
         if (!isset($this->routes[$method])) {
             $this->routes[$method] = [];
@@ -62,6 +62,19 @@ class Router
 
         $route                   = $this->removeLastSlash($route);
         $this->routes[$method][] = [$route, $callback];
+    }
+
+    private function createRequest($parameter)
+    {
+        // create request object
+        $request = new Request();
+
+        // fill request instance
+        foreach ($parameter as $name => $value) {
+            $request->set($name, $value);
+        }
+
+        return $request;
     }
 
     /**
@@ -82,8 +95,35 @@ class Router
                 continue;
             }
 
+            // get attributes for callable
+            $attributes         = [];
+            $callbackReflection = new \ReflectionFunction($callback);
+
+            foreach ($callbackReflection->getParameters() as $parameter) {
+                $type = $parameter->getClass()->name;
+
+                switch ($type) {
+                    case 'Hahns\\Request':
+                        $attributes[] = $this->createRequest($namedParameter);
+                        break;
+                    case 'Hahns\\Response':
+                        $attributes[] = new Response();
+                        break;
+                }
+            }
+
             // call callback
-            call_user_func($callback, $namedParameter);
+            switch (count($attributes)) {
+                case 0:
+                    echo call_user_func($callback);
+                    break;
+                case 1:
+                    echo call_user_func($callback, $attributes[0]);
+                    break;
+                case 2:
+                    echo call_user_func($callback, $attributes[0], $attributes[1]);
+                    break;
+            }
 
             return true;
         }

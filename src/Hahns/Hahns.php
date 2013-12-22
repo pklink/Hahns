@@ -19,36 +19,36 @@ class Hahns
 
     /**
      * @param string $route
-     * @param $callback
+     * @param \Closure $callback
      */
-    public function delete($route, $callback)
+    public function delete($route, \Closure $callback)
     {
         $this->router->add('DELETE', $route, $callback);
     }
 
     /**
      * @param string $route
-     * @param $callback
+     * @param \Closure $callback
      */
-    public function get($route, $callback)
+    public function get($route, \Closure $callback)
     {
         $this->router->add('GET', $route, $callback);
     }
 
     /**
      * @param string $route
-     * @param $callback
+     * @param \Closure $callback
      */
-    public function patch($route, $callback)
+    public function patch($route, \Closure $callback)
     {
         $this->router->add('PATCH', $route, $callback);
     }
 
     /**
      * @param string $route
-     * @param $callback
+     * @param \Closure $callback
      */
-    public function post($route, $callback)
+    public function post($route, \Closure $callback)
     {
         $this->router->add('POST', $route, $callback);
     }

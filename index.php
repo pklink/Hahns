@@ -5,39 +5,39 @@ require 'vendor/autoload.php';
 $app = new \Hahns\Hahns();
 
 $app->get('/', function () {
-    echo 'hello home!';
+    return 'hello home!';
 });
 
 $app->get('/hallo', function () {
-    echo 'hello welt!';
+    return 'hello welt!';
 });
 
 $app->get('/hello', function () {
-    echo 'hello world!';
+    return 'hello world!';
 });
 
-$app->get('/hello/[.*:name]', function ($args) {
-    printf('hello %s', $args['name']);
+$app->get('/hello/[.*:name]', function (\Hahns\Request $request, \Hahns\Response $response) {
+    return $response->json(['hello' => $request->get('name')]);
 });
 
-$app->get('/hallo/[.*:name]', function ($args) {
-    printf('hallo %s', $args['name']);
+$app->get('/hallo/[.*:name]', function (\Hahns\Response $response, \Hahns\Request $request) {
+    return $response->json(['hallo' => $request->get('name')]);
 });
 
-$app->get('/hello/[.+:first]/[\d+:second]', function ($args) {
-    printf('hello %s-%s', $args['first'], $args['second']);
+$app->get('/hello/[.+:first]/[\d+:second]', function (\Hahns\Request $request) {
+    return sprintf('hello %s-%s', $request->get('first'), $request->get('second'));
 });
 
-$app->get('/hallo/[.+:first]/[\d+:second]', function ($args) {
-    printf('hallo %s-%s', $args['first'], $args['second']);
+$app->get('/hallo/[.+:first]/[\d+:second]', function (\Hahns\Request $request) {
+    return sprintf('hallo %s-%s', $request->get('first'), $request->get('second'));
 });
 
-$app->get('/hello/[.*:first]/[.*:second]', function ($args) {
-    printf('hello %s and %s', $args['first'], $args['second']);
+$app->get('/hello/[.*:first]/[.*:second]', function (\Hahns\Request $request) {
+    return sprintf('hello %s and %s', $request->get('first'), $request->get('second'));
 });
 
-$app->get('/hallo/[.*:first]/[.*:second]', function ($args) {
-    printf('hallo %s und %s', $args['first'], $args['second']);
+$app->get('/hallo/[.*:first]/[.*:second]', function (\Hahns\Request $request) {
+    return sprintf('hallo %s und %s', $request->get('first'), $request->get('second'));
 });
 
 
