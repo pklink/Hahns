@@ -1,5 +1,5 @@
 {
-    "name": "pklink/Hahns",
+    "name": "pklink/hahns",
     "description": "micro framework for PHP 5.4+",
     "keywords": ["framework", "router", "microframework", "rest"],
     "minimum-stability": "alpha",
