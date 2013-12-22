@@ -62,7 +62,11 @@ class Hahns
         $this->router->add('POST', $route, $callback);
     }
 
-    public function register($name, \Closure $callback)
+    /**
+     * @param string $name
+     * @param \Closure $callback
+     */
+    public function service($name, \Closure $callback)
     {
         $this->serviceContainer->register($name, $callback);
     }

@@ -2,7 +2,7 @@
 
 /* @var \Hahns\Hahns $app */
 
-$app->register('bla', function () {
+$app->service('bla', function () {
     $obj = new stdClass();
     $obj->hello = 'world';
     return $obj;
