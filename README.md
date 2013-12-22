@@ -6,7 +6,7 @@ Hahns is a micro framework for PHP 5.4 and higher.
 
 To install using [composer][1], have the following lines in your `composer.json` file.
 
-```
+```json
 {
   "require": {
     "pklink/Hahns": "*",
@@ -18,12 +18,12 @@ To install using [composer][1], have the following lines in your `composer.json`
 
 Create application
 
-```
+```php
 $app = new \Hahns\Hahns();
 ```
 
 
-```
+```php
 $app->get('/', function () {
     return "hello world!";
 });
@@ -82,7 +82,7 @@ $app->get('/cars', function (\Hahns\Response\JsonImpl $response, \Hahns\ServiceH
 
 Based on [regular expression][2]
 
-```
+```php
 $app->get('/hello/[.+:name]', function (\Hahns\Response\JsonImpl $response, \Hahns\Request $request) {
 	return $response->send([
 		'message' => sprintf('hello %s %s', $request->get('first'), $request->get('last'))
@@ -103,7 +103,7 @@ $app->delete('/cars/id-[\d+:id]/now', function (\Hahns\Response\JsonImpl $respon
 
 ### Services
 
-```
+```php
 $app->service('myservice', function() {
 	$service = new \stdClass();
 	$service->test = 'hello';
@@ -127,7 +127,7 @@ Default handling is sending a status code of `404`
 
 Additionally you can add own handler:
 
-```
+```php
 $app->notFound(function() {
 	// do something
 });
