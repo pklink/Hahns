@@ -55,7 +55,7 @@ The following types are available:
 * `\Hahns\Response\JsonImpl`
 * `\Hahns\ServiceHolder`
 
-```
+```php
 $app->get('/', function (\Hahns\Request $request) {
     // ...
 });
