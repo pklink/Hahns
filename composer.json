@@ -1,6 +1,7 @@
 {
     "name": "pklink/Hahns",
-    "description": "micro-framework for PHP 5.4+",
+    "description": "micro framework for PHP 5.4+",
+    "keywords": ["framework", "router", "microframework", "rest"],
     "minimum-stability": "alpha",
     "license": "MIT",
     "authors": [
