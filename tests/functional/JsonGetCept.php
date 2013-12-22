@@ -45,3 +45,7 @@ $I->seeResponseContainsJson(['message' => '4434']);
 $I->sendGET('/say/4434.json');
 $I->seeResponseIsJson();
 $I->seeResponseContainsJson(['message' => '4434']);
+
+$I->sendGET('/service');
+$I->seeResponseIsJson();
+$I->seeResponseContainsJson(['message' => 'world']);

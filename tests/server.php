@@ -6,6 +6,7 @@ require __DIR__ . '/../vendor/autoload.php';
 $app = new \Hahns\Hahns();
 
 require '_server/json-get.php';
+require '_server/json-get-serviceholder.php';
 require '_server/json-post.php';
 
 // run app

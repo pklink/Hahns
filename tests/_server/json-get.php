@@ -1,5 +1,7 @@
 <?php
 
+/* @var \Hahns\Hahns $app */
+
 $app->get('/', function (\Hahns\Response\JsonImpl $response) {
     return $response->send(['message' => 'home']);
 });

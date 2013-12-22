@@ -4,6 +4,7 @@
 namespace Hahns;
 
 
+use Hahns\Exception\RouteNotFoundException;
 use Hahns\Response\JsonImpl;
 
 class Router
@@ -13,6 +14,16 @@ class Router
      * @var string
      */
     protected $parsable = '';
+
+    /**
+     * @var array
+     */
+    protected $namedParameters = [];
+
+    /**
+     * @var \Closure
+     */
+    protected $callback;
 
     /**
      * @var array
@@ -61,21 +72,8 @@ class Router
         $this->routes[$method][] = [$route, $callback];
     }
 
-    private function createRequest($parameter)
-    {
-        // create request object
-        $request = new Request();
-
-        // fill request instance
-        foreach ($parameter as $name => $value) {
-            $request->set($name, $value);
-        }
-
-        return $request;
-    }
-
     /**
-     * @return bool
+     * @throws Exception\RouteNotFoundException
      */
     public function dispatch()
     {
@@ -139,40 +137,30 @@ class Router
                 continue;
             }
 
-            // get attributes for callable
-            $attributes         = [];
-            $callbackReflection = new \ReflectionFunction($callback);
+            // set named parameters and callback
+            $this->namedParameters = $namedParameter;
+            $this->callback        = $callback;
 
-            foreach ($callbackReflection->getParameters() as $parameter) {
-                $type = $parameter->getClass()->name;
-
-                switch ($type) {
-                    case 'Hahns\\Request':
-                        $attributes[] = $this->createRequest($namedParameter);
-                        break;
-                    case 'Hahns\\Response\\JsonImpl':
-                        $attributes[] = new JsonImpl();
-                        break;
-                }
-            }
-
-            // call callback
-            switch (count($attributes)) {
-                case 0:
-                    echo call_user_func($callback);
-                    break;
-                case 1:
-                    echo call_user_func($callback, $attributes[0]);
-                    break;
-                case 2:
-                    echo call_user_func($callback, $attributes[0], $attributes[1]);
-                    break;
-            }
-
-            return true;
+            return;
         }
 
-        return false;
+        throw new RouteNotFoundException();
+    }
+
+    /**
+     * @return \Closure
+     */
+    public function getCallback()
+    {
+        return $this->callback;
+    }
+
+    /**
+     * @return array
+     */
+    public function getNamedParameters()
+    {
+        return $this->namedParameters;
     }
 
     /**
