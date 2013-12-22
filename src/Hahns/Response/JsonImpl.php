@@ -20,4 +20,3 @@ class JsonImpl implements Response
         return json_encode($data);
     }
 }
-

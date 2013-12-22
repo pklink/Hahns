@@ -19,11 +19,6 @@ class Router
      */
     protected $routes = [];
 
-    /**
-     * @var string
-     */
-    private $namedParameterPattern = '/\[(.+):(.+)\]/U';
-
     public function __construct($parsable = null)
     {
         if ($parsable !== null) {
@@ -89,11 +84,58 @@ class Router
             // get pattern and callback of parsable
             list($route, $callback) = $route;
 
-            // get named parameter
-            $namedParameter = $this->getNamedParameter($route);
 
-            // if named parameter are not parsable, then continue wirh the next route
-            if ($namedParameter === false) {
+            // split parsable and route
+            $splittedRoute    = explode('/', $route);
+            $splittedParsable = explode('/', $this->parsable);
+
+            $paramPattern = '/\[(.+):(.+)\]/U';
+
+            $namedParameter = [];
+            foreach ($splittedRoute as $index => $routeSplit) {
+                // leere element ueberspringen
+                if (strlen($routeSplit) == 0) {
+                    continue;
+                }
+
+                // pruefen ob element einen parameter enthaelt
+                preg_match($paramPattern, $routeSplit, $match);
+
+                // wenn parameter enthaelt muss dieser geparst werden
+                if (count($match) > 0) {
+                    // match aus route entfernen
+                    $splittedRoute[$index] = substr($splittedRoute[$index], strlen($match[0]));
+                    if ($splittedRoute[$index] === false) {
+                        $splittedRoute[$index] = null;
+                    }
+
+                    // regex des parameter aufarbeiten
+                    $pattern = sprintf('/%s/', $match[1]);
+
+                    // name des parameter speichern
+                    $name    = $match[2];
+
+                    // regex auf gleiches element von parsable ausfuehren
+                    preg_match($pattern, $splittedParsable[$index], $match);
+
+                    if (count($match) > 0) {
+                        // match als wert speichern
+                        $namedParameter[$name] = $match[0];
+
+                        // match aus parsable entfernen
+                        $splittedParsable[$index] = substr($splittedParsable[$index], strlen($match[0]));
+                        if ($splittedParsable[$index] === false) {
+                            $splittedParsable[$index] = null;
+                        }
+                    }
+                }
+            }
+
+            // route und parsable wieder zusammensetzen und vergleichen
+            $route    = implode('/', $splittedRoute);
+            $parsable = implode('/', $splittedParsable);
+
+            if ($route !== $parsable) {
                 continue;
             }
 
@@ -155,10 +197,6 @@ class Router
                 continue;
             }
 
-            if ($this->compareWithoutNamedParameter($route[0]) === false) {
-                continue;
-            }
-
             $candidates[] = $route;
         }
 
@@ -172,108 +210,5 @@ class Router
     private function getPathDepth($path)
     {
         return count(explode('/', $path));
-    }
-
-    /**
-     * @param string $route
-     * @return bool
-     */
-    private function compareWithoutNamedParameter($route)
-    {
-        $parsable          = $this->parsable;
-        $splittedRoute     = explode('/', $route);
-        $splittedParseable = explode('/', $parsable);
-
-        preg_match_all($this->namedParameterPattern, $route, $matches, PREG_SET_ORDER);
-
-        foreach ($matches as $match) {
-            $match = $match[0];
-
-            foreach ($splittedRoute as $index => $split) {
-                if ($split == $match) {
-                    unset($splittedRoute[$index]);
-                    unset($splittedParseable[$index]);
-                    break;
-                }
-            }
-        }
-
-        $parsable = implode('/', $splittedParseable);
-        $route    = implode('/', $splittedRoute);
-
-        return $parsable == $route;
-    }
-
-    /**
-     * @param string $route
-     * @return array|false
-     */
-    private function getNamedParameter($route)
-    {
-        // search the named parameter
-        preg_match_all($this->namedParameterPattern, $route, $matches, PREG_SET_ORDER);
-
-        // parse the named parameter
-        $startPos       = 0;
-        $namedParameter = [];
-        foreach ($matches as $match) {
-            if (is_array($matches)) {
-                // der named parameter
-                $pattern = $match[0];
-
-                // regex des named parameter
-                $paramPattern = sprintf('/%s/', $match[1]);
-
-                // name des named paramter
-                $name = $match[2];
-
-                // position ermitteln an der gematched wird
-                if ($startPos == 0) {
-                    $startPos = strpos($route, $pattern);
-                }
-
-                // alles vor dem match abschneiden
-                $subject = substr($this->parsable, $startPos);
-
-                // evt. query string noch auf das naechste '/' einschranken
-                $endPos = strpos($subject, '/');
-
-                if ($endPos !== false) {
-                    $subject = substr($subject, 0, $endPos);
-                    $startPos    += 1;
-                }
-
-                // pos um die laenge des suchbereichs verschieben
-                $startPos += strlen($subject);
-
-                // nach dem wert des named parameter suche
-                $value = $this->matchRegex($paramPattern, $subject);
-
-                if ($value === false) {
-                    return false;
-                }
-
-                $namedParameter[$name] = $value;
-            }
-        }
-
-        return $namedParameter;
-    }
-
-    /**
-     * @param string $pattern
-     * @param string $subject
-     * @return string|false
-     */
-    private function matchRegex($pattern, $subject)
-    {
-        $matches = [];
-        preg_match($pattern, $subject, $matches);
-
-        if (count($matches) == 0) {
-            return false;
-        } else {
-            return $matches[0];
-        }
     }
 }

@@ -37,3 +37,11 @@ $I->seeResponseContainsJson(['message' => 'hello peter pan']);
 $I->sendGET('/hallo/peter/pan');
 $I->seeResponseIsJson();
 $I->seeResponseContainsJson(['message' => 'hallo peter pan']);
+
+$I->sendGET('/blah/4434f');
+$I->seeResponseIsJson();
+$I->seeResponseContainsJson(['message' => '4434']);
+
+$I->sendGET('/say/4434.json');
+$I->seeResponseIsJson();
+$I->seeResponseContainsJson(['message' => '4434']);
