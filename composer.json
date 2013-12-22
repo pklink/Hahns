@@ -1,7 +1,7 @@
 {
     "name": "pklink/Hahns",
-    "description": "description_text",
-    "minimum-stability": "dev",
+    "description": "micro-framework for PHP 5.4+",
+    "minimum-stability": "alpha",
     "license": "MIT",
     "authors": [
         {
