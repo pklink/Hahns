@@ -10,11 +10,6 @@ class Router
     /**
      * @var string
      */
-    private $namedParameterPattern = '/\[(.+):(.+)\]/U';
-
-    /**
-     * @var string
-     */
     protected $parsable = '';
 
     /**
@@ -22,31 +17,32 @@ class Router
      */
     protected $routes = [];
 
-    function __construct($parsable = null)
+    /**
+     * @var string
+     */
+    private $namedParameterPattern = '/\[(.+):(.+)\]/U';
+
+    public function __construct($parsable = null)
     {
-        if ($parsable !== null)
-        {
+        if ($parsable !== null) {
             $this->parsable = $this->removeLastSlash($parsable);
-        }
-
-        elseif (isset($_SERVER['PATH_INFO']))
-        {
+        } elseif (isset($_SERVER['PATH_INFO'])) {
             $this->parsable = $this->removeLastSlash($_SERVER['PATH_INFO']);
-        }
-
-        else
-        {
+        } else {
             $this->parsable = '';
         }
     }
 
+    /**
+     * @param string $path
+     * @return string
+     */
     private function removeLastSlash($path)
     {
         $lastPos = strlen($path) - 1;
 
         // remove last '/'
-        if ($lastPos >= 0 && $path{$lastPos} == '/')
-        {
+        if ($lastPos >= 0 && $path{$lastPos} == '/') {
             $path = substr($path, 0, -1);
         }
 
@@ -64,93 +60,30 @@ class Router
     }
 
     /**
-     * @param string $pattern
-     * @param string $subject
-     * @return string|false
+     * @return bool
      */
-    private function matchRegex($pattern, $subject)
+    public function dispatch()
     {
-        $matches = [];
-        preg_match($pattern, $subject, $matches);
+        // itereate routes
+        foreach ($this->getRouteCandidates() as $route) {
+            // get pattern and callback of parsable
+            list($route, $callback) = $route;
 
-        if (count($matches) == 0)
-        {
-            return false;
-        }
-        else
-        {
-            return $matches[0];
-        }
-    }
+            // get named parameter
+            $namedParameter = $this->getNamedParameter($route);
 
-    /**
-     * @param string $path
-     * @return int
-     */
-    private function getPathDepth($path)
-    {
-        return count(explode('/', $path));
-    }
-
-    /**
-     * @param string $route
-     * @return array|false
-     */
-    private function getNamedParameter($route)
-    {
-        // search the named parameter
-        preg_match_all($this->namedParameterPattern, $route, $matches, PREG_SET_ORDER);
-
-        // parse the named parameter
-        $startPos       = 0;
-        $namedParameter = [];
-        foreach ($matches as $match)
-        {
-            if (is_array($matches))
-            {
-                // der named parameter
-                $pattern = $match[0];
-
-                // regex des named parameter
-                $paramPattern = sprintf('/%s/', $match[1]);
-
-                // name des named paramter
-                $name = $match[2];
-
-                // position ermitteln an der gematched wird
-                if ($startPos == 0)
-                {
-                    $startPos = strpos($route, $pattern);
-                }
-
-                // alles vor dem match abschneiden
-                $subject = substr($this->parsable, $startPos);
-
-                // evt. query string noch auf das naechste '/' einschranken
-                $endPos = strpos($subject, '/');
-
-                if ($endPos !== false)
-                {
-                    $subject = substr($subject, 0, $endPos);
-                    $startPos    += 1;
-                }
-
-                // pos um die laenge des suchbereichs verschieben
-                $startPos += strlen($subject);
-
-                // nach dem wert des named parameter suche
-                $value = $this->matchRegex($paramPattern, $subject);
-
-                if ($value === false)
-                {
-                    return false;
-                }
-
-                $namedParameter[$name] = $value;
+            // if named parameter are not parsable, then continue wirh the next route
+            if ($namedParameter === false) {
+                continue;
             }
+
+            // call callback
+            call_user_func($callback, $namedParameter);
+
+            return true;
         }
 
-        return $namedParameter;
+        return false;
     }
 
     /**
@@ -161,17 +94,14 @@ class Router
         $candidates = [];
         $pathDepthOfParsable = $this->getPathDepth($this->parsable);
 
-        foreach ($this->routes as $route)
-        {
+        foreach ($this->routes as $route) {
             $pathDepth = $this->getPathDepth($route[0]);
 
-            if ($pathDepth != $pathDepthOfParsable)
-            {
+            if ($pathDepth != $pathDepthOfParsable) {
                 continue;
             }
 
-            if ($this->compareWithoutNamedParameter($route[0]) === false)
-            {
+            if ($this->compareWithoutNamedParameter($route[0]) === false) {
                 continue;
             }
 
@@ -179,6 +109,15 @@ class Router
         }
 
         return $candidates;
+    }
+
+    /**
+     * @param string $path
+     * @return int
+     */
+    private function getPathDepth($path)
+    {
+        return count(explode('/', $path));
     }
 
     /**
@@ -193,14 +132,11 @@ class Router
 
         preg_match_all($this->namedParameterPattern, $route, $matches, PREG_SET_ORDER);
 
-        foreach ($matches as $match)
-        {
+        foreach ($matches as $match) {
             $match = $match[0];
 
-            foreach ($splittedRoute as $index => $split)
-            {
-                if ($split == $match)
-                {
+            foreach ($splittedRoute as $index => $split) {
+                if ($split == $match) {
                     unset($splittedRoute[$index]);
                     unset($splittedParseable[$index]);
                     break;
@@ -215,32 +151,75 @@ class Router
     }
 
     /**
-     * @return bool
+     * @param string $route
+     * @return array|false
      */
-    public function dispatch()
+    private function getNamedParameter($route)
     {
-        // itereate routes
-        foreach ($this->getRouteCandidates() as $route)
-        {
-            // get pattern and callback of parsable
-            list($route, $callback) = $route;
+        // search the named parameter
+        preg_match_all($this->namedParameterPattern, $route, $matches, PREG_SET_ORDER);
 
-            // get named parameter
-            $namedParameter = $this->getNamedParameter($route);
+        // parse the named parameter
+        $startPos       = 0;
+        $namedParameter = [];
+        foreach ($matches as $match) {
+            if (is_array($matches)) {
+                // der named parameter
+                $pattern = $match[0];
 
-            // if named parameter are not parsable, then continue wirh the next route
-            if ($namedParameter === false)
-            {
-                continue;
+                // regex des named parameter
+                $paramPattern = sprintf('/%s/', $match[1]);
+
+                // name des named paramter
+                $name = $match[2];
+
+                // position ermitteln an der gematched wird
+                if ($startPos == 0) {
+                    $startPos = strpos($route, $pattern);
+                }
+
+                // alles vor dem match abschneiden
+                $subject = substr($this->parsable, $startPos);
+
+                // evt. query string noch auf das naechste '/' einschranken
+                $endPos = strpos($subject, '/');
+
+                if ($endPos !== false) {
+                    $subject = substr($subject, 0, $endPos);
+                    $startPos    += 1;
+                }
+
+                // pos um die laenge des suchbereichs verschieben
+                $startPos += strlen($subject);
+
+                // nach dem wert des named parameter suche
+                $value = $this->matchRegex($paramPattern, $subject);
+
+                if ($value === false) {
+                    return false;
+                }
+
+                $namedParameter[$name] = $value;
             }
-
-            // call callback
-            call_user_func($callback, $namedParameter);
-
-            return true;
         }
 
-        return false;
+        return $namedParameter;
     }
 
+    /**
+     * @param string $pattern
+     * @param string $subject
+     * @return string|false
+     */
+    private function matchRegex($pattern, $subject)
+    {
+        $matches = [];
+        preg_match($pattern, $subject, $matches);
+
+        if (count($matches) == 0) {
+            return false;
+        } else {
+            return $matches[0];
+        }
+    }
 }

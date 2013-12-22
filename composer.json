@@ -13,5 +13,9 @@
         "psr-0": {
             "Hahns\\": "src/"
         }
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "1.5.1"
     }
+
 }
