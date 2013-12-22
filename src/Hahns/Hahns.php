@@ -20,10 +20,33 @@ class Hahns
      */
     protected $serviceContainer;
 
+    /**
+     * @var \Closure[]
+     */
+    protected $onNotFound = [];
+
+
     public function __construct($parsable = null)
     {
         $this->router           = new Router($parsable);
         $this->serviceContainer = new ServiceHolder();
+    }
+
+    /**
+     * @param array $parameter
+     * @return Request
+     */
+    private function createRequest($parameter)
+    {
+        // create request object
+        $request = new Request();
+
+        // fill request instance
+        foreach ($parameter as $name => $value) {
+            $request->set($name, $value);
+        }
+
+        return $request;
     }
 
     /**
@@ -42,6 +65,14 @@ class Hahns
     public function get($route, \Closure $callback)
     {
         $this->router->add('GET', $route, $callback);
+    }
+
+    /**
+     * @param \Closure $callback
+     */
+    public function notFound(\Closure $callback)
+    {
+        $this->onNotFound[] = $callback;
     }
 
     /**
@@ -69,32 +100,6 @@ class Hahns
     public function put($route, \Closure $callback)
     {
         $this->router->add('PUT', $route, $callback);
-    }
-
-    /**
-     * @param string $name
-     * @param \Closure $callback
-     */
-    public function service($name, \Closure $callback)
-    {
-        $this->serviceContainer->register($name, $callback);
-    }
-
-    /**
-     * @param array $parameter
-     * @return Request
-     */
-    private function createRequest($parameter)
-    {
-        // create request object
-        $request = new Request();
-
-        // fill request instance
-        foreach ($parameter as $name => $value) {
-            $request->set($name, $value);
-        }
-
-        return $request;
     }
 
     /**
@@ -146,7 +151,20 @@ class Hahns
             }
 
         } catch (RouteNotFoundException $e) {
-            echo "404";
+            foreach ($this->onNotFound as $callback) {
+                call_user_func($callback);
+            }
+
+            header('HTTP/1.0 404 Not Found');
         }
+    }
+
+    /**
+     * @param string $name
+     * @param \Closure $callback
+     */
+    public function service($name, \Closure $callback)
+    {
+        $this->serviceContainer->register($name, $callback);
     }
 }
