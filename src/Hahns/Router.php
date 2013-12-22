@@ -10,6 +10,11 @@ class Router
     /**
      * @var string
      */
+    private $namedParameterPattern = '/\[(.+):(.+)\]/U';
+
+    /**
+     * @var string
+     */
     protected $parsable = '';
 
     /**
@@ -21,13 +26,31 @@ class Router
     {
         if ($parsable !== null)
         {
-            $this->parsable = $parsable;
+            $this->parsable = $this->removeLastSlash($parsable);
         }
 
         elseif (isset($_SERVER['PATH_INFO']))
         {
-            $this->parsable = $_SERVER['PATH_INFO'];
+            $this->parsable = $this->removeLastSlash($_SERVER['PATH_INFO']);
         }
+
+        else
+        {
+            $this->parsable = '';
+        }
+    }
+
+    private function removeLastSlash($path)
+    {
+        $lastPos = strlen($path) - 1;
+
+        // remove last '/'
+        if ($lastPos >= 0 && $path{$lastPos} == '/')
+        {
+            $path = substr($path, 0, -1);
+        }
+
+        return $path;
     }
 
     /**
@@ -36,6 +59,7 @@ class Router
      */
     public function get($route, $callback)
     {
+        $route          = $this->removeLastSlash($route);
         $this->routes[] = [$route, $callback];
     }
 
@@ -65,12 +89,6 @@ class Router
      */
     private function getPathDepth($path)
     {
-        // remove last '/'
-        if ($path{strlen($path)-1} == '/')
-        {
-            $path = substr($path, 0, -1);
-        }
-
         return count(explode('/', $path));
     }
 
@@ -81,8 +99,7 @@ class Router
     private function getNamedParameter($route)
     {
         // search the named parameter
-        $pattern = '/\[(.+):(.+)\]/U';
-        preg_match_all($pattern, $route, $matches, PREG_SET_ORDER);
+        preg_match_all($this->namedParameterPattern, $route, $matches, PREG_SET_ORDER);
 
         // parse the named parameter
         $startPos       = 0;
@@ -137,27 +154,76 @@ class Router
     }
 
     /**
+     * @return array
+     */
+    private function getRouteCandidates()
+    {
+        $candidates = [];
+        $pathDepthOfParsable = $this->getPathDepth($this->parsable);
+
+        foreach ($this->routes as $route)
+        {
+            $pathDepth = $this->getPathDepth($route[0]);
+
+            if ($pathDepth != $pathDepthOfParsable)
+            {
+                continue;
+            }
+
+            if ($this->compareWithoutNamedParameter($route[0]) === false)
+            {
+                continue;
+            }
+
+            $candidates[] = $route;
+        }
+
+        return $candidates;
+    }
+
+    /**
+     * @param string $route
+     * @return bool
+     */
+    private function compareWithoutNamedParameter($route)
+    {
+        $parsable          = $this->parsable;
+        $splittedRoute     = explode('/', $route);
+        $splittedParseable = explode('/', $parsable);
+
+        preg_match_all($this->namedParameterPattern, $route, $matches, PREG_SET_ORDER);
+
+        foreach ($matches as $match)
+        {
+            $match = $match[0];
+
+            foreach ($splittedRoute as $index => $split)
+            {
+                if ($split == $match)
+                {
+                    unset($splittedRoute[$index]);
+                    unset($splittedParseable[$index]);
+                    break;
+                }
+            }
+        }
+
+        $parsable = implode('/', $splittedParseable);
+        $route    = implode('/', $splittedRoute);
+
+        return $parsable == $route;
+    }
+
+    /**
      * @return bool
      */
     public function dispatch()
     {
-        // pfadtiefe des querystrings ermitteln
-        $pathDepthOfQueryString = $this->getPathDepth($this->parsable);
-
         // itereate routes
-        foreach ($this->routes as $route)
+        foreach ($this->getRouteCandidates() as $route)
         {
             // get pattern and callback of parsable
             list($route, $callback) = $route;
-
-            // get depth of route
-            $pathDepthOfRoute = $this->getPathDepth($route);
-
-            // if depth of parsable not equal depth of route, then continue with the next route
-            if ($pathDepthOfQueryString != $pathDepthOfRoute)
-            {
-                continue;
-            }
 
             // get named parameter
             $namedParameter = $this->getNamedParameter($route);
