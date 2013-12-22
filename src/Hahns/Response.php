@@ -4,18 +4,13 @@
 namespace Hahns;
 
 
-class Response
+interface Response
 {
 
     /**
      * @param mixed $data
-     * @param string $contentType
+     * @param array $header
      * @return string
      */
-    public function json($data, $contentType = 'application/json')
-    {
-        header('Content-Type: ' . $contentType);
-        return json_encode($data);
-    }
+    public function send($data, $header = []);
 }
-

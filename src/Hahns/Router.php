@@ -4,6 +4,8 @@
 namespace Hahns;
 
 
+use Hahns\Response\JsonImpl;
+
 class Router
 {
 
@@ -106,8 +108,8 @@ class Router
                     case 'Hahns\\Request':
                         $attributes[] = $this->createRequest($namedParameter);
                         break;
-                    case 'Hahns\\Response':
-                        $attributes[] = new Response();
+                    case 'Hahns\\Response\\JsonImpl':
+                        $attributes[] = new JsonImpl();
                         break;
                 }
             }

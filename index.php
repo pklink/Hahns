@@ -16,12 +16,12 @@ $app->get('/hello', function () {
     return 'hello world!';
 });
 
-$app->get('/hello/[.*:name]', function (\Hahns\Request $request, \Hahns\Response $response) {
-    return $response->json(['hello' => $request->get('name')]);
+$app->get('/hello/[.*:name]', function (\Hahns\Request $request, \Hahns\Response\JsonImpl $response) {
+    return $response->send(['hello' => $request->get('name')]);
 });
 
-$app->get('/hallo/[.*:name]', function (\Hahns\Response $response, \Hahns\Request $request) {
-    return $response->json(['hallo' => $request->get('name')]);
+$app->get('/hallo/[.*:name]', function (\Hahns\Response\JsonImpl $response, \Hahns\Request $request) {
+    return $response->send(['hallo' => $request->get('name')]);
 });
 
 $app->get('/hello/[.+:first]/[\d+:second]', function (\Hahns\Request $request) {
