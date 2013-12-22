@@ -3,10 +3,7 @@
 
 namespace Hahns\Response;
 
-
-use Hahns\Response;
-
-class JsonImpl implements Response
+class JsonImpl extends AbstractImpl
 {
 
     /**
@@ -16,7 +13,12 @@ class JsonImpl implements Response
      */
     public function send($data, $header = [])
     {
-        header('Content-Type: application/json');
+        $this->header('Content-Type', 'application/json');
+
+        foreach ($header as $name => $value) {
+            $this->header($name, $value);
+        }
+
         return json_encode($data);
     }
 }
