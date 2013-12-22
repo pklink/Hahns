@@ -1,0 +1,17 @@
+{
+    "name": "pklink/Hahns",
+    "description": "description_text",
+    "minimum-stability": "dev",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Pierre Klink",
+            "email": "dev@klinks.info"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "Hahns\\": "src/"
+        }
+    }
+}
