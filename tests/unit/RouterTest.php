@@ -114,6 +114,13 @@ class RouterTest extends \Codeception\TestCase\Test
         unset($_SERVER['PATH_INFO']);
         $instance = new \Hahns\Router();
         $this->assertEquals('', $instance->getParsable());
+
+        new \Hahns\Router('');
+
+        try {
+            new \Hahns\Router([]);
+            $this->fail();
+        } catch (\Hahns\Exception\ParsableMustBeAStringOrNullException $e) {}
     }
 
 }

@@ -5,6 +5,7 @@ namespace Hahns;
 
 
 use Hahns\Exception\CallbackDoesNotExistException;
+use Hahns\Exception\ParsableMustBeAStringOrNullException;
 use Hahns\Exception\RouteMustBeAStringException;
 use Hahns\Exception\RouteNotFoundException;
 use Hahns\Exception\VerbMustBeAStringException;
@@ -34,6 +35,10 @@ class Router
 
     public function __construct($parsable = null)
     {
+        if (!is_string($parsable) && !is_null($parsable)) {
+            throw new ParsableMustBeAStringOrNullException();
+        }
+
         if ($parsable !== null) {
             $this->parsable = $this->removeLastSlash($parsable);
         } elseif (isset($_SERVER['PATH_INFO'])) {
