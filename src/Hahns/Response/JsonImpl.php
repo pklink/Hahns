@@ -3,8 +3,8 @@
 
 namespace Hahns\Response;
 
-use Hahns\Exception\DataMustBeAnArrayOrAnObjectException;
-use Hahns\Exception\HeadersParameterMustBeAnArrayException;
+use Hahns\Exception\ParameterMustBeAnArrayOrAnObjectException;
+use Hahns\Exception\ParameterMustBeAnArrayException;
 
 class JsonImpl extends AbstractImpl
 {
@@ -13,17 +13,19 @@ class JsonImpl extends AbstractImpl
      * @param array|object $data
      * @param array $headers
      * @return string
-     * @throws \Hahns\Exception\DataMustBeAnArrayOrAnObjectException
-     * @throws \Hahns\Exception\HeadersParameterMustBeAnArrayException
+     * @throws \Hahns\Exception\ParameterMustBeAnArrayOrAnObjectException
+     * @throws \Hahns\Exception\ParameterMustBeAnArrayException
      */
     public function send($data, $headers = [])
     {
         if (!is_array($data) && !is_object($data)) {
-            throw new DataMustBeAnArrayOrAnObjectException();
+            $message = 'Parameter `data` must be an array or an object';
+            throw new ParameterMustBeAnArrayOrAnObjectException($message);
         }
 
         if (!is_array($headers)) {
-            throw new HeadersParameterMustBeAnArrayException();
+            $message = 'Parameter `headers` must be an array';
+            throw new ParameterMustBeAnArrayException($message);
         }
 
         $this->header('Content-Type', 'application/json');

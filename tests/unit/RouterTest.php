@@ -23,14 +23,14 @@ class RouterTest extends \Codeception\TestCase\Test
         try {
             $this->instance->add([], 'valid', function() {});
             $this->fail();
-        } catch (\Hahns\Exception\VerbMustBeAStringException $e) {
+        } catch (\Hahns\Exception\ParameterMustBeAStringException $e) {
             $this->assertTrue(true);
         }
 
         try {
             $this->instance->add('valid', [], function() {});
             $this->fail();
-        } catch (\Hahns\Exception\RouteMustBeAStringException $e) {
+        } catch (\Hahns\Exception\ParameterMustBeAStringException $e) {
             $this->assertTrue(true);
         }
 
@@ -120,7 +120,7 @@ class RouterTest extends \Codeception\TestCase\Test
         try {
             new \Hahns\Router([]);
             $this->fail();
-        } catch (\Hahns\Exception\ParsableMustBeAStringOrNullException $e) {}
+        } catch (\Hahns\Exception\ParameterMustBeAStringOrNullException $e) {}
     }
 
 }

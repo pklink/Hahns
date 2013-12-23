@@ -43,7 +43,7 @@ class ServiceHolderTest extends Test
     }
 
     /**
-     * @expectedException \Hahns\Exception\ServiceNameMustBeAStringException
+     * @expectedException \Hahns\Exception\ParameterMustBeAStringException
      */
     public function testInvalidName()
     {

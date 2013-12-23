@@ -63,7 +63,7 @@ class HanhsTest extends \Codeception\TestCase\Test
         try {
             new \Hahns\Hahns([]);
             $this->fail();
-        } catch (\Hahns\Exception\ParsableMustBeAStringOrNullException $e) { }
+        } catch (\Hahns\Exception\ParameterMustBeAStringOrNullException $e) { }
     }
 
 }

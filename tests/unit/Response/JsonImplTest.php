@@ -27,12 +27,12 @@ class JsonImplTest extends \Codeception\TestCase\Test
         try {
             $instance->send('asd');
             $this->fail();
-        } catch (\Hahns\Exception\DataMustBeAnArrayOrAnObjectException $e) { }
+        } catch (\Hahns\Exception\ParameterMustBeAnArrayOrAnObjectException $e) { }
 
         try {
             $instance->send([], 'as');
             $this->fail();
-        } catch (\Hahns\Exception\HeadersParameterMustBeAnArrayException $e) { }
+        } catch (\Hahns\Exception\ParameterMustBeAnArrayException $e) { }
     }
 
 }

@@ -5,10 +5,9 @@ namespace Hahns;
 
 
 use Hahns\Exception\CallbackDoesNotExistException;
-use Hahns\Exception\ParsableMustBeAStringOrNullException;
-use Hahns\Exception\RouteMustBeAStringException;
+use Hahns\Exception\ParameterMustBeAStringOrNullException;
+use Hahns\Exception\ParameterMustBeAStringException;
 use Hahns\Exception\RouteNotFoundException;
-use Hahns\Exception\VerbMustBeAStringException;
 
 class Router
 {
@@ -36,7 +35,8 @@ class Router
     public function __construct($parsable = null)
     {
         if (!is_string($parsable) && !is_null($parsable)) {
-            throw new ParsableMustBeAStringOrNullException();
+            $message = 'Parameter `parsable must be a string or null';
+            throw new ParameterMustBeAStringOrNullException($message);
         }
 
         if ($parsable !== null) {
@@ -52,17 +52,18 @@ class Router
      * @param string $verb
      * @param string $route
      * @param \Closure $callback
-     * @throws Exception\RouteMustBeAStringException
-     * @throws Exception\VerbMustBeAStringException
+     * @throws Exception\ParameterMustBeAStringException
      */
     public function add($verb, $route, \Closure $callback)
     {
         if (!is_string($verb)) {
-            throw new VerbMustBeAStringException();
+            $message = 'Parameter `verb` must be a string';
+            throw new ParameterMustBeAStringException($message);
         }
 
         if (!is_string($route)) {
-            throw new RouteMustBeAStringException();
+            $message = 'Parameter `route` must be a string';
+            throw new ParameterMustBeAStringException($message);
         }
 
         // lowercase $verb

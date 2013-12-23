@@ -6,7 +6,7 @@ namespace Hahns;
 
 use Hahns\Exception\ServiceDoesNotExistException;
 use Hahns\Exception\ServiceMustBeAnObjectException;
-use Hahns\Exception\ServiceNameMustBeAStringException;
+use Hahns\Exception\ParameterMustBeAStringException;
 
 class ServiceHolder
 {
@@ -19,12 +19,13 @@ class ServiceHolder
     /**
      * @param string $name
      * @param \Closure $callable
-     * @throws Exception\ServiceNameMustBeAStringException
+     * @throws Exception\ParameterMustBeAStringException
      */
     public function register($name, \Closure $callable)
     {
         if (!is_string($name)) {
-            throw new ServiceNameMustBeAStringException();
+            $message = 'Parameter `name` must be a string';
+            throw new ParameterMustBeAStringException($message);
         }
 
         $this->services[$name] = [
@@ -53,7 +54,7 @@ class ServiceHolder
             $service['instance'] = call_user_func($service['callable']);
 
             if (!is_object($service['instance'])) {
-                $message = sprintf('Service `%s` should be an object', $name);
+                $message = sprintf('Service `%s` must be an object', $name);
                 throw new ServiceMustBeAnObjectException($message);
             }
         }
