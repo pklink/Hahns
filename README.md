@@ -1,4 +1,4 @@
-# Hahns
+# Hahns [![Build Status](https://travis-ci.org/pklink/Hahns.png?branch=master)](https://travis-ci.org/pklink/Hahns)
 
 Hahns is a micro framework for PHP 5.4 and higher.
 
