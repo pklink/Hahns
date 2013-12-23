@@ -5,8 +5,8 @@ namespace Hahns;
 
 
 use Hahns\Exception\CallbackDoesNotExistException;
-use Hahns\Exception\ParameterMustBeAStringOrNullException;
 use Hahns\Exception\ParameterMustBeAStringException;
+use Hahns\Exception\ParameterMustBeAStringOrNullException;
 use Hahns\Exception\RouteNotFoundException;
 
 class Router

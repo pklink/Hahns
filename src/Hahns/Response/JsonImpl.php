@@ -3,8 +3,8 @@
 
 namespace Hahns\Response;
 
-use Hahns\Exception\ParameterMustBeAnArrayOrAnObjectException;
 use Hahns\Exception\ParameterMustBeAnArrayException;
+use Hahns\Exception\ParameterMustBeAnArrayOrAnObjectException;
 
 class JsonImpl extends AbstractImpl
 {

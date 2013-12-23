@@ -4,9 +4,9 @@
 namespace Hahns;
 
 
+use Hahns\Exception\ParameterMustBeAStringException;
 use Hahns\Exception\ServiceDoesNotExistException;
 use Hahns\Exception\ServiceMustBeAnObjectException;
-use Hahns\Exception\ParameterMustBeAStringException;
 
 class ServiceHolder
 {
