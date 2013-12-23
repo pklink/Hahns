@@ -15,8 +15,8 @@ interface Response
 
     /**
      * @param mixed $data
-     * @param array $header
+     * @param array $headers
      * @return string
      */
-    public function send($data, $header = []);
+    public function send($data, $headers = []);
 }
