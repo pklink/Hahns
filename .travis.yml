@@ -6,5 +6,4 @@ install:
   - php -S localhost:8000 &
   - composer install --dev
 script:
-  - php vendor/bin/codecept run functional --debug
-  - php vendor/bin/codecept run unit --debug
+  - php vendor/bin/codecept run
