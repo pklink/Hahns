@@ -29,6 +29,25 @@ class Request
     }
 
     /**
+     * @param array $data
+     * @param string $name
+     * @param mixed $default
+     * @return mixed
+     */
+    private function getFrom($data, $name, $default = null)
+    {
+        if (!is_array($data)) {
+            return $default;
+        }
+
+        if (isset($data[$name])) {
+            return $data[$name];
+        } else {
+            return $default;
+        }
+    }
+
+    /**
      * @param string $name
      * @param mixed $value
      */
@@ -48,11 +67,7 @@ class Request
         parse_str(stream_get_contents($fp), $params);
         fclose($fp);
 
-        if (isset($params[$name])) {
-            return $params[$name];
-        } else {
-            return $default;
-        }
+        return $this->getFrom($params, $name, $default);
     }
 
     /**
@@ -62,10 +77,6 @@ class Request
      */
     public function post($name, $default = null)
     {
-        if (isset($_POST[$name])) {
-            return $_POST[$name];
-        } else {
-            return $default;
-        }
+        return $this->getFrom($_POST, $name, $default);
     }
 }
