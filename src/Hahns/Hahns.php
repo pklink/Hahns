@@ -4,6 +4,7 @@
 namespace Hahns;
 
 
+use Hahns\Exception\ParameterMustBeAStringOrNullException;
 use Hahns\Exception\RouteNotFoundException;
 use Hahns\Response\JsonImpl;
 
@@ -25,10 +26,9 @@ class Hahns
      */
     protected $onNotFound = [];
 
-
-    public function __construct($parsable = null)
+    public function __construct()
     {
-        $this->router           = new Router($parsable);
+        $this->router           = new Router();
         $this->serviceContainer = new ServiceHolder();
     }
 
@@ -55,7 +55,8 @@ class Hahns
      */
     public function delete($route, \Closure $callback)
     {
-        $this->router->add('DELETE', $route, $callback);
+        $route = 'delete-' . $this->removeLastSlash($route);
+        $this->router->add($route, $callback);
     }
 
     /**
@@ -64,7 +65,8 @@ class Hahns
      */
     public function get($route, \Closure $callback)
     {
-        $this->router->add('GET', $route, $callback);
+        $route = 'get-' . $this->removeLastSlash($route);
+        $this->router->add($route, $callback);
     }
 
     /**
@@ -81,7 +83,8 @@ class Hahns
      */
     public function patch($route, \Closure $callback)
     {
-        $this->router->add('PATCH', $route, $callback);
+        $route = 'patch-' . $this->removeLastSlash($route);
+        $this->router->add($route, $callback);
     }
 
     /**
@@ -90,7 +93,8 @@ class Hahns
      */
     public function post($route, \Closure $callback)
     {
-        $this->router->add('POST', $route, $callback);
+        $route = 'post-' . $this->removeLastSlash($route);
+        $this->router->add($route, $callback);
     }
 
     /**
@@ -99,16 +103,51 @@ class Hahns
      */
     public function put($route, \Closure $callback)
     {
-        $this->router->add('PUT', $route, $callback);
+        $route = 'put-' . $this->removeLastSlash($route);
+        $this->router->add($route, $callback);
     }
 
     /**
-     * @return void
+     * @param string $path
+     * @return string
      */
-    public function run()
+    private function removeLastSlash($path)
     {
+        $lastPos = strlen($path) - 1;
+
+        // remove last '/'
+        if ($lastPos >= 0 && $path{$lastPos} == '/') {
+            $path = substr($path, 0, -1);
+        }
+
+        return $path;
+    }
+
+    /**
+     * @param string|null $route
+     * @throws Exception\ParameterMustBeAStringOrNullException
+     */
+    public function run($route = null)
+    {
+        if (!is_string($route) && !is_null($route)) {
+            $message = 'Parameter `route` must be a string or null';
+            throw new ParameterMustBeAStringOrNullException($message);
+        }
+
+        // get route
+        if ($route !== null) {
+            $route = $this->removeLastSlash($route);
+        } elseif (isset($_SERVER['PATH_INFO'])) {
+            $route = $this->removeLastSlash($_SERVER['PATH_INFO']);
+        } else {
+            $route = '';
+        }
+
+        // get method and concat with $route
+        $route = strtolower($_SERVER['REQUEST_METHOD']) . '-' . $route;
+
         try {
-            $this->router->dispatch();
+            $this->router->dispatch($route);
 
             // get named parametes and callback
             $namedParameter = $this->router->getNamedParameters();

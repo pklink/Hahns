@@ -6,7 +6,6 @@ namespace Hahns;
 
 use Hahns\Exception\CallbackDoesNotExistException;
 use Hahns\Exception\ParameterMustBeAStringException;
-use Hahns\Exception\ParameterMustBeAStringOrNullException;
 use Hahns\Exception\RouteNotFoundException;
 
 class Router
@@ -32,49 +31,19 @@ class Router
      */
     protected $routes = [];
 
-    public function __construct($parsable = null)
-    {
-        if (!is_string($parsable) && !is_null($parsable)) {
-            $message = 'Parameter `parsable must be a string or null';
-            throw new ParameterMustBeAStringOrNullException($message);
-        }
-
-        if ($parsable !== null) {
-            $this->parsable = $this->removeLastSlash($parsable);
-        } elseif (isset($_SERVER['PATH_INFO'])) {
-            $this->parsable = $this->removeLastSlash($_SERVER['PATH_INFO']);
-        } else {
-            $this->parsable = '';
-        }
-    }
-
     /**
-     * @param string $verb
      * @param string $route
      * @param \Closure $callback
      * @throws Exception\ParameterMustBeAStringException
      */
-    public function add($verb, $route, \Closure $callback)
+    public function add($route, \Closure $callback)
     {
-        if (!is_string($verb)) {
-            $message = 'Parameter `verb` must be a string';
-            throw new ParameterMustBeAStringException($message);
-        }
-
         if (!is_string($route)) {
             $message = 'Parameter `route` must be a string';
             throw new ParameterMustBeAStringException($message);
         }
 
-        // lowercase $verb
-        $verb = strtolower($verb);
-
-        if (!isset($this->routes[$verb])) {
-            $this->routes[$verb] = [];
-        }
-
-        $route                 = $this->removeLastSlash($route);
-        $this->routes[$verb][] = [$route, $callback];
+        $this->routes[] = [$route, $callback];
     }
 
     /**
@@ -99,14 +68,6 @@ class Router
     }
 
     /**
-     * @return string
-     */
-    public function getParsable()
-    {
-        return $this->parsable;
-    }
-
-    /**
      * @param string $path
      * @return int
      */
@@ -116,21 +77,15 @@ class Router
     }
 
     /**
+     * @param string $parsable
      * @return array
      */
-    private function getRouteCandidates()
+    private function getRouteCandidates($parsable)
     {
         $candidates = [];
-        $pathDepthOfParsable = $this->getPathDepth($this->parsable);
+        $pathDepthOfParsable = $this->getPathDepth($parsable);
 
-        $method = strtolower($_SERVER['REQUEST_METHOD']);
-        if (!isset($this->routes[$method])) {
-            $routes = [];
-        } else {
-            $routes = $this->routes[$method];
-        }
-
-        foreach ($routes as $route) {
+        foreach ($this->routes as $route) {
             $pathDepth = $this->getPathDepth($route[0]);
 
             if ($pathDepth != $pathDepthOfParsable) {
@@ -144,22 +99,29 @@ class Router
     }
 
     /**
+     * @param string $parsable
+     * @throws Exception\ParameterMustBeAStringException
      * @throws Exception\RouteNotFoundException
      */
-    public function dispatch()
+    public function dispatch($parsable)
     {
+        if (!is_string($parsable)) {
+            $message = 'Parameter `parseable` must be a string';
+            throw new ParameterMustBeAStringException($message);
+        }
+
         // clear named parameters
         $this->namedParameters =[];
 
         // itereate routes
-        foreach ($this->getRouteCandidates() as $route) {
+        $callback = null;
+        foreach ($this->getRouteCandidates($parsable) as $route) {
             // get pattern and callback of parsable
             list($route, $callback) = $route;
 
-
             // split parsable and route
             $splittedRoute    = explode('/', $route);
-            $splittedParsable = explode('/', $this->parsable);
+            $splittedParsable = explode('/', $parsable);
 
             $paramPattern = '/\[(.+):(.+)\]/U';
 
@@ -208,10 +170,10 @@ class Router
             }
 
             // route und parsable wieder zusammensetzen und vergleichen
-            $route    = implode('/', $splittedRoute);
-            $parsable = implode('/', $splittedParsable);
+            $strippedRoute    = implode('/', $splittedRoute);
+            $strippedParsable = implode('/', $splittedParsable);
 
-            if ($route !== $parsable) {
+            if ($strippedRoute != $strippedParsable) {
                 continue;
             }
 
@@ -223,21 +185,5 @@ class Router
         }
 
         throw new RouteNotFoundException();
-    }
-
-    /**
-     * @param string $path
-     * @return string
-     */
-    private function removeLastSlash($path)
-    {
-        $lastPos = strlen($path) - 1;
-
-        // remove last '/'
-        if ($lastPos >= 0 && $path{$lastPos} == '/') {
-            $path = substr($path, 0, -1);
-        }
-
-        return $path;
     }
 }

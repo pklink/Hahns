@@ -1,5 +1,4 @@
 <?php
-use Codeception\Util\Stub;
 
 class HanhsTest extends \Codeception\TestCase\Test
 {
@@ -58,12 +57,6 @@ class HanhsTest extends \Codeception\TestCase\Test
     public function testConstructor()
     {
         new \Hahns\Hahns();
-        new \Hahns\Hahns('bla');
-
-        try {
-            new \Hahns\Hahns([]);
-            $this->fail();
-        } catch (\Hahns\Exception\ParameterMustBeAStringOrNullException $e) { }
     }
 
 }
