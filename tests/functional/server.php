@@ -12,6 +12,7 @@ require '_server/json-put.php';
 require '_server/json-patch.php';
 require '_server/json-delete.php';
 require '_server/header.php';
+require '_server/services.php';
 
 $app->notFound(function () {
     echo 1;

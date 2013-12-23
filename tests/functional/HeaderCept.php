@@ -3,7 +3,7 @@
 /* @var \Codeception\Scenario $scenario */
 
 $I = new TestGuy($scenario);
-$I->wantTo('perform some GET requests');
+$I->wantTo('check response headers');
 
 $I->sendGET('/header/using/header/bli/blub');
 $I->seeHttpHeader('bli', 'blub');
