@@ -3,30 +3,41 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Hahns micro framework for PHP</title>
-
+    <title>Hahns by pklink</title>
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="javascripts/scale.fix.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
     <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
   </head>
   <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/pklink/Hahns">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/pklink/Hahns/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/pklink/Hahns/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
     <div class="wrapper">
-      <header>
-        <h1 class="header">Hahns</h1>
-        <p class="header">micro framework for PHP 5.4+</p>
 
-        <ul>
-          <li class="download"><a class="buttons" href="https://github.com/pklink/Hahns/zipball/master">Download ZIP</a></li>
-          <li class="download"><a class="buttons" href="https://github.com/pklink/Hahns/tarball/master">Download TAR</a></li>
-          <li><a class="buttons github" href="https://github.com/pklink/Hahns">View On GitHub</a></li>
-        </ul>
-
-      </header>
       <section>
+        <div id="title">
+          <h1>Hahns</h1>
+          <p>micro framework for PHP 5.4+</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/pklink">pklink</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
+
         <h1>
 <a name="hahns" class="anchor" href="#hahns"><span class="octicon octicon-link"></span></a>Hahns</h1>
 
@@ -191,8 +202,9 @@ mixed post(string $name, mixed $default = null)     // get POST-param $name or $
 
 <p>It is usable as parameter for routing callbacks</p>
 
-<pre><code>void   header(string $name, string $value)      // send header $name with value $value
-string send(mixed $data, array $header = [])    // get $data as json-decoded string
+<pre><code>void   header(string $name, string $value)                                      // send header $name with value $value
+string send(mixed $data, array $header = [])                                    // get $data as json-decoded string
+void   status(int code, string $message = null, string $httpVersion = '1.1')    // send given status code to client
 </code></pre>
 
 <h3>
@@ -204,11 +216,9 @@ string send(mixed $data, array $header = [])    // get $data as json-decoded str
 <pre><code>object get(string $name)    // get service with name $name
 </code></pre>
       </section>
-      <footer>
-        <p><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
-      </footer>
+
     </div>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-		
+    
   </body>
 </html>
