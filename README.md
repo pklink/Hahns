@@ -163,8 +163,9 @@ mixed post(string $name, mixed $default = null)		// get POST-param $name or $def
 It is usable as parameter for routing callbacks
 
 ```
-void   header(string $name, string $value)		// send header $name with value $value
-string send(mixed $data, array $header = [])	// get $data as json-decoded string
+void   header(string $name, string $value)		                                // send header $name with value $value
+string send(mixed $data, array $header = [])	                                // get $data as json-decoded string
+void   status(int code, string $message = null, string $httpVersion = '1.1')    // send given status code to client
 ```
 
 

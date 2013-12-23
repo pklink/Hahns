@@ -17,3 +17,8 @@ $app->get('/header/using/send/bli/blub/bla/bloh', function (\Hahns\Response\Json
         'bla' => 'bloh'
     ]);
 });
+
+$app->get('/header/code/created', function (\Hahns\Response\JsonImpl $response) {
+    $response->status(\Hahns\Response::CODE_CREATED);
+    return $response->send([]);
+});

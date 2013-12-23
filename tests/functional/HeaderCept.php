@@ -14,3 +14,6 @@ $I->seeHttpHeader('bli', 'blub');
 $I->sendGET('/header/using/send/bli/blub/bla/bloh');
 $I->seeHttpHeader('bli', 'blub');
 $I->seeHttpHeader('bla', 'bloh');
+
+$I->sendGET('/header/code/created');
+$I->canSeeResponseCodeIs(201);
