@@ -4,10 +4,7 @@
 // @codingStandardsIgnoreFile
 
 
-use \Codeception\Maybe;
-use Codeception\Module\Filesystem;
-use Codeception\Module\TestHelper;
-use Codeception\Module\REST;
+use Codeception\Maybe;
 
 /**
  * Inherited methods

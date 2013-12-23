@@ -4,8 +4,7 @@
 // @codingStandardsIgnoreFile
 
 
-use \Codeception\Maybe;
-use Codeception\Module\CodeHelper;
+use Codeception\Maybe;
 
 /**
  * Inherited methods

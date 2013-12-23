@@ -1,5 +1,4 @@
 <?php
-use Codeception\Util\Stub;
 
 class JsonImplTest extends \Codeception\TestCase\Test
 {
