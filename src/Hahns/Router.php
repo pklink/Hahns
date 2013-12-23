@@ -4,7 +4,10 @@
 namespace Hahns;
 
 
+use Hahns\Exception\CallbackDoesNotExistException;
+use Hahns\Exception\RouteMustBeAStringException;
 use Hahns\Exception\RouteNotFoundException;
+use Hahns\Exception\VerbMustBeAStringException;
 
 class Router
 {
@@ -41,34 +44,97 @@ class Router
     }
 
     /**
-     * @param string $path
-     * @return string
+     * @param string $verb
+     * @param string $route
+     * @param \Closure $callback
+     * @throws Exception\RouteMustBeAStringException
+     * @throws Exception\VerbMustBeAStringException
      */
-    private function removeLastSlash($path)
+    public function add($verb, $route, \Closure $callback)
     {
-        $lastPos = strlen($path) - 1;
-
-        // remove last '/'
-        if ($lastPos >= 0 && $path{$lastPos} == '/') {
-            $path = substr($path, 0, -1);
+        if (!is_string($verb)) {
+            throw new VerbMustBeAStringException();
         }
 
-        return $path;
+        if (!is_string($route)) {
+            throw new RouteMustBeAStringException();
+        }
+
+        // lowercase $verb
+        $verb = strtolower($verb);
+
+        if (!isset($this->routes[$verb])) {
+            $this->routes[$verb] = [];
+        }
+
+        $route                 = $this->removeLastSlash($route);
+        $this->routes[$verb][] = [$route, $callback];
     }
 
     /**
-     * @param string $method
-     * @param string $route
-     * @param \Closure $callback
+     * @return \Closure
+     * @throws Exception\CallbackDoesNotExistException
      */
-    public function add($method, $route, \Closure $callback)
+    public function getCallback()
     {
-        if (!isset($this->routes[$method])) {
-            $this->routes[$method] = [];
+        if (is_null($this->callback)) {
+            throw new CallbackDoesNotExistException();
         }
 
-        $route                   = $this->removeLastSlash($route);
-        $this->routes[$method][] = [$route, $callback];
+        return $this->callback;
+    }
+
+    /**
+     * @return array
+     */
+    public function getNamedParameters()
+    {
+        return $this->namedParameters;
+    }
+
+    /**
+     * @return string
+     */
+    public function getParsable()
+    {
+        return $this->parsable;
+    }
+
+    /**
+     * @param string $path
+     * @return int
+     */
+    private function getPathDepth($path)
+    {
+        return count(explode('/', $path));
+    }
+
+    /**
+     * @return array
+     */
+    private function getRouteCandidates()
+    {
+        $candidates = [];
+        $pathDepthOfParsable = $this->getPathDepth($this->parsable);
+
+        $method = strtolower($_SERVER['REQUEST_METHOD']);
+        if (!isset($this->routes[$method])) {
+            $routes = [];
+        } else {
+            $routes = $this->routes[$method];
+        }
+
+        foreach ($routes as $route) {
+            $pathDepth = $this->getPathDepth($route[0]);
+
+            if ($pathDepth != $pathDepthOfParsable) {
+                continue;
+            }
+
+            $candidates[] = $route;
+        }
+
+        return $candidates;
     }
 
     /**
@@ -76,6 +142,9 @@ class Router
      */
     public function dispatch()
     {
+        // clear named parameters
+        $this->namedParameters =[];
+
         // itereate routes
         foreach ($this->getRouteCandidates() as $route) {
             // get pattern and callback of parsable
@@ -151,55 +220,18 @@ class Router
     }
 
     /**
-     * @return \Closure
-     */
-    public function getCallback()
-    {
-        return $this->callback;
-    }
-
-    /**
-     * @return array
-     */
-    public function getNamedParameters()
-    {
-        return $this->namedParameters;
-    }
-
-    /**
-     * @return array
-     */
-    private function getRouteCandidates()
-    {
-        $candidates = [];
-        $pathDepthOfParsable = $this->getPathDepth($this->parsable);
-
-        $method = $_SERVER['REQUEST_METHOD'];
-        if (!isset($this->routes[$method])) {
-            $routes = [];
-        } else {
-            $routes = $this->routes[$method];
-        }
-
-        foreach ($routes as $route) {
-            $pathDepth = $this->getPathDepth($route[0]);
-
-            if ($pathDepth != $pathDepthOfParsable) {
-                continue;
-            }
-
-            $candidates[] = $route;
-        }
-
-        return $candidates;
-    }
-
-    /**
      * @param string $path
-     * @return int
+     * @return string
      */
-    private function getPathDepth($path)
+    private function removeLastSlash($path)
     {
-        return count(explode('/', $path));
+        $lastPos = strlen($path) - 1;
+
+        // remove last '/'
+        if ($lastPos >= 0 && $path{$lastPos} == '/') {
+            $path = substr($path, 0, -1);
+        }
+
+        return $path;
     }
 }
