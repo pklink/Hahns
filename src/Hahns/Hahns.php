@@ -64,34 +64,41 @@ class Hahns
     /**
      * @param string $route
      * @param \Closure $callback
+     * @return $this
      */
     public function delete($route, \Closure $callback)
     {
         $route = 'delete-' . $this->removeLastSlash($route);
         $this->router->add($route, $callback);
+        return $this;
     }
 
     /**
      * @param string $route
      * @param \Closure $callback
+     * @return $this
      */
     public function get($route, \Closure $callback)
     {
         $route = 'get-' . $this->removeLastSlash($route);
         $this->router->add($route, $callback);
+        return $this;
     }
 
     /**
      * @param \Closure $callback
+     * @return $this
      */
     public function notFound(\Closure $callback)
     {
         $this->onNotFound[] = $callback;
+        return $this;
     }
 
     /**
      * @param string $type
      * @param \Closure $callback
+     * @return $this
      * @throws Exception\ParameterMustBeAStringException
      */
     public function parameter($type, \Closure $callback)
@@ -107,36 +114,43 @@ class Hahns
         }
 
         $this->parameters[$type] = $callback;
+        return $this;
     }
 
     /**
      * @param string $route
      * @param \Closure $callback
+     * @return $this
      */
     public function patch($route, \Closure $callback)
     {
         $route = 'patch-' . $this->removeLastSlash($route);
         $this->router->add($route, $callback);
+        return $this;
     }
 
     /**
      * @param string $route
      * @param \Closure $callback
+     * @return $this
      */
     public function post($route, \Closure $callback)
     {
         $route = 'post-' . $this->removeLastSlash($route);
         $this->router->add($route, $callback);
+        return $this;
     }
 
     /**
      * @param string $route
      * @param \Closure $callback
+     * @return $this
      */
     public function put($route, \Closure $callback)
     {
         $route = 'put-' . $this->removeLastSlash($route);
         $this->router->add($route, $callback);
+        return $this;
     }
 
     /**
@@ -227,9 +241,11 @@ class Hahns
     /**
      * @param string $name
      * @param \Closure $callback
+     * @return $this
      */
     public function service($name, \Closure $callback)
     {
         $this->serviceHolder->register($name, $callback);
+        return $this;
     }
 }

@@ -154,15 +154,15 @@ $app->notFound(function() {
 ### `\Hahns\Hahns`
 
 ```
-void delete(string $route, \Closure $callback)	// register DELETE-route
-void get(string $route, \Closure $callback)		// register GET-route
-void notFound(\Closure $callback)				// add handler for 404
-void parameter(string type, \Closure $callback) // register parameter for route callback
-void patch(string $route, \Closure $callback)	// register PATCH-route
-void post(string $route, \Closure $callback)	// register POST-route
-void put(string $route, \Closure $callback)		// register PUT-route
-void run()										// start routing
-void service(string $name, \Closure $callback)	// register service
+\Hahns\Hahns delete(string $route, \Closure $callback)	        // register DELETE-route
+\Hahns\Hahns get(string $route, \Closure $callback)		        // register GET-route
+\Hahns\Hahns notFound(\Closure $callback)				        // add handler for 404
+\Hahns\Hahns void parameter(string type, \Closure $callback)    // register parameter for route callback
+\Hahns\Hahns patch(string $route, \Closure $callback)	        // register PATCH-route
+\Hahns\Hahns post(string $route, \Closure $callback)	        // register POST-route
+\Hahns\Hahns put(string $route, \Closure $callback)		        // register PUT-route
+void         run()										        // start routing
+\Hahns\Hahns service(string $name, \Closure $callback)	        // register service
 ```
 
 ### `\Hahns\Request`
