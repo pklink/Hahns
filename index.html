@@ -85,13 +85,15 @@
 
 <ul>
 <li><code>\Hahns\Request</code></li>
-<li><code>\Hahns\Response\JsonImpl</code></li>
+<li><code>\Hahns\Response\Html</code></li>
+<li><code>\Hahns\Response\Json</code></li>
+<li><code>\Hahns\Response\Text</code></li>
 <li><code>\Hahns\ServiceHolder</code></li>
 </ul><div class="highlight highlight-php"><pre><span class="nv">$app</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'/'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
     <span class="c1">// ...</span>
 <span class="p">});</span>
 
-<span class="nv">$app</span><span class="o">-&gt;</span><span class="na">patch</span><span class="p">(</span><span class="s1">'/'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\Response\JsonImpl</span> <span class="nv">$response</span><span class="p">)</span> <span class="p">{</span>
+<span class="nv">$app</span><span class="o">-&gt;</span><span class="na">patch</span><span class="p">(</span><span class="s1">'/'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\Response\Json</span> <span class="nv">$response</span><span class="p">)</span> <span class="p">{</span>
     <span class="c1">// ...</span>
 <span class="p">});</span>
 
@@ -99,11 +101,19 @@
     <span class="c1">// ...</span>
 <span class="p">});</span>
 
-<span class="nv">$app</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'/cars'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\ServiceHolder</span> <span class="nv">$services</span><span class="p">,</span> <span class="nx">\Hahns\Response\JsonImpl</span> <span class="nv">$response</span><span class="p">,</span> <span class="nx">\Hahns\Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
+<span class="nv">$app</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'/cars'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\ServiceHolder</span> <span class="nv">$services</span><span class="p">,</span> <span class="nx">\Hahns\Response\Json</span> <span class="nv">$response</span><span class="p">,</span> <span class="nx">\Hahns\Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
     <span class="c1">// ...</span>
 <span class="p">});</span>
 
-<span class="nv">$app</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'/cars'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\Response\JsonImpl</span> <span class="nv">$response</span><span class="p">,</span> <span class="nx">\Hahns\ServiceHolder</span> <span class="nv">$services</span><span class="p">)</span> <span class="p">{</span>
+<span class="nv">$app</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'/cars'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\Response\Json</span> <span class="nv">$response</span><span class="p">,</span> <span class="nx">\Hahns\ServiceHolder</span> <span class="nv">$services</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">});</span>
+
+<span class="nv">$app</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'/cars'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\Response\Html</span> <span class="nv">$response</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">});</span>
+
+<span class="nv">$app</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'/cars'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\Response\Text</span> <span class="nv">$response</span><span class="p">)</span> <span class="p">{</span>
     <span class="c1">// ...</span>
 <span class="p">});</span>
 </pre></div>
@@ -129,18 +139,18 @@ $app-&gt;get('/own/parameter', function (\stdClass $obj) {
 
 <p>Based on <a href="http://en.wikipedia.org/wiki/Regular_expression">regular expressions</a></p>
 
-<div class="highlight highlight-php"><pre><span class="nv">$app</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'/hello/[.+:name]'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\Response\JsonImpl</span> <span class="nv">$response</span><span class="p">,</span> <span class="nx">\Hahns\Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$app</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'/hello/[.+:name]'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\Response\Json</span> <span class="nv">$response</span><span class="p">,</span> <span class="nx">\Hahns\Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="na">send</span><span class="p">([</span>
         <span class="s1">'message'</span> <span class="o">=&gt;</span> <span class="nb">sprintf</span><span class="p">(</span><span class="s1">'hello %s %s'</span><span class="p">,</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'first'</span><span class="p">),</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'last'</span><span class="p">))</span>
 <span class="p">});</span>
 
-<span class="nv">$app</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'/hello/[.+:first]/[.+:last]'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\Request</span> <span class="nv">$request</span><span class="p">,</span> <span class="nx">\Hahns\Response\JsonImpl</span> <span class="nv">$response</span><span class="p">)</span> <span class="p">{</span>
+<span class="nv">$app</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'/hello/[.+:first]/[.+:last]'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\Request</span> <span class="nv">$request</span><span class="p">,</span> <span class="nx">\Hahns\Response\Json</span> <span class="nv">$response</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="na">send</span><span class="p">([</span>
         <span class="s1">'message'</span> <span class="o">=&gt;</span> <span class="nb">sprintf</span><span class="p">(</span><span class="s1">'hello %s %s'</span><span class="p">,</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'first'</span><span class="p">),</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'last'</span><span class="p">))</span>
     <span class="p">]);</span>
 <span class="p">});</span>
 
-<span class="nv">$app</span><span class="o">-&gt;</span><span class="na">delete</span><span class="p">(</span><span class="s1">'/cars/id-[\d+:id]/now'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\Response\JsonImpl</span> <span class="nv">$response</span><span class="p">,</span> <span class="nx">\Hahns\Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
+<span class="nv">$app</span><span class="o">-&gt;</span><span class="na">delete</span><span class="p">(</span><span class="s1">'/cars/id-[\d+:id]/now'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\Response\Json</span> <span class="nv">$response</span><span class="p">,</span> <span class="nx">\Hahns\Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="na">send</span><span class="p">([</span>
         <span class="s1">'message'</span> <span class="o">=&gt;</span> <span class="nb">sprintf</span><span class="p">(</span><span class="s1">'removed card with id `%d`'</span><span class="p">,</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'id'</span><span class="p">))</span>
     <span class="p">]);</span>
@@ -156,12 +166,12 @@ $app-&gt;get('/own/parameter', function (\stdClass $obj) {
     <span class="k">return</span> <span class="nv">$service</span><span class="p">;</span>
 <span class="p">});</span>
 
-<span class="nv">$app</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'service-test'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\ServiceHolder</span> <span class="nv">$services</span><span class="p">)</span> <span class="p">{</span>
+<span class="nv">$app</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'/service-test'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\ServiceHolder</span> <span class="nv">$services</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">echo</span> <span class="nv">$service</span><span class="o">-&gt;</span><span class="na">test</span><span class="p">;</span>
 <span class="p">});</span>
 </pre></div>
 
-<p>Every GET-request to <code>/</code> will respond</p>
+<p>Every GET-request to <code>/service-test</code> will respond</p>
 
 <pre><code>hello
 </code></pre>
@@ -200,30 +210,44 @@ void         run()                                              // start routing
 <a name="hahnsrequest" class="anchor" href="#hahnsrequest"><span class="octicon octicon-link"></span></a><code>\Hahns\Request</code>
 </h3>
 
-<p>It is usable as parameter for routing callbacks</p>
-
 <pre><code>mixed get(string $name, mixed $default = null)      // get GET-param $name or $default
 mixed payload(string $name, mixed $default = null)  // get param $name from payload (DELETE, PATCH, PUT) or $default
 mixed post(string $name, mixed $default = null)     // get POST-param $name or $default
 </code></pre>
 
 <h3>
-<a name="hahnsresponsejsonimpl" class="anchor" href="#hahnsresponsejsonimpl"><span class="octicon octicon-link"></span></a><code>\Hahns\Response\JsonImpl</code>
+<a name="hahnsresponsehtml" class="anchor" href="#hahnsresponsehtml"><span class="octicon octicon-link"></span></a><code>\Hahns\Response\Html</code>
 </h3>
-
-<p>It is usable as parameter for routing callbacks</p>
 
 <pre><code>void   header(string $name, string $value)                                      // send header $name with value $value
 void   redirect(string $location, int $code = 301)                              // send location header
-string send(mixed $data, array $header = [])                                    // get $data as json-decoded string
+string send(string $data, array $header = [])                                   // get $data as html
+void   status(int code, string $message = null, string $httpVersion = '1.1')    // send given status code to client
+</code></pre>
+
+<h3>
+<a name="hahnsresponsejson" class="anchor" href="#hahnsresponsejson"><span class="octicon octicon-link"></span></a><code>\Hahns\Response\Json</code>
+</h3>
+
+<pre><code>void   header(string $name, string $value)                                      // send header $name with value $value
+void   redirect(string $location, int $code = 301)                              // send location header
+string send(array|object $data, array $header = [])                             // get $data as json-decoded string
+void   status(int code, string $message = null, string $httpVersion = '1.1')    // send given status code to client
+</code></pre>
+
+<h3>
+<a name="hahnsresponsetext" class="anchor" href="#hahnsresponsetext"><span class="octicon octicon-link"></span></a><code>\Hahns\Response\Text</code>
+</h3>
+
+<pre><code>void   header(string $name, string $value)                                      // send header $name with value $value
+void   redirect(string $location, int $code = 301)                              // send location header
+string send(array|object $data, array $header = [])                             // get $data as text
 void   status(int code, string $message = null, string $httpVersion = '1.1')    // send given status code to client
 </code></pre>
 
 <h3>
 <a name="hahnsserviceholder" class="anchor" href="#hahnsserviceholder"><span class="octicon octicon-link"></span></a><code>\Hahns\ServiceHolder</code>
 </h3>
-
-<p>It is usable as parameter for routing callbacks</p>
 
 <pre><code>object get(string $name)    // get service with name $name
 </code></pre>
