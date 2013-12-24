@@ -77,7 +77,7 @@ $app->get('/cars', function (\Hahns\Response\JsonImpl $response, \Hahns\ServiceH
 });
 ```
 
-#### Add own Parameter
+#### Add your own parameter
 
 ```
 $app->parameter('\\stdClass', function() {
@@ -91,7 +91,7 @@ $app->get('/own/parameter', function (\stdClass $obj) {
 });
 ```
 
-The callback for `parameter()` must be return a instance of the given type.
+The callback for `parameter()` must be return an instance of the given type.
 
 
 ### Named Parameters
