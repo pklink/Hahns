@@ -32,7 +32,8 @@
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
         <h1>
-<a name="hahns" class="anchor" href="#hahns"><span class="octicon octicon-link"></span></a>Hahns</h1>
+<a name="hahns--" class="anchor" href="#hahns--"><span class="octicon octicon-link"></span></a>Hahns <a href="https://travis-ci.org/pklink/Hahns"><img src="https://travis-ci.org/pklink/Hahns.png?branch=master" alt="Build Status"></a> <a href="https://www.versioneye.com/user/projects/52b89440ec1375c3f500001b"><img src="https://www.versioneye.com/user/projects/52b89440ec1375c3f500001b/badge.png" alt="Dependency Status"></a>
+</h1>
 
 <p>Hahns is a micro framework for PHP 5.4 and higher.</p>
 
@@ -196,6 +197,7 @@ mixed post(string $name, mixed $default = null)     // get POST-param $name or $
 <p>It is usable as parameter for routing callbacks</p>
 
 <pre><code>void   header(string $name, string $value)                                      // send header $name with value $value
+void   redirect(string $location, int $code = 301)                              // send location header
 string send(mixed $data, array $header = [])                                    // get $data as json-decoded string
 void   status(int code, string $message = null, string $httpVersion = '1.1')    // send given status code to client
 </code></pre>
