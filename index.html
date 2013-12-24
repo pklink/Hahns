@@ -79,9 +79,9 @@
 <h3>
 <a name="parameters-for-routing-callback" class="anchor" href="#parameters-for-routing-callback"><span class="octicon octicon-link"></span></a>Parameters for routing callback</h3>
 
-<p>Hahns will set parameters based on required type automatically</p>
+<p>Hahns will set parameters based on the required type automatically</p>
 
-<p>The following types are available:</p>
+<p>The following types are built-in:</p>
 
 <ul>
 <li><code>\Hahns\Request</code></li>
@@ -108,10 +108,26 @@
 <span class="p">});</span>
 </pre></div>
 
+<h4>
+<a name="add-your-own-parameter" class="anchor" href="#add-your-own-parameter"><span class="octicon octicon-link"></span></a>Add your own parameter</h4>
+
+<pre><code>$app-&gt;parameter('\\stdClass', function() {
+    $obj = new stdClass();
+    $obj-&gt;test = 'yup';
+    return $obj;
+});
+
+$app-&gt;get('/own/parameter', function (\stdClass $obj) {
+    return $obj-&gt;test;
+});
+</code></pre>
+
+<p>The callback for <code>parameter()</code> must be return an instance of the given type.</p>
+
 <h3>
 <a name="named-parameters" class="anchor" href="#named-parameters"><span class="octicon octicon-link"></span></a>Named Parameters</h3>
 
-<p>Based on <a href="http://en.wikipedia.org/wiki/Regular_expression">regular expression</a></p>
+<p>Based on <a href="http://en.wikipedia.org/wiki/Regular_expression">regular expressions</a></p>
 
 <div class="highlight highlight-php"><pre><span class="nv">$app</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'/hello/[.+:name]'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\Response\JsonImpl</span> <span class="nv">$response</span><span class="p">,</span> <span class="nx">\Hahns\Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="na">send</span><span class="p">([</span>
@@ -155,7 +171,7 @@
 
 <p>Default handling is sending a status code of <code>404</code></p>
 
-<p>Additionally you can add own handler:</p>
+<p>Additionally you can add your own handler:</p>
 
 <div class="highlight highlight-php"><pre><span class="nv">$app</span><span class="o">-&gt;</span><span class="na">notFound</span><span class="p">(</span><span class="k">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="c1">// do something</span>
@@ -169,14 +185,15 @@
 <a name="hahnshahns" class="anchor" href="#hahnshahns"><span class="octicon octicon-link"></span></a><code>\Hahns\Hahns</code>
 </h3>
 
-<pre><code>void delete(string $route, \Closure $callback)  // register DELETE-route
-void get(string $route, \Closure $callback)     // register GET-route
-void notFound(\Closure $callback)               // add handler for 404
-void patch(string $route, \Closure $callback)   // register PATCH-route
-void post(string $route, \Closure $callback)    // register POST-route
-void put(string $route, \Closure $callback)     // register PUT-route
-void run()                                      // start routing
-void service(string $name, \Closure $callback)  // register service
+<pre><code>\Hahns\Hahns delete(string $route, \Closure $callback)          // register DELETE-route
+\Hahns\Hahns get(string $route, \Closure $callback)             // register GET-route
+\Hahns\Hahns notFound(\Closure $callback)                       // add handler for 404
+\Hahns\Hahns void parameter(string type, \Closure $callback)    // register parameter for route callback
+\Hahns\Hahns patch(string $route, \Closure $callback)           // register PATCH-route
+\Hahns\Hahns post(string $route, \Closure $callback)            // register POST-route
+\Hahns\Hahns put(string $route, \Closure $callback)             // register PUT-route
+void         run()                                              // start routing
+\Hahns\Hahns service(string $name, \Closure $callback)          // register service
 </code></pre>
 
 <h3>
