@@ -124,7 +124,6 @@ class Hahns
     }
 
     /**
-     * @param string|null $route
      * @throws Exception\ParameterMustBeAStringOrNullException
      */
     public function run($route = null)
@@ -174,20 +173,7 @@ class Hahns
             }
 
             // call callback
-            switch (count($attributes)) {
-                case 0:
-                    echo call_user_func($callback);
-                    break;
-                case 1:
-                    echo call_user_func($callback, $attributes[0]);
-                    break;
-                case 2:
-                    echo call_user_func($callback, $attributes[0], $attributes[1]);
-                    break;
-                case 3:
-                    echo call_user_func($callback, $attributes[0], $attributes[1], $attributes[2]);
-                    break;
-            }
+            echo call_user_func_array($callback, $attributes);
 
         } catch (RouteNotFoundException $e) {
             foreach ($this->onNotFound as $callback) {
