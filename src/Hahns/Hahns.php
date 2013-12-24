@@ -9,6 +9,7 @@ use Hahns\Exception\ParameterIsNotRegisterException;
 use Hahns\Exception\ParameterMustBeAStringException;
 use Hahns\Exception\ParameterMustBeAStringOrNullException;
 use Hahns\Exception\RouteNotFoundException;
+use Hahns\Response\Html;
 use Hahns\Response\Json;
 use Hahns\Response\Text;
 
@@ -40,30 +41,7 @@ class Hahns
         $this->router           = new Router();
         $this->serviceHolder = new ServiceHolder();
 
-        // register built-in parameters
-        $this->parameter('Hahns\\Request', function () {
-            // create request object
-            $request = new Request();
-
-            // fill request instance
-            foreach ($this->router->getNamedParameters() as $name => $value) {
-                $request->set($name, $value);
-            }
-
-            return $request;
-        });
-
-        $this->parameter('Hahns\\Response\\Json', function () {
-            return new Json();
-        });
-
-        $this->parameter('Hahns\\Response\\Text', function () {
-            return new Text();
-        });
-
-        $this->parameter('Hahns\\ServiceHolder', function () {
-            return $this->serviceHolder;
-        });
+        $this->registerBuiltInParameters();
     }
 
     /**
@@ -165,6 +143,37 @@ class Hahns
     public function put($route, \Closure $callback)
     {
         return $this->addPrefixedRoute('put', $route, $callback);
+    }
+
+    protected function registerBuiltInParameters()
+    {
+        $this->parameter('Hahns\\Request', function () {
+            // create request object
+            $request = new Request();
+
+            // fill request instance
+            foreach ($this->router->getNamedParameters() as $name => $value) {
+                $request->set($name, $value);
+            }
+
+            return $request;
+        });
+
+        $this->parameter('Hahns\\Response\\Json', function () {
+            return new Json();
+        });
+
+        $this->parameter('Hahns\\Response\\Text', function () {
+            return new Text();
+        });
+
+        $this->parameter('Hahns\\Response\\Html', function () {
+            return new Html();
+        });
+
+        $this->parameter('Hahns\\ServiceHolder', function () {
+            return $this->serviceHolder;
+        });
     }
 
     /**

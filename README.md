@@ -52,6 +52,7 @@ Hahns will set parameters based on the required type automatically
 The following types are built-in:
 
 * `\Hahns\Request`
+* `\Hahns\Response\Html`
 * `\Hahns\Response\Json`
 * `\Hahns\Response\Text`
 * `\Hahns\ServiceHolder`
@@ -74,6 +75,10 @@ $app->get('/cars', function (\Hahns\ServiceHolder $services, \Hahns\Response\Jso
 });
 
 $app->get('/cars', function (\Hahns\Response\Jsonl $response, \Hahns\ServiceHolder $services) {
+    // ...
+});
+
+$app->get('/cars', function (\Hahns\Response\Html $response) {
     // ...
 });
 
@@ -174,6 +179,14 @@ void         run()										        // start routing
 mixed get(string $name, mixed $default = null)		// get GET-param $name or $default
 mixed payload(string $name, mixed $default = null)	// get param $name from payload (DELETE, PATCH, PUT) or $default
 mixed post(string $name, mixed $default = null)		// get POST-param $name or $default
+```
+
+### `\Hahns\Response\Html`
+```
+void   header(string $name, string $value)		                                // send header $name with value $value
+void   redirect(string $location, int $code = 301)                              // send location header
+string send(string $data, array $header = [])	                                // get $data as html
+void   status(int code, string $message = null, string $httpVersion = '1.1')    // send given status code to client
 ```
 
 ### `\Hahns\Response\Json`
