@@ -59,4 +59,19 @@ class HanhsTest extends \Codeception\TestCase\Test
         new \Hahns\Hahns();
     }
 
+    public function testParameter()
+    {
+        $this->instance->parameter('type', function () {});
+
+        try {
+            $this->instance->parameter([], function () {});
+            $this->fail();
+        } catch (\Hahns\Exception\ParameterMustBeAStringException $e) { }
+
+        try {
+            $this->instance->parameter('type', 'invalid');
+            $this->fail();
+        } catch (ErrorException $e) { }
+    }
+
 }

@@ -47,9 +47,9 @@ Every DELETE-request to `/` will respond
 
 ### Parameters for routing callback
 
-Hahns will set parameters based on required type automatically
+Hahns will set parameters based on the required type automatically
 
-The following types are available:
+The following types are built-in:
 
 * `\Hahns\Request`
 * `\Hahns\Response\JsonImpl`
@@ -77,10 +77,26 @@ $app->get('/cars', function (\Hahns\Response\JsonImpl $response, \Hahns\ServiceH
 });
 ```
 
+#### Add own Parameter
+
+```
+$app->parameter('\\stdClass', function() {
+    $obj = new stdClass();
+    $obj->test = 'yup';
+    return $obj;
+});
+
+$app->get('/own/parameter', function (\stdClass $obj) {
+    return $obj->test;
+});
+```
+
+The callback for `parameter()` must be return a instance of the given type.
+
 
 ### Named Parameters
 
-Based on [regular expression][2]
+Based on [regular expressions][2]
 
 ```php
 $app->get('/hello/[.+:name]', function (\Hahns\Response\JsonImpl $response, \Hahns\Request $request) {
@@ -125,7 +141,7 @@ hello
 
 Default handling is sending a status code of `404`
 
-Additionally you can add own handler:
+Additionally you can add your own handler:
 
 ```php
 $app->notFound(function() {
@@ -141,6 +157,7 @@ $app->notFound(function() {
 void delete(string $route, \Closure $callback)	// register DELETE-route
 void get(string $route, \Closure $callback)		// register GET-route
 void notFound(\Closure $callback)				// add handler for 404
+void parameter(string type, \Closure $callback) // register parameter for route callback
 void patch(string $route, \Closure $callback)	// register PATCH-route
 void post(string $route, \Closure $callback)	// register POST-route
 void put(string $route, \Closure $callback)		// register PUT-route

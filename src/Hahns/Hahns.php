@@ -4,12 +4,20 @@
 namespace Hahns;
 
 
+use Hahns\Exception\ParameterCallbackReturnsWrongTypeException;
+use Hahns\Exception\ParameterIsNotRegisterException;
+use Hahns\Exception\ParameterMustBeAStringException;
 use Hahns\Exception\ParameterMustBeAStringOrNullException;
 use Hahns\Exception\RouteNotFoundException;
 use Hahns\Response\JsonImpl;
 
 class Hahns
 {
+
+    /**
+     * @var array
+     */
+    protected $parameters = [];
 
     /**
      * @var Router
@@ -19,7 +27,7 @@ class Hahns
     /**
      * @var ServiceHolder
      */
-    protected $serviceContainer;
+    protected $serviceHolder;
 
     /**
      * @var \Closure[]
@@ -29,24 +37,28 @@ class Hahns
     public function __construct()
     {
         $this->router           = new Router();
-        $this->serviceContainer = new ServiceHolder();
-    }
+        $this->serviceHolder = new ServiceHolder();
 
-    /**
-     * @param array $parameter
-     * @return Request
-     */
-    private function createRequest($parameter)
-    {
-        // create request object
-        $request = new Request();
+        // register built-in parameters
+        $this->parameter('Hahns\\Request', function () {
+            // create request object
+            $request = new Request();
 
-        // fill request instance
-        foreach ($parameter as $name => $value) {
-            $request->set($name, $value);
-        }
+            // fill request instance
+            foreach ($this->router->getNamedParameters() as $name => $value) {
+                $request->set($name, $value);
+            }
 
-        return $request;
+            return $request;
+        });
+
+        $this->parameter('Hahns\\Response\\JsonImpl', function () {
+            return new JsonImpl();
+        });
+
+        $this->parameter('Hahns\\ServiceHolder', function () {
+            return $this->serviceHolder;
+        });
     }
 
     /**
@@ -75,6 +87,26 @@ class Hahns
     public function notFound(\Closure $callback)
     {
         $this->onNotFound[] = $callback;
+    }
+
+    /**
+     * @param string $type
+     * @param \Closure $callback
+     * @throws Exception\ParameterMustBeAStringException
+     */
+    public function parameter($type, \Closure $callback)
+    {
+        if (!is_string($type)) {
+            $message = 'Parameter `type` must be a string';
+            throw new ParameterMustBeAStringException($message);
+        }
+
+        // remove first backslash
+        if (strlen($type) > 0 && $type{0} == '\\') {
+            $type = substr($type, 1);
+        }
+
+        $this->parameters[$type] = $callback;
     }
 
     /**
@@ -148,28 +180,36 @@ class Hahns
         try {
             $this->router->dispatch($route);
 
-            // get named parametes and callback
-            $namedParameter = $this->router->getNamedParameters();
-            $callback       = $this->router->getCallback();
+            // get callback
+            $callback = $this->router->getCallback();
 
             // get attributes for callback
             $attributes         = [];
             $callbackReflection = new \ReflectionFunction($callback);
 
             foreach ($callbackReflection->getParameters() as $parameter) {
-                $type = $parameter->getClass()->name;
+                $type = $parameter->getClass()->getName();
 
-                switch ($type) {
-                    case 'Hahns\\Request':
-                        $attributes[] = $this->createRequest($namedParameter);
-                        break;
-                    case 'Hahns\\Response\\JsonImpl':
-                        $attributes[] = new JsonImpl();
-                        break;
-                    case 'Hahns\\ServiceHolder':
-                        $attributes[] = $this->serviceContainer;
-                        break;
+                // check if type exist
+                if (!isset($this->parameters[$type])) {
+                    $message = sprintf('Type `%s is not register. See Hahns::parameter()`', $type);
+                    throw new ParameterIsNotRegisterException($message);
                 }
+
+                // create instance of parameter
+                $parameterInstance = call_user_func($this->parameters[$type]);
+
+                // check if parameter callback returned a valid instance
+                if (!($parameterInstance instanceof $type)) {
+                    $message = sprintf(
+                        'Callback for parameter of type `%s` must be return an instance of `%s`',
+                        $type,
+                        $type
+                    );
+                    throw new ParameterCallbackReturnsWrongTypeException($message);
+                }
+
+                $attributes[] = $parameterInstance;
             }
 
             // call callback
@@ -190,6 +230,6 @@ class Hahns
      */
     public function service($name, \Closure $callback)
     {
-        $this->serviceContainer->register($name, $callback);
+        $this->serviceHolder->register($name, $callback);
     }
 }
