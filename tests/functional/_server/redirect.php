@@ -2,6 +2,6 @@
 
 /* @var \Hahns\Hahns $app */
 
-$app->get('/redirect', function (\Hahns\Response\JsonImpl $response) {
+$app->get('/redirect', function (\Hahns\Response\Json $response) {
     $response->redirect('/redirected');
 });

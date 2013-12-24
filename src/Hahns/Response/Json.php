@@ -6,7 +6,7 @@ namespace Hahns\Response;
 use Hahns\Exception\ParameterMustBeAnArrayException;
 use Hahns\Exception\ParameterMustBeAnArrayOrAnObjectException;
 
-class JsonImpl extends AbstractImpl
+class Json extends AbstractImpl
 {
 
     /**

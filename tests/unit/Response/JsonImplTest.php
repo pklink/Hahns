@@ -10,7 +10,7 @@ class JsonImplTest extends \Codeception\TestCase\Test
 
     public function testSend()
     {
-        $instance = new \Hahns\Response\JsonImpl();
+        $instance = new \Hahns\Response\Json();
 
         $json = $instance->send(['hello' => 'world']);
         $this->assertEquals('{"hello":"world"}', $json);

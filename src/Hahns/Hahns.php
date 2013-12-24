@@ -9,7 +9,7 @@ use Hahns\Exception\ParameterIsNotRegisterException;
 use Hahns\Exception\ParameterMustBeAStringException;
 use Hahns\Exception\ParameterMustBeAStringOrNullException;
 use Hahns\Exception\RouteNotFoundException;
-use Hahns\Response\JsonImpl;
+use Hahns\Response\Json;
 
 class Hahns
 {
@@ -52,8 +52,8 @@ class Hahns
             return $request;
         });
 
-        $this->parameter('Hahns\\Response\\JsonImpl', function () {
-            return new JsonImpl();
+        $this->parameter('Hahns\\Response\\Json', function () {
+            return new Json();
         });
 
         $this->parameter('Hahns\\ServiceHolder', function () {
