@@ -62,7 +62,7 @@ $app->get('/', function (\Hahns\Request $request) {
     // ...
 });
 
-$app->patch('/', function (\Hahns\Response\Jsonl $response) {
+$app->patch('/', function (\Hahns\Response\Json $response) {
     // ...
 });
 
@@ -70,11 +70,11 @@ $app->post('/cars', function (\Hahns\ServiceHolder $services) {
     // ...
 });
 
-$app->get('/cars', function (\Hahns\ServiceHolder $services, \Hahns\Response\Jsonl $response, \Hahns\Request $request) {
+$app->get('/cars', function (\Hahns\ServiceHolder $services, \Hahns\Response\Json $response, \Hahns\Request $request) {
     // ...
 });
 
-$app->get('/cars', function (\Hahns\Response\Jsonl $response, \Hahns\ServiceHolder $services) {
+$app->get('/cars', function (\Hahns\Response\Json $response, \Hahns\ServiceHolder $services) {
     // ...
 });
 
@@ -109,18 +109,18 @@ The callback for `parameter()` must be return an instance of the given type.
 Based on [regular expressions][2]
 
 ```php
-$app->get('/hello/[.+:name]', function (\Hahns\Response\Jsonl $response, \Hahns\Request $request) {
+$app->get('/hello/[.+:name]', function (\Hahns\Response\Json $response, \Hahns\Request $request) {
 	return $response->send([
 		'message' => sprintf('hello %s %s', $request->get('first'), $request->get('last'))
 });
 
-$app->get('/hello/[.+:first]/[.+:last]', function (\Hahns\Request $request, \Hahns\Response\Jsonl $response) {
+$app->get('/hello/[.+:first]/[.+:last]', function (\Hahns\Request $request, \Hahns\Response\Json $response) {
 	return $response->send([
 		'message' => sprintf('hello %s %s', $request->get('first'), $request->get('last'))
 	]);
 });
 
-$app->delete('/cars/id-[\d+:id]/now', function (\Hahns\Response\Jsonl $response, \Hahns\Request $request) {
+$app->delete('/cars/id-[\d+:id]/now', function (\Hahns\Response\Json $response, \Hahns\Request $request) {
     return $response->send([
         'message' => sprintf('removed card with id `%d`', $request->get('id'))
     ]);
