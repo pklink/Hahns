@@ -52,7 +52,8 @@ Hahns will set parameters based on the required type automatically
 The following types are built-in:
 
 * `\Hahns\Request`
-* `\Hahns\Response\JsonImpl`
+* `\Hahns\Response\Json`
+* `\Hahns\Response\Text`
 * `\Hahns\ServiceHolder`
 
 ```php
@@ -60,7 +61,7 @@ $app->get('/', function (\Hahns\Request $request) {
     // ...
 });
 
-$app->patch('/', function (\Hahns\Response\JsonImpl $response) {
+$app->patch('/', function (\Hahns\Response\Jsonl $response) {
     // ...
 });
 
@@ -68,11 +69,15 @@ $app->post('/cars', function (\Hahns\ServiceHolder $services) {
     // ...
 });
 
-$app->get('/cars', function (\Hahns\ServiceHolder $services, \Hahns\Response\JsonImpl $response, \Hahns\Request $request) {
+$app->get('/cars', function (\Hahns\ServiceHolder $services, \Hahns\Response\Jsonl $response, \Hahns\Request $request) {
     // ...
 });
 
-$app->get('/cars', function (\Hahns\Response\JsonImpl $response, \Hahns\ServiceHolder $services) {
+$app->get('/cars', function (\Hahns\Response\Jsonl $response, \Hahns\ServiceHolder $services) {
+    // ...
+});
+
+$app->get('/cars', function (\Hahns\Response\Text $response) {
     // ...
 });
 ```
@@ -99,18 +104,18 @@ The callback for `parameter()` must be return an instance of the given type.
 Based on [regular expressions][2]
 
 ```php
-$app->get('/hello/[.+:name]', function (\Hahns\Response\JsonImpl $response, \Hahns\Request $request) {
+$app->get('/hello/[.+:name]', function (\Hahns\Response\Jsonl $response, \Hahns\Request $request) {
 	return $response->send([
 		'message' => sprintf('hello %s %s', $request->get('first'), $request->get('last'))
 });
 
-$app->get('/hello/[.+:first]/[.+:last]', function (\Hahns\Request $request, \Hahns\Response\JsonImpl $response) {
+$app->get('/hello/[.+:first]/[.+:last]', function (\Hahns\Request $request, \Hahns\Response\Jsonl $response) {
 	return $response->send([
 		'message' => sprintf('hello %s %s', $request->get('first'), $request->get('last'))
 	]);
 });
 
-$app->delete('/cars/id-[\d+:id]/now', function (\Hahns\Response\JsonImpl $response, \Hahns\Request $request) {
+$app->delete('/cars/id-[\d+:id]/now', function (\Hahns\Response\Jsonl $response, \Hahns\Request $request) {
     return $response->send([
         'message' => sprintf('removed card with id `%d`', $request->get('id'))
     ]);
@@ -152,7 +157,6 @@ $app->notFound(function() {
 ## Reference
 
 ### `\Hahns\Hahns`
-
 ```
 \Hahns\Hahns delete(string $route, \Closure $callback)	        // register DELETE-route
 \Hahns\Hahns get(string $route, \Closure $callback)		        // register GET-route
@@ -166,34 +170,33 @@ void         run()										        // start routing
 ```
 
 ### `\Hahns\Request`
-
-It is usable as parameter for routing callbacks
-
 ```
 mixed get(string $name, mixed $default = null)		// get GET-param $name or $default
 mixed payload(string $name, mixed $default = null)	// get param $name from payload (DELETE, PATCH, PUT) or $default
 mixed post(string $name, mixed $default = null)		// get POST-param $name or $default
 ```
 
-### `\Hahns\Response\JsonImpl`
-
-It is usable as parameter for routing callbacks
-
+### `\Hahns\Response\Json`
 ```
 void   header(string $name, string $value)		                                // send header $name with value $value
 void   redirect(string $location, int $code = 301)                              // send location header
-string send(mixed $data, array $header = [])	                                // get $data as json-decoded string
+string send(array|object $data, array $header = [])	                            // get $data as json-decoded string
 void   status(int code, string $message = null, string $httpVersion = '1.1')    // send given status code to client
 ```
 
+### `\Hahns\Response\Text`
+```
+void   header(string $name, string $value)		                                // send header $name with value $value
+void   redirect(string $location, int $code = 301)                              // send location header
+string send(array|object $data, array $header = [])	                            // get $data as text
+void   status(int code, string $message = null, string $httpVersion = '1.1')    // send given status code to client
+```
 
 ### `\Hahns\ServiceHolder`
-
-It is usable as parameter for routing callbacks
-
 ```
 object get(string $name)	// get service with name $name
 ```
+
 
 [1]: http://getcomposer.org/
 [2]: http://en.wikipedia.org/wiki/Regular_expression

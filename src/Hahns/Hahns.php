@@ -10,6 +10,7 @@ use Hahns\Exception\ParameterMustBeAStringException;
 use Hahns\Exception\ParameterMustBeAStringOrNullException;
 use Hahns\Exception\RouteNotFoundException;
 use Hahns\Response\Json;
+use Hahns\Response\Text;
 
 class Hahns
 {
@@ -54,6 +55,10 @@ class Hahns
 
         $this->parameter('Hahns\\Response\\Json', function () {
             return new Json();
+        });
+
+        $this->parameter('Hahns\\Response\\Text', function () {
+            return new Text();
         });
 
         $this->parameter('Hahns\\ServiceHolder', function () {

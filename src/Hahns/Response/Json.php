@@ -3,7 +3,6 @@
 
 namespace Hahns\Response;
 
-use Hahns\Exception\ParameterMustBeAnArrayException;
 use Hahns\Exception\ParameterMustBeAnArrayOrAnObjectException;
 
 class Json extends AbstractImpl
@@ -14,7 +13,6 @@ class Json extends AbstractImpl
      * @param array $headers
      * @return string
      * @throws \Hahns\Exception\ParameterMustBeAnArrayOrAnObjectException
-     * @throws \Hahns\Exception\ParameterMustBeAnArrayException
      */
     public function send($data, $headers = [])
     {
@@ -23,17 +21,7 @@ class Json extends AbstractImpl
             throw new ParameterMustBeAnArrayOrAnObjectException($message);
         }
 
-        if (!is_array($headers)) {
-            $message = 'Parameter `headers` must be an array';
-            throw new ParameterMustBeAnArrayException($message);
-        }
-
         $this->header('Content-Type', 'application/json');
-
-        foreach ($headers as $name => $value) {
-            $this->header($name, $value);
-        }
-
-        return json_encode($data);
+        return parent::send(json_encode($data), $headers);
     }
 }

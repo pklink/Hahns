@@ -1,6 +1,6 @@
 <?php
 
-class JsonImplTest extends \Codeception\TestCase\Test
+class JsonTest extends \Codeception\TestCase\Test
 {
    /**
     * @var \CodeGuy
