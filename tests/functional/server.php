@@ -13,6 +13,7 @@ require '_server/json-patch.php';
 require '_server/json-delete.php';
 require '_server/header.php';
 require '_server/services.php';
+require '_server/redirect.php';
 
 $app->notFound(function () {
     echo 1;

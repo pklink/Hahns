@@ -195,6 +195,13 @@ interface Response
     public function header($name, $value);
 
     /**
+     * @param string $location
+     * @param int $code
+     * @return void
+     */
+    public function redirect($location, $code = Response::CODE_MOVED_PERMANENTLY);
+
+    /**
      * @param mixed $data
      * @param array $headers
      * @return string

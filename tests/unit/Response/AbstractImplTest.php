@@ -5,6 +5,7 @@ use Hahns\Exception\ParameterMustBeAStringException;
 use Hahns\Exception\ParameterMustBeAStringOrNullException;
 use Hahns\Exception\StatusMessageCannotFindException;
 use Hahns\Response\AbstractImpl;
+use Hahns\Response;
 
 class AbstractImplTest extends \Codeception\TestCase\Test
 {
@@ -64,6 +65,22 @@ class AbstractImplTest extends \Codeception\TestCase\Test
             $this->instance->status(213123);
             $this->fail();
         } catch (StatusMessageCannotFindException $e) {}
+    }
+
+    public function testRedirect()
+    {
+        $this->instance->redirect('/blabla');
+        $this->instance->redirect('/blabla', Response::CODE_FOUND);
+
+        try {
+            $this->instance->redirect([]);
+            $this->fail();
+        } catch (ParameterMustBeAStringException $e) { }
+
+        try {
+            $this->instance->redirect('1', 324234);
+            $this->fail();
+        } catch (StatusMessageCannotFindException $e) { }
     }
 
 }
