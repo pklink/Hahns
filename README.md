@@ -136,12 +136,12 @@ $app->service('myservice', function() {
 	return $service;
 });
 
-$app->get('service-test', function (\Hahns\ServiceHolder $services) {
+$app->get('/service-test', function (\Hahns\ServiceHolder $services) {
 	echo $service->test;
 });
 ```
 
-Every GET-request to `/` will respond
+Every GET-request to `/service-test` will respond
 
 ```
 hello
