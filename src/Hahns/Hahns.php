@@ -62,13 +62,20 @@ class Hahns
     }
 
     /**
+     * @param string $prefix
      * @param string $route
      * @param \Closure $callback
      * @return $this
+     * @throws Exception\ParameterMustBeAStringException
      */
-    public function delete($route, \Closure $callback)
+    protected function addPrefixedRoute($prefix, $route, \Closure $callback)
     {
-        $route = 'delete-' . $this->removeLastSlash($route);
+        if (!is_string($route)) {
+            $message = 'Parameter `route` must be a string';
+            throw new ParameterMustBeAStringException($message);
+        }
+
+        $route = sprintf('%s-%s', $prefix, $this->removeLastSlash($route));
         $this->router->add($route, $callback);
         return $this;
     }
@@ -78,11 +85,19 @@ class Hahns
      * @param \Closure $callback
      * @return $this
      */
+    public function delete($route, \Closure $callback)
+    {
+        return $this->addPrefixedRoute('delete', $route, $callback);
+    }
+
+    /**
+     * @param string $route
+     * @param \Closure $callback
+     * @return $this
+     */
     public function get($route, \Closure $callback)
     {
-        $route = 'get-' . $this->removeLastSlash($route);
-        $this->router->add($route, $callback);
-        return $this;
+        return $this->addPrefixedRoute('get', $route, $callback);
     }
 
     /**
@@ -124,9 +139,7 @@ class Hahns
      */
     public function patch($route, \Closure $callback)
     {
-        $route = 'patch-' . $this->removeLastSlash($route);
-        $this->router->add($route, $callback);
-        return $this;
+        return $this->addPrefixedRoute('patch', $route, $callback);
     }
 
     /**
@@ -136,9 +149,7 @@ class Hahns
      */
     public function post($route, \Closure $callback)
     {
-        $route = 'post-' . $this->removeLastSlash($route);
-        $this->router->add($route, $callback);
-        return $this;
+        return $this->addPrefixedRoute('post', $route, $callback);
     }
 
     /**
@@ -148,9 +159,7 @@ class Hahns
      */
     public function put($route, \Closure $callback)
     {
-        $route = 'put-' . $this->removeLastSlash($route);
-        $this->router->add($route, $callback);
-        return $this;
+        return $this->addPrefixedRoute('put', $route, $callback);
     }
 
     /**
