@@ -84,11 +84,13 @@
 <p>The following types are built-in:</p>
 
 <ul>
+<li><code>\Hahns\Hahns</code></li>
+<li><code>\Hahns\Config</code></li>
 <li><code>\Hahns\Request</code></li>
 <li><code>\Hahns\Response\Html</code></li>
 <li><code>\Hahns\Response\Json</code></li>
 <li><code>\Hahns\Response\Text</code></li>
-<li><code>\Hahns\ServiceHolder</code></li>
+<li><code>\Hahns\Services</code></li>
 </ul><div class="highlight highlight-php"><pre><span class="nv">$app</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'/'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
     <span class="c1">// ...</span>
 <span class="p">});</span>
@@ -97,15 +99,15 @@
     <span class="c1">// ...</span>
 <span class="p">});</span>
 
-<span class="nv">$app</span><span class="o">-&gt;</span><span class="na">post</span><span class="p">(</span><span class="s1">'/cars'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\ServiceHolder</span> <span class="nv">$services</span><span class="p">)</span> <span class="p">{</span>
+<span class="nv">$app</span><span class="o">-&gt;</span><span class="na">post</span><span class="p">(</span><span class="s1">'/cars'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\Services</span> <span class="nv">$services</span><span class="p">)</span> <span class="p">{</span>
     <span class="c1">// ...</span>
 <span class="p">});</span>
 
-<span class="nv">$app</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'/cars'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\ServiceHolder</span> <span class="nv">$services</span><span class="p">,</span> <span class="nx">\Hahns\Response\Json</span> <span class="nv">$response</span><span class="p">,</span> <span class="nx">\Hahns\Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
+<span class="nv">$app</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'/cars'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\Services</span> <span class="nv">$services</span><span class="p">,</span> <span class="nx">\Hahns\Response\Json</span> <span class="nv">$response</span><span class="p">,</span> <span class="nx">\Hahns\Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
     <span class="c1">// ...</span>
 <span class="p">});</span>
 
-<span class="nv">$app</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'/cars'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\Response\Json</span> <span class="nv">$response</span><span class="p">,</span> <span class="nx">\Hahns\ServiceHolder</span> <span class="nv">$services</span><span class="p">)</span> <span class="p">{</span>
+<span class="nv">$app</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'/cars'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\Response\Json</span> <span class="nv">$response</span><span class="p">,</span> <span class="nx">\Hahns\Services</span> <span class="nv">$services</span><span class="p">)</span> <span class="p">{</span>
     <span class="c1">// ...</span>
 <span class="p">});</span>
 
@@ -114,6 +116,14 @@
 <span class="p">});</span>
 
 <span class="nv">$app</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'/cars'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\Response\Text</span> <span class="nv">$response</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">});</span>
+
+<span class="nv">$app</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'/blah'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\Hahns</span> <span class="nv">$app</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">});</span>
+
+<span class="nv">$app</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'/config'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\Config</span> <span class="nv">$config</span><span class="p">)</span> <span class="p">{</span>
     <span class="c1">// ...</span>
 <span class="p">});</span>
 </pre></div>
@@ -166,7 +176,7 @@ $app-&gt;get('/own/parameter', function (\stdClass $obj) {
     <span class="k">return</span> <span class="nv">$service</span><span class="p">;</span>
 <span class="p">});</span>
 
-<span class="nv">$app</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'/service-test'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\ServiceHolder</span> <span class="nv">$services</span><span class="p">)</span> <span class="p">{</span>
+<span class="nv">$app</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'/service-test'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\Services</span> <span class="nv">$services</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">echo</span> <span class="nv">$service</span><span class="o">-&gt;</span><span class="na">test</span><span class="p">;</span>
 <span class="p">});</span>
 </pre></div>
@@ -195,15 +205,20 @@ $app-&gt;get('/own/parameter', function (\stdClass $obj) {
 <a name="hahnshahns" class="anchor" href="#hahnshahns"><span class="octicon octicon-link"></span></a><code>\Hahns\Hahns</code>
 </h3>
 
-<pre><code>\Hahns\Hahns delete(string $route, \Closure $callback)          // register DELETE-route
-\Hahns\Hahns get(string $route, \Closure $callback)             // register GET-route
-\Hahns\Hahns notFound(\Closure $callback)                       // add handler for 404
-\Hahns\Hahns void parameter(string type, \Closure $callback)    // register parameter for route callback
-\Hahns\Hahns patch(string $route, \Closure $callback)           // register PATCH-route
-\Hahns\Hahns post(string $route, \Closure $callback)            // register POST-route
-\Hahns\Hahns put(string $route, \Closure $callback)             // register PUT-route
-void         run()                                              // start routing
-\Hahns\Hahns service(string $name, \Closure $callback)          // register service
+<pre><code>\Hahns\Config   config()                                        // get instance of \Hahns\Config
+mixed           config(string $name)                            // get value $name from config
+void            config(string $name, mixed $value)              // set value $value to config
+void            delete(string $route, \Closure $callback)       // register DELETE-route
+void            get(string $route, \Closure $callback)          // register GET-route
+void            notFound(\Closure $callback)                    // add handler for 404
+void            void parameter(string type, \Closure $callback) // register parameter for route callback
+void            patch(string $route, \Closure $callback)        // register PATCH-route
+void            post(string $route, \Closure $callback)         // register POST-route
+void            put(string $route, \Closure $callback)          // register PUT-route
+\Hahns\Router   router()                                        // get instance of \Hanhs\Router
+void            run()                                           // start routing
+void            service(string $name, \Closure $callback)       // register service
+\Hahns\Services services()                                      // register service
 </code></pre>
 
 <h3>
@@ -211,6 +226,7 @@ void         run()                                              // start routing
 </h3>
 
 <pre><code>mixed get(string $name, mixed $default = null)      // get GET-param $name or $default
+mixed header(string $name, mixed $default = null)   // get param $name from request header
 mixed payload(string $name, mixed $default = null)  // get param $name from payload (DELETE, PATCH, PUT) or $default
 mixed post(string $name, mixed $default = null)     // get POST-param $name or $default
 </code></pre>
@@ -246,7 +262,7 @@ void   status(int code, string $message = null, string $httpVersion = '1.1')    
 </code></pre>
 
 <h3>
-<a name="hahnsserviceholder" class="anchor" href="#hahnsserviceholder"><span class="octicon octicon-link"></span></a><code>\Hahns\ServiceHolder</code>
+<a name="hahnsservices" class="anchor" href="#hahnsservices"><span class="octicon octicon-link"></span></a><code>\Hahns\Services</code>
 </h3>
 
 <pre><code>object get(string $name)    // get service with name $name
