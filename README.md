@@ -168,7 +168,7 @@ Arguments are:
 * `string $usedRoute`
 * `\Hahns\Hahns $app`
 
-```
+```php
 $app->on(\Hahns\Hahns::EVENT_NOT_FOUND, function ($usedRoute, \Hahns\Hahns $app) {
     // do something
 });
@@ -181,7 +181,7 @@ Arguments are:
 * `string $givenRoute`
 * `\Hahns\Hahns $app`
 
-```
+```php
 $app->on(\Hahns\Hahns::EVENT_BEFORE_RUNNING, function ($givenRoute, \Hahns\Hahns $app) {
     // do something
 });
@@ -194,7 +194,7 @@ Arguments are:
 * `string $usedRoute`
 * `\Hahns\Hahns $app`
 
-```
+```php
 $app->on(\Hahns\Hahns::EVENT_AFTER_RUNNING, function ($usedRoute, \Hahns\Hahns $app) {
     // do something
 });
@@ -207,7 +207,7 @@ Arguments are:
 * `string $usedRoute`
 * `\Hahns\Hahns $app`
 
-```
+```php
 $app->on(\Hahns\Hahns::EVENT_BEFORE_ROUTING, function ($usedRoute, \Hahns\Hahns $app) {
     // do something
 });
@@ -220,7 +220,7 @@ Arguments are:
 * `string $usedRoute`
 * `\Hahns\Hahns $app`
 
-```
+```php
 $app->on(\Hahns\Hahns::EVENT_AFTER_ROUTING, function ($usedRoute, \Hahns\Hahns $app) {
     // do something
 });
@@ -235,7 +235,7 @@ Arguments are:
 * `array $argsForCallback`
 * `\Hahns\Hahns $app`
 
-```
+```php
 $app->on(\Hahns\Hahns::EVENT_BEFORE_EXECUTING_ROUTE, function ($usedRoute, \Closure $routeCallback, $argsForCallback, \Hahns\Hahns $app)
     // do something
 });
@@ -250,10 +250,11 @@ Arguments are:
 * `array $argsForCallback`
 * `\Hahns\Hahns $app`
 
-```
+```php
 $app->on(\Hahns\Hahns::EVENT_AFTER_EXECUTING_ROUTE, function ($usedRoute, \Closure $routeCallback, $argsForCallback, \Hahns\Hahns $app)
     // do something
 });
+```
 
 ## Reference
 
