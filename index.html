@@ -77,6 +77,14 @@
 </code></pre>
 
 <h3>
+<a name="debug-mode" class="anchor" href="#debug-mode"><span class="octicon octicon-link"></span></a>Debug mode</h3>
+
+<p>For enable debugging pass <code>true</code> to the constructor of Hahns</p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\Hahns\Hahns</span><span class="p">(</span><span class="k">true</span><span class="p">);</span>
+</pre></div>
+
+<h3>
 <a name="parameters-for-routing-callback" class="anchor" href="#parameters-for-routing-callback"><span class="octicon octicon-link"></span></a>Parameters for routing callback</h3>
 
 <p>Hahns will set parameters based on the required type automatically</p>
@@ -203,9 +211,9 @@ $app-&gt;get('/own/parameter', function (\stdClass $obj) {
 <p>Arguments are:</p>
 
 <ul>
-<li><code>\Hahns\Hahns $app</code></li>
 <li><code>\Exception $e</code></li>
-</ul><div class="highlight highlight-php"><pre><span class="nv">$app</span><span class="o">-&gt;</span><span class="na">on</span><span class="p">(</span><span class="nx">\Hahns\Hahns</span><span class="o">::</span><span class="na">EVENT_ERROR</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\Hahns</span> <span class="nv">$app</span><span class="p">,</span> <span class="nx">\Exception</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+<li><code>\Hahns\Hahns $app</code></li>
+</ul><div class="highlight highlight-php"><pre><span class="nv">$app</span><span class="o">-&gt;</span><span class="na">on</span><span class="p">(</span><span class="nx">\Hahns\Hahns</span><span class="o">::</span><span class="na">EVENT_ERROR</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Exception</span> <span class="nv">$e</span><span class="p">,</span> <span class="nx">\Hahns\Hahns</span> <span class="nv">$app</span><span class="p">)</span> <span class="p">{</span>
     <span class="c1">// do something</span>
 <span class="p">});</span>
 </pre></div>
