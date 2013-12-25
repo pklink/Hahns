@@ -8,6 +8,6 @@ $app->service('test-service', function () {
     return $obj;
 });
 
-$app->get('/services/yep', function (Hahns\ServiceHolder $services) {
+$app->get('/services/yep', function (Hahns\Services $services) {
     return $services->get('test-service')->test;
 });

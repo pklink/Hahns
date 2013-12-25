@@ -27,9 +27,9 @@ class Hahns
     protected $router;
 
     /**
-     * @var ServiceHolder
+     * @var Services
      */
-    protected $serviceHolder;
+    protected $services;
 
     /**
      * @var \Closure[]
@@ -38,8 +38,8 @@ class Hahns
 
     public function __construct()
     {
-        $this->router        = new Router();
-        $this->serviceHolder = new ServiceHolder();
+        $this->router   = new Router();
+        $this->services = new Services();
 
         $this->registerBuiltInParameters();
     }
@@ -174,8 +174,8 @@ class Hahns
             return new Html();
         });
 
-        $this->parameter('Hahns\\ServiceHolder', function () {
-            return $this->serviceHolder;
+        $this->parameter('Hahns\\Services', function () {
+            return $this->services;
         });
     }
 
@@ -279,7 +279,7 @@ class Hahns
      */
     public function service($name, \Closure $callback)
     {
-        $this->serviceHolder->register($name, $callback);
+        $this->services->register($name, $callback);
         return $this;
     }
 }

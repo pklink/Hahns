@@ -8,7 +8,7 @@ use Hahns\Exception\ParameterMustBeAStringException;
 use Hahns\Exception\ServiceDoesNotExistException;
 use Hahns\Exception\ServiceMustBeAnObjectException;
 
-class ServiceHolder
+class Services
 {
 
     /**

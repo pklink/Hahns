@@ -4,7 +4,7 @@ namespace Hahns\Test;
 
 use Codeception\TestCase\Test;
 use Hahns\Exception\ServiceMustBeAnObjectException;
-use Hahns\ServiceHolder;
+use Hahns\Services;
 
 class ServiceHolderTest extends Test
 {
@@ -14,13 +14,13 @@ class ServiceHolderTest extends Test
     protected $codeGuy;
 
     /**
-     * @var ServiceHolder
+     * @var Services
      */
     protected $instance;
 
     protected function _before()
     {
-        $this->instance = new ServiceHolder();
+        $this->instance = new Services();
     }
 
     public function testAllFine()

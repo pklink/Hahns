@@ -55,7 +55,7 @@ The following types are built-in:
 * `\Hahns\Response\Html`
 * `\Hahns\Response\Json`
 * `\Hahns\Response\Text`
-* `\Hahns\ServiceHolder`
+* `\Hahns\Services`
 
 ```php
 $app->get('/', function (\Hahns\Request $request) {
@@ -66,15 +66,15 @@ $app->patch('/', function (\Hahns\Response\Json $response) {
     // ...
 });
 
-$app->post('/cars', function (\Hahns\ServiceHolder $services) {
+$app->post('/cars', function (\Hahns\Services $services) {
     // ...
 });
 
-$app->get('/cars', function (\Hahns\ServiceHolder $services, \Hahns\Response\Json $response, \Hahns\Request $request) {
+$app->get('/cars', function (\Hahns\Services $services, \Hahns\Response\Json $response, \Hahns\Request $request) {
     // ...
 });
 
-$app->get('/cars', function (\Hahns\Response\Json $response, \Hahns\ServiceHolder $services) {
+$app->get('/cars', function (\Hahns\Response\Json $response, \Hahns\Services $services) {
     // ...
 });
 
@@ -136,7 +136,7 @@ $app->service('myservice', function() {
 	return $service;
 });
 
-$app->get('/service-test', function (\Hahns\ServiceHolder $services) {
+$app->get('/service-test', function (\Hahns\Services $services) {
 	echo $service->test;
 });
 ```
@@ -207,7 +207,7 @@ string send(array|object $data, array $header = [])	                            
 void   status(int code, string $message = null, string $httpVersion = '1.1')    // send given status code to client
 ```
 
-### `\Hahns\ServiceHolder`
+### `\Hahns\Services`
 ```
 object get(string $name)	// get service with name $name
 ```
