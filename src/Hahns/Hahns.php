@@ -287,12 +287,13 @@ class Hahns
         }
 
         // get method and concat with $route
-        $route = strtolower($_SERVER['REQUEST_METHOD']) . '-' . $route;
+        $usedRoute = $route;
+        $route     = strtolower($_SERVER['REQUEST_METHOD']) . '-' . $route;
 
         try {
-            $this->trigger(Hahns::EVENT_BEFORE_ROUTING, [$route, $this]);
+            $this->trigger(Hahns::EVENT_BEFORE_ROUTING, [$usedRoute, $this]);
             $this->router()->dispatch($route);
-            $this->trigger(Hahns::EVENT_AFTER_ROUTING, [$route, $this]);
+            $this->trigger(Hahns::EVENT_AFTER_ROUTING, [$usedRoute, $this]);
 
             // get callback
             $callback = $this->router()->getCallback();
@@ -327,15 +328,15 @@ class Hahns
             }
 
             // call callback
-            $this->trigger(Hahns::EVENT_BEFORE_EXECUTING_ROUTE, [$route, $callback, $attributes, $this]);
+            $this->trigger(Hahns::EVENT_BEFORE_EXECUTING_ROUTE, [$usedRoute, $callback, $attributes, $this]);
             echo call_user_func_array($callback, $attributes);
-            $this->trigger(Hahns::EVENT_AFTER_EXECUTING_ROUTE, [$route, $callback, $attributes, $this]);
+            $this->trigger(Hahns::EVENT_AFTER_EXECUTING_ROUTE, [$usedRoute, $callback, $attributes, $this]);
 
         } catch (RouteNotFoundException $e) {
-            $this->trigger(Hahns::EVENT_NOT_FOUND, [$route, $this]);
+            $this->trigger(Hahns::EVENT_NOT_FOUND, [$usedRoute, $this]);
         }
 
-        $this->trigger(Hahns::EVENT_AFTER_RUNNING, [$route, $this]);
+        $this->trigger(Hahns::EVENT_AFTER_RUNNING, [$usedRoute, $this]);
     }
 
     /**
