@@ -156,12 +156,11 @@ $app->on(\Hahns\Hahns::EVENT_NOT_FOUND, function ($usedRoute, \Hahns\Hahns $app)
 
 ##### Trigger a "Not Found" event
 
-Simply throw a `\Hahns\Exception\Http\NotFoundException`
+Simply throw a `\Hahns\Exception\NotFoundException`
 
 ```php
-$app->get('/not-found', function (\Hahns\Response\Html $response) {
-    $response->header('test0r', 'yep');
-    throw new \Hahns\Exception\Http\NotFoundException();
+$app->get('/not-found', function () {
+    throw new \Hahns\Exception\NotFoundException();
 });
 ```
 

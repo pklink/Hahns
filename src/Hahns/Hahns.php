@@ -4,7 +4,7 @@
 namespace Hahns;
 
 
-use Hahns\Exception\Http\NotFoundException;
+use Hahns\Exception\NotFoundException;
 use Hahns\Exception\ParameterCallbackReturnsWrongTypeException;
 use Hahns\Exception\ParameterIsNotRegisterException;
 use Hahns\Exception\ParameterMustBeAnIntegerException;

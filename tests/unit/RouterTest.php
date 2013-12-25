@@ -1,6 +1,6 @@
 <?php
 
-use Hahns\Exception\Http\NotFoundException;
+use Hahns\Exception\NotFoundException;
 
 class RouterTest extends \Codeception\TestCase\Test
 {

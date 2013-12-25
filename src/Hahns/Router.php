@@ -5,7 +5,7 @@ namespace Hahns;
 
 
 use Hahns\Exception\CallbackDoesNotExistException;
-use Hahns\Exception\Http\NotFoundException;
+use Hahns\Exception\NotFoundException;
 use Hahns\Exception\ParameterMustBeAStringException;
 
 class Router
@@ -100,7 +100,7 @@ class Router
 
     /**
      * @param string $parsable
-     * @throws Exception\Http\NotFoundException
+     * @throws Exception\NotFoundException
      * @throws Exception\ParameterMustBeAStringException
      */
     public function dispatch($parsable)
