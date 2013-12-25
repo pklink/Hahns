@@ -43,8 +43,6 @@ class Hahns
 
     public function __construct()
     {
-        $this->config   = new Config();
-
         $this->registerBuiltInParameters();
     }
 
@@ -72,6 +70,10 @@ class Hahns
      */
     public function config($name = null, $value = null)
     {
+        if (is_null($this->config)) {
+            $this->config = new Config();
+        }
+
         if (!is_null($name) && !is_null($value)) {
             $this->config->set($name, $value);
             return null;
@@ -179,7 +181,7 @@ class Hahns
         });
 
         $this->parameter('Hahns\\Config', function () {
-            return $this->config;
+            return $this->config();
         });
 
         $this->parameter('Hahns\\Response\\Json', function () {
