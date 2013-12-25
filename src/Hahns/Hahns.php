@@ -43,7 +43,6 @@ class Hahns
 
     public function __construct()
     {
-        $this->router   = new Router();
         $this->services = new Services();
         $this->config   = new Config();
 
@@ -64,7 +63,7 @@ class Hahns
         }
 
         $route = sprintf('%s-%s', $prefix, $this->removeLastSlash($route));
-        $this->router->add($route, $callback);
+        $this->router()->add($route, $callback);
     }
 
     /**
@@ -169,7 +168,7 @@ class Hahns
             $request = new Request();
 
             // fill request instance
-            foreach ($this->router->getNamedParameters() as $name => $value) {
+            foreach ($this->router()->getNamedParameters() as $name => $value) {
                 $request->set($name, $value);
             }
 
@@ -222,6 +221,10 @@ class Hahns
      */
     public function router()
     {
+        if (is_null($this->router)) {
+            $this->router = new Router();
+        }
+
         return $this->router;
     }
 
@@ -248,10 +251,10 @@ class Hahns
         $route = strtolower($_SERVER['REQUEST_METHOD']) . '-' . $route;
 
         try {
-            $this->router->dispatch($route);
+            $this->router()->dispatch($route);
 
             // get callback
-            $callback = $this->router->getCallback();
+            $callback = $this->router()->getCallback();
 
             // get attributes for callback
             $attributes         = [];
