@@ -105,17 +105,13 @@ class Hahns
      * @param string $prefix
      * @param string $route
      * @param \Closure $callback
+     * @param string|null $name
      * @throws Exception\ParameterMustBeAStringException
      */
-    protected function addPrefixedRoute($prefix, $route, \Closure $callback)
+    protected function addPrefixedRoute($prefix, $route, \Closure $callback, $name = null)
     {
-        if (!is_string($route)) {
-            $message = 'Parameter `route` must be a string';
-            throw new ParameterMustBeAStringException($message);
-        }
-
         $route = sprintf('%s-%s', $prefix, $this->removeLastSlash($route));
-        $this->router()->add($route, $callback);
+        $this->router()->add($route, $callback, $name);
     }
 
     /**
@@ -142,19 +138,21 @@ class Hahns
     /**
      * @param string $route
      * @param \Closure $callback
+     * @param string|null $name
      */
-    public function delete($route, \Closure $callback)
+    public function delete($route, \Closure $callback, $name = null)
     {
-        $this->addPrefixedRoute('delete', $route, $callback);
+        $this->addPrefixedRoute('delete', $route, $callback, $name);
     }
 
     /**
      * @param string $route
      * @param \Closure $callback
+     * @param string|null $name
      */
-    public function get($route, \Closure $callback)
+    public function get($route, \Closure $callback, $name = null)
     {
-        $this->addPrefixedRoute('get', $route, $callback);
+        $this->addPrefixedRoute('get', $route, $callback, $name);
     }
 
     /**
@@ -207,28 +205,31 @@ class Hahns
     /**
      * @param string $route
      * @param \Closure $callback
+     * @param string|null $name
      */
-    public function patch($route, \Closure $callback)
+    public function patch($route, \Closure $callback, $name = null)
     {
-        $this->addPrefixedRoute('patch', $route, $callback);
+        $this->addPrefixedRoute('patch', $route, $callback, $name);
     }
 
     /**
      * @param string $route
      * @param \Closure $callback
+     * @param string|null $name
      */
-    public function post($route, \Closure $callback)
+    public function post($route, \Closure $callback, $name = null)
     {
-        $this->addPrefixedRoute('post', $route, $callback);
+        $this->addPrefixedRoute('post', $route, $callback, $name);
     }
 
     /**
      * @param string $route
      * @param \Closure $callback
+     * @param string|null $name
      */
-    public function put($route, \Closure $callback)
+    public function put($route, \Closure $callback, $name = null)
     {
-        $this->addPrefixedRoute('put', $route, $callback);
+        $this->addPrefixedRoute('put', $route, $callback, $name);
     }
 
     /**

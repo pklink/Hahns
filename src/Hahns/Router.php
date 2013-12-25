@@ -7,6 +7,7 @@ namespace Hahns;
 use Hahns\Exception\CallbackDoesNotExistException;
 use Hahns\Exception\NotFoundException;
 use Hahns\Exception\ParameterMustBeAStringException;
+use Hahns\Exception\ParameterMustBeAStringOrNullException;
 
 class Router
 {
@@ -36,14 +37,32 @@ class Router
      * @param \Closure $callback
      * @throws Exception\ParameterMustBeAStringException
      */
-    public function add($route, \Closure $callback)
+
+    /**
+     * @param string $route
+     * @param \Closure $callback
+     * @param string|null $name
+     * @throws Exception\ParameterMustBeAStringException
+     * @throws Exception\ParameterMustBeAStringOrNullException
+     */
+    public function add($route, \Closure $callback, $name = null)
     {
         if (!is_string($route)) {
             $message = 'Parameter `route` must be a string';
             throw new ParameterMustBeAStringException($message);
         }
 
-        $this->routes[] = [$route, $callback];
+        if (!is_null($name) && !is_string($name)) {
+            $message = 'Parameter `name` must be a string or null';
+            throw new ParameterMustBeAStringOrNullException($message);
+        }
+
+        if (!is_null($name)) {
+            $index                = sprintf('named-%s', $name);
+            $this->routes[$index] = [$route, $callback];
+        } else {
+            $this->routes[] = [$route, $callback];
+        }
     }
 
     /**
