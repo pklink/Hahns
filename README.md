@@ -157,17 +157,103 @@ Every GET-request to `/service-test` will respond
 hello
 ```
 
-### 404-Handling
+### Events
 
-Default handling is sending a status code of `404`
+Hahns trigger various events. Use the `on`-method to add your own handler.
 
-Additionally you can add your own handler:
+#### Not Found (404)
 
-```php
-$app->notFound(function() {
-	// do something
+Arguments are:
+
+* `string $usedRoute`
+* `\Hahns\Hahns $app`
+
+```
+$app->on(\Hahns\Hahns::EVENT_NOT_FOUND, function ($usedRoute, \Hahns\Hahns $app) {
+    // do something
 });
 ```
+
+#### Before Running
+
+Arguments are:
+
+* `string $givenRoute`
+* `\Hahns\Hahns $app`
+
+```
+$app->on(\Hahns\Hahns::EVENT_BEFORE_RUNNING, function ($givenRoute, \Hahns\Hahns $app) {
+    // do something
+});
+```
+
+#### After Running
+
+Arguments are:
+
+* `string $usedRoute`
+* `\Hahns\Hahns $app`
+
+```
+$app->on(\Hahns\Hahns::EVENT_AFTER_RUNNING, function ($usedRoute, \Hahns\Hahns $app) {
+    // do something
+});
+```
+
+#### Before Routing
+
+Arguments are:
+
+* `string $usedRoute`
+* `\Hahns\Hahns $app`
+
+```
+$app->on(\Hahns\Hahns::EVENT_BEFORE_ROUTING, function ($usedRoute, \Hahns\Hahns $app) {
+    // do something
+});
+```
+
+#### After Routing
+
+Arguments are:
+
+* `string $usedRoute`
+* `\Hahns\Hahns $app`
+
+```
+$app->on(\Hahns\Hahns::EVENT_AFTER_ROUTING, function ($usedRoute, \Hahns\Hahns $app) {
+    // do something
+});
+```
+
+#### Before execute matched route
+
+Arguments are:
+
+* `string $usedRoute`
+* `\Closure $routeCallback`
+* `array $argsForCallback`
+* `\Hahns\Hahns $app`
+
+```
+$app->on(\Hahns\Hahns::EVENT_BEFORE_EXECUTING_ROUTE, function ($usedRoute, \Closure $routeCallback, $argsForCallback, \Hahns\Hahns $app)
+    // do something
+});
+```
+
+#### After execute matched route
+
+Arguments are:
+
+* `string $usedRoute`
+* `\Closure $routeCallback`
+* `array $argsForCallback`
+* `\Hahns\Hahns $app`
+
+```
+$app->on(\Hahns\Hahns::EVENT_AFTER_EXECUTING_ROUTE, function ($usedRoute, \Closure $routeCallback, $argsForCallback, \Hahns\Hahns $app)
+    // do something
+});
 
 ## Reference
 
@@ -178,8 +264,8 @@ mixed           config(string $name)	                        // get value $name 
 void            config(string $name, mixed $value)	            // set value $value to config
 void            delete(string $route, \Closure $callback)	    // register DELETE-route
 void            get(string $route, \Closure $callback)		    // register GET-route
-void            notFound(\Closure $callback)				    // add handler for 404
-void            void parameter(string type, \Closure $callback) // register parameter for route callback
+void            on(int $event, \Closure $callback)              // add handler $callback for event $event
+void            parameter(string type, \Closure $callback) // register parameter for route callback
 void            patch(string $route, \Closure $callback)	    // register PATCH-route
 void            post(string $route, \Closure $callback)	        // register POST-route
 void            put(string $route, \Closure $callback)		    // register PUT-route

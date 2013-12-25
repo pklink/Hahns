@@ -18,8 +18,8 @@ require '_server/parameters.php';
 require '_server/text-get.php';
 require '_server/html-get.php';
 
-$app->notFound(function () {
-    echo 1;
+$app->on(\Hahns\Hahns::EVENT_NOT_FOUND, function () {
+    echo '1';
 });
 
 // run app

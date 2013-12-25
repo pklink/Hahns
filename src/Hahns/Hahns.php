@@ -6,6 +6,7 @@ namespace Hahns;
 
 use Hahns\Exception\ParameterCallbackReturnsWrongTypeException;
 use Hahns\Exception\ParameterIsNotRegisterException;
+use Hahns\Exception\ParameterMustBeAnIntegerException;
 use Hahns\Exception\ParameterMustBeAStringException;
 use Hahns\Exception\ParameterMustBeAStringOrNullException;
 use Hahns\Exception\RouteNotFoundException;
@@ -16,10 +17,23 @@ use Hahns\Response\Text;
 class Hahns
 {
 
+    const EVENT_NOT_FOUND              = 404;
+    const EVENT_BEFORE_RUNNING         = 100;
+    const EVENT_AFTER_RUNNING          = 101;
+    const EVENT_BEFORE_ROUTING         = 102;
+    const EVENT_AFTER_ROUTING          = 103;
+    const EVENT_BEFORE_EXECUTING_ROUTE = 104;
+    const EVENT_AFTER_EXECUTING_ROUTE  = 105;
+
     /**
      * @var Config
      */
     protected $config;
+
+    /**
+     * @var \Closure[]
+     */
+    protected $eventHandler = [];
 
     /**
      * @var array
@@ -43,6 +57,11 @@ class Hahns
 
     public function __construct()
     {
+        // register 404-event-hander
+        $this->on(Hahns::EVENT_NOT_FOUND, function () {
+            header('HTTP/1.1 404 Not Found');
+        });
+
         $this->registerBuiltInParameters();
     }
 
@@ -108,6 +127,25 @@ class Hahns
     public function notFound(\Closure $callback)
     {
         $this->onNotFound[] = $callback;
+    }
+
+    /**
+     * @param int $event
+     * @param \Closure $callback
+     * @throws Exception\ParameterMustBeAnIntegerException
+     */
+    public function on($event, \Closure $callback)
+    {
+        if (!is_int($event)) {
+            $message = 'Parameter `event` must be an integer';
+            throw new ParameterMustBeAnIntegerException($message);
+        }
+
+        if (!isset($this->eventHandler[$event])) {
+            $this->eventHandler[$event] = [];
+        }
+
+        $this->eventHandler[$event][] = $callback;
     }
 
     /**
@@ -232,6 +270,8 @@ class Hahns
      */
     public function run($route = null)
     {
+        $this->trigger(Hahns::EVENT_BEFORE_RUNNING, [$route, $this]);
+
         if (!is_string($route) && !is_null($route)) {
             $message = 'Parameter `route` must be a string or null';
             throw new ParameterMustBeAStringOrNullException($message);
@@ -250,7 +290,9 @@ class Hahns
         $route = strtolower($_SERVER['REQUEST_METHOD']) . '-' . $route;
 
         try {
+            $this->trigger(Hahns::EVENT_BEFORE_ROUTING, [$route, $this]);
             $this->router()->dispatch($route);
+            $this->trigger(Hahns::EVENT_AFTER_ROUTING, [$route, $this]);
 
             // get callback
             $callback = $this->router()->getCallback();
@@ -285,15 +327,15 @@ class Hahns
             }
 
             // call callback
+            $this->trigger(Hahns::EVENT_BEFORE_EXECUTING_ROUTE, [$route, $callback, $attributes, $this]);
             echo call_user_func_array($callback, $attributes);
+            $this->trigger(Hahns::EVENT_AFTER_EXECUTING_ROUTE, [$route, $callback, $attributes, $this]);
 
         } catch (RouteNotFoundException $e) {
-            foreach ($this->onNotFound as $callback) {
-                call_user_func($callback);
-            }
-
-            header('HTTP/1.0 404 Not Found');
+            $this->trigger(Hahns::EVENT_NOT_FOUND, [$route, $this]);
         }
+
+        $this->trigger(Hahns::EVENT_AFTER_RUNNING, [$route, $this]);
     }
 
     /**
@@ -315,5 +357,19 @@ class Hahns
         }
 
         return $this->services;
+    }
+
+    protected function trigger($event, $args = [])
+    {
+        if (!is_int($event)) {
+            $message = 'Parameter `event` must be an integer';
+            throw new ParameterMustBeAnIntegerException($message);
+        }
+
+        if (isset($this->eventHandler[$event])) {
+            foreach ($this->eventHandler[$event] as $handler) {
+                call_user_func_array($handler, $args);
+            }
+        }
     }
 }

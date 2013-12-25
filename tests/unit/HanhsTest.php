@@ -31,7 +31,7 @@ class HanhsTest extends \Codeception\TestCase\Test
 
     public function testNotFound()
     {
-        $this->instance->notFound(function() {});
+        $this->instance->on(\Hahns\Hahns::EVENT_NOT_FOUND, function() {});
     }
 
     public function testPatch()
