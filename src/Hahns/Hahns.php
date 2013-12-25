@@ -59,11 +59,6 @@ class Hahns
      */
     protected $services;
 
-    /**
-     * @var \Closure[]
-     */
-    protected $onNotFound = [];
-
     public function __construct($debug = false)
     {
         if (!is_bool($debug)) {
@@ -153,14 +148,6 @@ class Hahns
     public function get($route, \Closure $callback, $name = null)
     {
         $this->addPrefixedRoute('get', $route, $callback, $name);
-    }
-
-    /**
-     * @param \Closure $callback
-     */
-    public function notFound(\Closure $callback)
-    {
-        $this->onNotFound[] = $callback;
     }
 
     /**
