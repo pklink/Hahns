@@ -77,7 +77,8 @@ class Hahns
     public function config($name = null, $value = null)
     {
         if (!is_null($name) && !is_null($value)) {
-            return $this->config->set($name, $value);
+            $this->config->set($name, $value);
+            return null;
         } elseif (!is_null($name)) {
             return $this->config->get($name);
         } else {
