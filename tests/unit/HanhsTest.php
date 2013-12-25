@@ -88,4 +88,9 @@ class HanhsTest extends \Codeception\TestCase\Test
             ->run('asd');
     }
 
+    public function testRouter()
+    {
+        $this->assertInstanceOf('\\Hahns\\Router', $this->instance->router());
+    }
+
 }

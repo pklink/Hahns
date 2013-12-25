@@ -38,7 +38,7 @@ class Hahns
 
     public function __construct()
     {
-        $this->router           = new Router();
+        $this->router        = new Router();
         $this->serviceHolder = new ServiceHolder();
 
         $this->registerBuiltInParameters();
@@ -145,6 +145,9 @@ class Hahns
         return $this->addPrefixedRoute('put', $route, $callback);
     }
 
+    /**
+     * return void
+     */
     protected function registerBuiltInParameters()
     {
         $this->parameter('Hahns\\Request', function () {
@@ -190,6 +193,14 @@ class Hahns
         }
 
         return $path;
+    }
+
+    /**
+     * @return \Hahns\Router
+     */
+    public function router()
+    {
+        return $this->router;
     }
 
     /**
