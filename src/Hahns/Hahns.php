@@ -104,12 +104,10 @@ class Hahns
 
     /**
      * @param \Closure $callback
-     * @return $this
      */
     public function notFound(\Closure $callback)
     {
         $this->onNotFound[] = $callback;
-        return $this;
     }
 
     /**
