@@ -8,5 +8,8 @@ $I->wantTo('check callback parameters');
 $I->sendGET('/parameters');
 $I->seeResponseEquals('yup');
 
+$I->sendGET('/parameters/app');
+$I->seeResponseEquals('Hahns\\Hahns');
+
 $I->sendGET('/parameters/invalid');
 $I->seeResponseContains('Uncaught exception \'Hahns\Exception\ParameterIsNotRegisterException\'');

@@ -162,6 +162,10 @@ class Hahns
             return $request;
         });
 
+        $this->parameter('Hahns\\Hahns', function () {
+            return $this;
+        });
+
         $this->parameter('Hahns\\Response\\Json', function () {
             return new Json();
         });
