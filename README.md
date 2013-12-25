@@ -234,7 +234,7 @@ Arguments are:
 $app->on(\Hahns\Hahns::EVENT_AFTER_EXECUTING_ROUTE, function ($usedRoute, \Closure $routeCallback, $argsForCallback, \Hahns\Hahns $app)
     // do something
 });
-``
+```
 
 ## Reference
 
