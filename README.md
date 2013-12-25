@@ -302,7 +302,7 @@ void            put(string $route, \Closure $callback)		    // register PUT-rout
 \Hahns\Router   router()                                        // get instance of \Hanhs\Router
 void            run()										    // start routing
 void            service(string $name, \Closure $callback)	    // register service
-\Hahns\Services services()	                                    // register service
+\Hahns\Services services()	                                    // get all registered services
 ```
 
 ### `\Hahns\Request`
