@@ -147,12 +147,15 @@ Arguments are:
 
 * `string $usedRoute`
 * `\Hahns\Hahns $app`
+* `\Hahns\Exception\NotFoundException $e`
 
 ```php
-$app->on(\Hahns\Hahns::EVENT_NOT_FOUND, function ($usedRoute, \Hahns\Hahns $app) {
+$app->on(\Hahns\Hahns::EVENT_NOT_FOUND, function ($usedRoute, \Hahns\Hahns $app, \Hahns\Exception\NotFoundException $e) {
     // do something
 });
 ```
+
+Per default Hahns sends status code 404
 
 ##### Trigger a "Not Found" event
 
@@ -163,6 +166,34 @@ $app->get('/not-found', function () {
     throw new \Hahns\Exception\NotFoundException();
 });
 ```
+
+
+#### Error
+
+Arguments are:
+
+* `\Hahns\Hahns $app`
+* `\Exception $e`
+
+```php
+$app->on(\Hahns\Hahns::EVENT_ERROR, function (\Hahns\Hahns $app, \Exception $e) {
+    // do something
+});
+```
+
+Per default Hahns sends status code 500
+
+##### Trigger an "Error" event
+
+Simply throw a `\Hahns\Exception\ErrorException`
+
+```php
+$app->get('/not-found', function () {
+    throw new \Hahns\Exception\NotFoundException();
+});
+```
+
+
 
 #### Before Running
 

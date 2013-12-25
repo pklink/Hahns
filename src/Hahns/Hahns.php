@@ -18,6 +18,7 @@ class Hahns
 {
 
     const EVENT_NOT_FOUND              = 404;
+    const EVENT_ERROR                  = 500;
     const EVENT_BEFORE_RUNNING         = 100;
     const EVENT_AFTER_RUNNING          = 101;
     const EVENT_BEFORE_ROUTING         = 102;
@@ -60,6 +61,11 @@ class Hahns
         // register 404-event-hander
         $this->on(Hahns::EVENT_NOT_FOUND, function () {
             header('HTTP/1.1 404 Not Found');
+        });
+
+        // register 500-event-hander
+        $this->on(Hahns::EVENT_ERROR, function () {
+            header('HTTP/1.1 500 Internal Server Error');
         });
 
         $this->registerBuiltInParameters();
@@ -333,6 +339,8 @@ class Hahns
             $this->trigger(Hahns::EVENT_AFTER_EXECUTING_ROUTE, [$usedRoute, $callback, $attributes, $this]);
         } catch (NotFoundException $e) {
             $this->trigger(Hahns::EVENT_NOT_FOUND, [$usedRoute, $this, $e]);
+        } catch (\Exception $e) {
+            $this->trigger(Hahns::EVENT_ERROR, [$this, $e]);
         }
 
         $this->trigger(Hahns::EVENT_AFTER_RUNNING, [$usedRoute, $this]);

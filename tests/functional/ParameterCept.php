@@ -15,4 +15,4 @@ $I->sendGET('/parameters/config');
 $I->seeResponseEquals('world');
 
 $I->sendGET('/parameters/invalid');
-$I->seeResponseContains('Uncaught exception \'Hahns\Exception\ParameterIsNotRegisterException\'');
+$I->seeResponseCodeIs(500);
