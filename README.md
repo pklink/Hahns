@@ -163,16 +163,17 @@ $app->notFound(function() {
 
 ### `\Hahns\Hahns`
 ```
-\Hahns\Hahns  delete(string $route, \Closure $callback)	        // register DELETE-route
-\Hahns\Hahns  get(string $route, \Closure $callback)		    // register GET-route
-\Hahns\Hahns  notFound(\Closure $callback)				        // add handler for 404
-\Hahns\Hahns  void parameter(string type, \Closure $callback)   // register parameter for route callback
-\Hahns\Hahns  patch(string $route, \Closure $callback)	        // register PATCH-route
-\Hahns\Hahns  post(string $route, \Closure $callback)	        // register POST-route
-\Hahns\Hahns  put(string $route, \Closure $callback)		    // register PUT-route
-\Hahns\Router router()                                          // get instance of \Hanhs\Router
-void          run()										        // start routing
-\Hahns\Hahns  service(string $name, \Closure $callback)	        // register service
+\Hahns\Hahns    delete(string $route, \Closure $callback)	    // register DELETE-route
+\Hahns\Hahns    get(string $route, \Closure $callback)		    // register GET-route
+\Hahns\Hahns    notFound(\Closure $callback)				    // add handler for 404
+\Hahns\Hahns    void parameter(string type, \Closure $callback) // register parameter for route callback
+\Hahns\Hahns    patch(string $route, \Closure $callback)	    // register PATCH-route
+\Hahns\Hahns    post(string $route, \Closure $callback)	        // register POST-route
+\Hahns\Hahns    put(string $route, \Closure $callback)		    // register PUT-route
+\Hahns\Router   router()                                        // get instance of \Hanhs\Router
+void            run()										    // start routing
+\Hahns\Hahns    service(string $name, \Closure $callback)	    // register service
+\Hahns\Services services()	                                    // register service
 ```
 
 ### `\Hahns\Request`

@@ -282,4 +282,12 @@ class Hahns
         $this->services->register($name, $callback);
         return $this;
     }
+
+    /**
+     * @return \Hahns\Services
+     */
+    public function services()
+    {
+        return $this->services;
+    }
 }
