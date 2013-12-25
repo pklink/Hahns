@@ -72,27 +72,7 @@ $app->post('/cars', function (\Hahns\Services $services) {
     // ...
 });
 
-$app->get('/cars', function (\Hahns\Services $services, \Hahns\Response\Json $response, \Hahns\Request $request) {
-    // ...
-});
-
 $app->get('/cars', function (\Hahns\Response\Json $response, \Hahns\Services $services) {
-    // ...
-});
-
-$app->get('/cars', function (\Hahns\Response\Html $response) {
-    // ...
-});
-
-$app->get('/cars', function (\Hahns\Response\Text $response) {
-    // ...
-});
-
-$app->get('/blah', function (\Hahns\Hahns $app) {
-    // ...
-});
-
-$app->get('/config', function (\Hahns\Config $config) {
     // ...
 });
 ```
@@ -254,7 +234,7 @@ Arguments are:
 $app->on(\Hahns\Hahns::EVENT_AFTER_EXECUTING_ROUTE, function ($usedRoute, \Closure $routeCallback, $argsForCallback, \Hahns\Hahns $app)
     // do something
 });
-```
+``
 
 ## Reference
 
