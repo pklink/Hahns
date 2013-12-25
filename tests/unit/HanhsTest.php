@@ -74,20 +74,6 @@ class HanhsTest extends \Codeception\TestCase\Test
         } catch (ErrorException $e) { }
     }
 
-    public function testChain()
-    {
-        $this->instance
-            ->delete('asd', function () { })
-            ->get('Asdd', function () { })
-            ->notFound(function () { })
-            ->parameter('asda', function () { })
-            ->patch('asdas', function () { })
-            ->post('as', function () { })
-            ->put('asd', function () { })
-            ->service('asda', function () { })
-            ->run('asd');
-    }
-
     public function testRouter()
     {
         $this->assertInstanceOf('\\Hahns\\Router', $this->instance->router());
