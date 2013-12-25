@@ -180,6 +180,10 @@ class Hahns
             return $this;
         });
 
+        $this->parameter('Hahns\\Config', function () {
+            return $this->config;
+        });
+
         $this->parameter('Hahns\\Response\\Json', function () {
             return new Json();
         });

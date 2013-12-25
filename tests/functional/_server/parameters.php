@@ -19,3 +19,8 @@ $app->get('/parameters/invalid', function (\PDO $app) {
 $app->get('/parameters/app', function (\Hahns\Hahns $app) {
     return get_class($app);
 });
+
+$app->get('/parameters/config', function (\Hahns\Config $config, \Hahns\Hahns $app) {
+    $config->set('hello', 'world');
+    return $app->config('hello');
+});
