@@ -4,12 +4,12 @@
 namespace Hahns;
 
 
+use Hahns\Exception\Http\NotFoundException;
 use Hahns\Exception\ParameterCallbackReturnsWrongTypeException;
 use Hahns\Exception\ParameterIsNotRegisterException;
 use Hahns\Exception\ParameterMustBeAnIntegerException;
 use Hahns\Exception\ParameterMustBeAStringException;
 use Hahns\Exception\ParameterMustBeAStringOrNullException;
-use Hahns\Exception\RouteNotFoundException;
 use Hahns\Response\Html;
 use Hahns\Response\Json;
 use Hahns\Response\Text;
@@ -331,9 +331,8 @@ class Hahns
             $this->trigger(Hahns::EVENT_BEFORE_EXECUTING_ROUTE, [$usedRoute, $callback, $attributes, $this]);
             echo call_user_func_array($callback, $attributes);
             $this->trigger(Hahns::EVENT_AFTER_EXECUTING_ROUTE, [$usedRoute, $callback, $attributes, $this]);
-
-        } catch (RouteNotFoundException $e) {
-            $this->trigger(Hahns::EVENT_NOT_FOUND, [$usedRoute, $this]);
+        } catch (NotFoundException $e) {
+            $this->trigger(Hahns::EVENT_NOT_FOUND, [$usedRoute, $this, $e]);
         }
 
         $this->trigger(Hahns::EVENT_AFTER_RUNNING, [$usedRoute, $this]);

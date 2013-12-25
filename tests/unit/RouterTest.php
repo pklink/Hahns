@@ -1,5 +1,7 @@
 <?php
 
+use Hahns\Exception\Http\NotFoundException;
+
 class RouterTest extends \Codeception\TestCase\Test
 {
    /**
@@ -64,7 +66,7 @@ class RouterTest extends \Codeception\TestCase\Test
         try {
             $this->instance->dispatch('blah');
             $this->fail();
-        } catch (\Hahns\Exception\RouteNotFoundException $e) { }
+        } catch (NotFoundException $e) { }
 
         // named any parameter
         $this->instance->add('/blah/[.+:blub]', function() {});
@@ -74,7 +76,7 @@ class RouterTest extends \Codeception\TestCase\Test
         try {
             $this->instance->dispatch('/int/asda/');
             $this->fail();
-        } catch (\Hahns\Exception\RouteNotFoundException $e) { }
+        } catch (NotFoundException $e) { }
 
         // named int parameter
         $this->instance->add('/int/[\d+:blub]', function() {});
@@ -83,7 +85,7 @@ class RouterTest extends \Codeception\TestCase\Test
         try {
             $this->instance->dispatch('/int/asda');
             $this->fail();
-        } catch (\Hahns\Exception\RouteNotFoundException $e) { }
+        } catch (NotFoundException $e) { }
 
         // named int parameters
         $this->instance->add('/int/[\d+:blub]/[\d+:blah]', function() {});
@@ -92,7 +94,7 @@ class RouterTest extends \Codeception\TestCase\Test
         try {
             $this->instance->dispatch('/int/asda/d23g');
             $this->fail();
-        } catch (\Hahns\Exception\RouteNotFoundException $e) { }
+        } catch (NotFoundException $e) { }
 
         // complex named parameters
         $this->instance->add('/complex/----[\d+:blub]hallo/', function() {});
@@ -101,7 +103,7 @@ class RouterTest extends \Codeception\TestCase\Test
         try {
             $this->instance->dispatch('/complex/---2131231hallo/');
             $this->fail();
-        } catch (\Hahns\Exception\RouteNotFoundException $e) { }
+        } catch (NotFoundException $e) { }
     }
 
     public function testGetNamedParameter()
@@ -114,7 +116,7 @@ class RouterTest extends \Codeception\TestCase\Test
         // after failed dispatch
         try {
             $instance->dispatch('');
-        } catch (\Hahns\Exception\RouteNotFoundException $e) { }
+        } catch (NotFoundException $e) { }
 
         $this->assertEquals([], $instance->getNamedParameters());
 

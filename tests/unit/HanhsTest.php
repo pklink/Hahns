@@ -91,4 +91,19 @@ class HanhsTest extends \Codeception\TestCase\Test
         $this->assertEquals('blabla', $this->instance->config('clif'));
     }
 
+    public function testOn()
+    {
+        $this->instance->on(213, function() {});
+
+        try {
+            $this->instance->on('2', function() {});
+            $this->fail();
+        } catch (\Hahns\Exception\ParameterMustBeAnIntegerException $e) { }
+
+        try {
+            $this->instance->on(21, '');
+            $this->fail()
+;        } catch (ErrorException $e) { }
+    }
+
 }

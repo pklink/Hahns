@@ -18,6 +18,7 @@ require '_server/parameters.php';
 require '_server/text-get.php';
 require '_server/html-get.php';
 require '_server/events.php';
+require '_server/not-found.php';
 
 $app->on(\Hahns\Hahns::EVENT_NOT_FOUND, function () {
     echo '1';

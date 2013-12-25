@@ -3,7 +3,7 @@
 /* @var \Codeception\Scenario $scenario */
 
 $I = new TestGuy($scenario);
-$I->wantTo('check response headers');
+$I->wantTo('check events');
 
 $I->sendGET('/event');
 $I->seeResponseEquals('/event');
