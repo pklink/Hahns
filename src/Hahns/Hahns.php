@@ -17,6 +17,11 @@ class Hahns
 {
 
     /**
+     * @var Config
+     */
+    protected $config;
+
+    /**
      * @var array
      */
     protected $parameters = [];
@@ -40,6 +45,7 @@ class Hahns
     {
         $this->router   = new Router();
         $this->services = new Services();
+        $this->config   = new Config();
 
         $this->registerBuiltInParameters();
     }
@@ -61,6 +67,22 @@ class Hahns
         $route = sprintf('%s-%s', $prefix, $this->removeLastSlash($route));
         $this->router->add($route, $callback);
         return $this;
+    }
+
+    /**
+     * @param string|null $name
+     * @param string|null $value
+     * @return mixed
+     */
+    public function config($name = null, $value = null)
+    {
+        if (!is_null($name) && !is_null($value)) {
+            return $this->config->set($name, $value);
+        } elseif (!is_null($name)) {
+            return $this->config->get($name);
+        } else {
+            return $this->config;
+        }
     }
 
     /**

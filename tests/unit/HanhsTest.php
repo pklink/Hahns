@@ -98,4 +98,11 @@ class HanhsTest extends \Codeception\TestCase\Test
         $this->assertInstanceOf('\\Hahns\\Services', $this->instance->services());
     }
 
+    public function testConfig()
+    {
+        $this->assertInstanceOf('\\Hahns\\Config', $this->instance->config());
+        $this->instance->config('clif', 'blabla');
+        $this->assertEquals('blabla', $this->instance->config('clif'));
+    }
+
 }

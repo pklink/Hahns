@@ -168,6 +168,9 @@ $app->notFound(function() {
 
 ### `\Hahns\Hahns`
 ```
+\Hahns\Config   config()	                                    // get instance of \Hahns\Router
+mixed           config(string $name)	                        // get value $name from config
+void            config(string $name, mixed $value)	            // set value $value to config
 \Hahns\Hahns    delete(string $route, \Closure $callback)	    // register DELETE-route
 \Hahns\Hahns    get(string $route, \Closure $callback)		    // register GET-route
 \Hahns\Hahns    notFound(\Closure $callback)				    // add handler for 404
