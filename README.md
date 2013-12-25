@@ -246,7 +246,7 @@ void            config(string $name, mixed $value)	            // set value $val
 void            delete(string $route, \Closure $callback)	    // register DELETE-route
 void            get(string $route, \Closure $callback)		    // register GET-route
 void            on(int $event, \Closure $callback)              // add handler $callback for event $event
-void            parameter(string type, \Closure $callback) // register parameter for route callback
+void            parameter(string type, \Closure $callback)      // register parameter for route callback
 void            patch(string $route, \Closure $callback)	    // register PATCH-route
 void            post(string $route, \Closure $callback)	        // register POST-route
 void            put(string $route, \Closure $callback)		    // register PUT-route
