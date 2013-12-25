@@ -4,6 +4,8 @@
 namespace Hahns;
 
 
+use Hahns\Exception\ParameterMustBeAStringException;
+
 class Request
 {
 
@@ -49,11 +51,25 @@ class Request
 
     /**
      * @param string $name
-     * @param mixed $value
+     * @param mixed $default
+     * @return mixed
+     * @throws Exception\ParameterMustBeAStringException
      */
-    public function set($name, $value)
+    public function header($name, $default = null)
     {
-        $this->params[$name] = $value;
+        if (!is_string($name)) {
+            $message = 'Parameter `name` must be a string';
+            throw new ParameterMustBeAStringException($message);
+        }
+
+        $name = sprintf('HTTP_%s', strtoupper($name));
+        $name = str_replace('-', '_', $name);
+
+        if (isset($_SERVER[$name])) {
+            return $_SERVER[$name];
+        } else {
+            return $default;
+        }
     }
 
     /**
@@ -78,5 +94,14 @@ class Request
     public function post($name, $default = null)
     {
         return $this->getFrom($_POST, $name, $default);
+    }
+
+    /**
+     * @param string $name
+     * @param mixed $value
+     */
+    public function set($name, $value)
+    {
+        $this->params[$name] = $value;
     }
 }

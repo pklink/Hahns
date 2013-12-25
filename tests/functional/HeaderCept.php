@@ -17,3 +17,11 @@ $I->seeHttpHeader('bla', 'bloh');
 
 $I->sendGET('/header/code/created');
 $I->canSeeResponseCodeIs(201);
+
+$I->haveHttpHeader('bla', 'roflcopter');
+$I->sendGET('/header/return/bla');
+$I->seeResponseEquals('roflcopter');
+
+$I->haveHttpHeader('X-Bla', 'doge');
+$I->sendGET('/header/return/xbla');
+$I->seeResponseEquals('doge');

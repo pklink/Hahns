@@ -45,4 +45,16 @@ class RequestTest extends \Codeception\TestCase\Test
         $this->assertTrue($this->instance->post('notexist', true));
     }
 
+    public function testHeader()
+    {
+        $this->assertNull($this->instance->header('asdasdas'));
+        $this->assertEquals('blub', $this->instance->header('asdasdasd', 'blub'));
+
+        try {
+            $this->instance->header([]);
+            $this->fail();
+        } catch (\Hahns\Exception\ParameterMustBeAStringException $e) { }
+
+    }
+
 }

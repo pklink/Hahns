@@ -177,6 +177,7 @@ void         run()										        // start routing
 ### `\Hahns\Request`
 ```
 mixed get(string $name, mixed $default = null)		// get GET-param $name or $default
+mixed header(string $name, mixed $default = null)	// get param $name from request header
 mixed payload(string $name, mixed $default = null)	// get param $name from payload (DELETE, PATCH, PUT) or $default
 mixed post(string $name, mixed $default = null)		// get POST-param $name or $default
 ```
