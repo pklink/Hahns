@@ -179,8 +179,46 @@ $app-&gt;get('/own/parameter', function (\stdClass $obj) {
 <ul>
 <li><code>string $usedRoute</code></li>
 <li><code>\Hahns\Hahns $app</code></li>
-</ul><div class="highlight highlight-php"><pre><span class="nv">$app</span><span class="o">-&gt;</span><span class="na">on</span><span class="p">(</span><span class="nx">\Hahns\Hahns</span><span class="o">::</span><span class="na">EVENT_NOT_FOUND</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nv">$usedRoute</span><span class="p">,</span> <span class="nx">\Hahns\Hahns</span> <span class="nv">$app</span><span class="p">)</span> <span class="p">{</span>
+<li><code>\Hahns\Exception\NotFoundException $e</code></li>
+</ul><div class="highlight highlight-php"><pre><span class="nv">$app</span><span class="o">-&gt;</span><span class="na">on</span><span class="p">(</span><span class="nx">\Hahns\Hahns</span><span class="o">::</span><span class="na">EVENT_NOT_FOUND</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nv">$usedRoute</span><span class="p">,</span> <span class="nx">\Hahns\Hahns</span> <span class="nv">$app</span><span class="p">,</span> <span class="nx">\Hahns\Exception\NotFoundException</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
     <span class="c1">// do something</span>
+<span class="p">});</span>
+</pre></div>
+
+<p>Per default Hahns sends status code 404</p>
+
+<h5>
+<a name="trigger-a-not-found-event" class="anchor" href="#trigger-a-not-found-event"><span class="octicon octicon-link"></span></a>Trigger a "Not Found" event</h5>
+
+<p>Simply throw a <code>\Hahns\Exception\NotFoundException</code></p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$app</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'/not-found'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nx">\Hahns\Exception\NotFoundException</span><span class="p">();</span>
+<span class="p">});</span>
+</pre></div>
+
+<h4>
+<a name="error" class="anchor" href="#error"><span class="octicon octicon-link"></span></a>Error</h4>
+
+<p>Arguments are:</p>
+
+<ul>
+<li><code>\Hahns\Hahns $app</code></li>
+<li><code>\Exception $e</code></li>
+</ul><div class="highlight highlight-php"><pre><span class="nv">$app</span><span class="o">-&gt;</span><span class="na">on</span><span class="p">(</span><span class="nx">\Hahns\Hahns</span><span class="o">::</span><span class="na">EVENT_ERROR</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\Hahns</span> <span class="nv">$app</span><span class="p">,</span> <span class="nx">\Exception</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// do something</span>
+<span class="p">});</span>
+</pre></div>
+
+<p>Per default Hahns sends status code 500</p>
+
+<h5>
+<a name="trigger-an-error-event" class="anchor" href="#trigger-an-error-event"><span class="octicon octicon-link"></span></a>Trigger an "Error" event</h5>
+
+<p>Simply throw a <code>\Hahns\Exception\ErrorException</code></p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$app</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'/not-found'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nx">\Hahns\Exception\NotFoundException</span><span class="p">();</span>
 <span class="p">});</span>
 </pre></div>
 
@@ -279,7 +317,7 @@ void            config(string $name, mixed $value)              // set value $va
 void            delete(string $route, \Closure $callback)       // register DELETE-route
 void            get(string $route, \Closure $callback)          // register GET-route
 void            on(int $event, \Closure $callback)              // add handler $callback for event $event
-void            parameter(string type, \Closure $callback) // register parameter for route callback
+void            parameter(string type, \Closure $callback)      // register parameter for route callback
 void            patch(string $route, \Closure $callback)        // register PATCH-route
 void            post(string $route, \Closure $callback)         // register POST-route
 void            put(string $route, \Closure $callback)          // register PUT-route
