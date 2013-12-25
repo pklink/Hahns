@@ -103,27 +103,7 @@
     <span class="c1">// ...</span>
 <span class="p">});</span>
 
-<span class="nv">$app</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'/cars'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\Services</span> <span class="nv">$services</span><span class="p">,</span> <span class="nx">\Hahns\Response\Json</span> <span class="nv">$response</span><span class="p">,</span> <span class="nx">\Hahns\Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// ...</span>
-<span class="p">});</span>
-
 <span class="nv">$app</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'/cars'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\Response\Json</span> <span class="nv">$response</span><span class="p">,</span> <span class="nx">\Hahns\Services</span> <span class="nv">$services</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// ...</span>
-<span class="p">});</span>
-
-<span class="nv">$app</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'/cars'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\Response\Html</span> <span class="nv">$response</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// ...</span>
-<span class="p">});</span>
-
-<span class="nv">$app</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'/cars'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\Response\Text</span> <span class="nv">$response</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// ...</span>
-<span class="p">});</span>
-
-<span class="nv">$app</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'/blah'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\Hahns</span> <span class="nv">$app</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// ...</span>
-<span class="p">});</span>
-
-<span class="nv">$app</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'/config'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\Hahns\Config</span> <span class="nv">$config</span><span class="p">)</span> <span class="p">{</span>
     <span class="c1">// ...</span>
 <span class="p">});</span>
 </pre></div>
@@ -187,13 +167,101 @@ $app-&gt;get('/own/parameter', function (\stdClass $obj) {
 </code></pre>
 
 <h3>
-<a name="404-handling" class="anchor" href="#404-handling"><span class="octicon octicon-link"></span></a>404-Handling</h3>
+<a name="events" class="anchor" href="#events"><span class="octicon octicon-link"></span></a>Events</h3>
 
-<p>Default handling is sending a status code of <code>404</code></p>
+<p>Hahns trigger various events. Use the <code>on</code>-method to add your own handler.</p>
 
-<p>Additionally you can add your own handler:</p>
+<h4>
+<a name="not-found-404" class="anchor" href="#not-found-404"><span class="octicon octicon-link"></span></a>Not Found (404)</h4>
 
-<div class="highlight highlight-php"><pre><span class="nv">$app</span><span class="o">-&gt;</span><span class="na">notFound</span><span class="p">(</span><span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+<p>Arguments are:</p>
+
+<ul>
+<li><code>string $usedRoute</code></li>
+<li><code>\Hahns\Hahns $app</code></li>
+</ul><div class="highlight highlight-php"><pre><span class="nv">$app</span><span class="o">-&gt;</span><span class="na">on</span><span class="p">(</span><span class="nx">\Hahns\Hahns</span><span class="o">::</span><span class="na">EVENT_NOT_FOUND</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nv">$usedRoute</span><span class="p">,</span> <span class="nx">\Hahns\Hahns</span> <span class="nv">$app</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// do something</span>
+<span class="p">});</span>
+</pre></div>
+
+<h4>
+<a name="before-running" class="anchor" href="#before-running"><span class="octicon octicon-link"></span></a>Before Running</h4>
+
+<p>Arguments are:</p>
+
+<ul>
+<li><code>string $givenRoute</code></li>
+<li><code>\Hahns\Hahns $app</code></li>
+</ul><div class="highlight highlight-php"><pre><span class="nv">$app</span><span class="o">-&gt;</span><span class="na">on</span><span class="p">(</span><span class="nx">\Hahns\Hahns</span><span class="o">::</span><span class="na">EVENT_BEFORE_RUNNING</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nv">$givenRoute</span><span class="p">,</span> <span class="nx">\Hahns\Hahns</span> <span class="nv">$app</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// do something</span>
+<span class="p">});</span>
+</pre></div>
+
+<h4>
+<a name="after-running" class="anchor" href="#after-running"><span class="octicon octicon-link"></span></a>After Running</h4>
+
+<p>Arguments are:</p>
+
+<ul>
+<li><code>string $usedRoute</code></li>
+<li><code>\Hahns\Hahns $app</code></li>
+</ul><div class="highlight highlight-php"><pre><span class="nv">$app</span><span class="o">-&gt;</span><span class="na">on</span><span class="p">(</span><span class="nx">\Hahns\Hahns</span><span class="o">::</span><span class="na">EVENT_AFTER_RUNNING</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nv">$usedRoute</span><span class="p">,</span> <span class="nx">\Hahns\Hahns</span> <span class="nv">$app</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// do something</span>
+<span class="p">});</span>
+</pre></div>
+
+<h4>
+<a name="before-routing" class="anchor" href="#before-routing"><span class="octicon octicon-link"></span></a>Before Routing</h4>
+
+<p>Arguments are:</p>
+
+<ul>
+<li><code>string $usedRoute</code></li>
+<li><code>\Hahns\Hahns $app</code></li>
+</ul><div class="highlight highlight-php"><pre><span class="nv">$app</span><span class="o">-&gt;</span><span class="na">on</span><span class="p">(</span><span class="nx">\Hahns\Hahns</span><span class="o">::</span><span class="na">EVENT_BEFORE_ROUTING</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nv">$usedRoute</span><span class="p">,</span> <span class="nx">\Hahns\Hahns</span> <span class="nv">$app</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// do something</span>
+<span class="p">});</span>
+</pre></div>
+
+<h4>
+<a name="after-routing" class="anchor" href="#after-routing"><span class="octicon octicon-link"></span></a>After Routing</h4>
+
+<p>Arguments are:</p>
+
+<ul>
+<li><code>string $usedRoute</code></li>
+<li><code>\Hahns\Hahns $app</code></li>
+</ul><div class="highlight highlight-php"><pre><span class="nv">$app</span><span class="o">-&gt;</span><span class="na">on</span><span class="p">(</span><span class="nx">\Hahns\Hahns</span><span class="o">::</span><span class="na">EVENT_AFTER_ROUTING</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nv">$usedRoute</span><span class="p">,</span> <span class="nx">\Hahns\Hahns</span> <span class="nv">$app</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// do something</span>
+<span class="p">});</span>
+</pre></div>
+
+<h4>
+<a name="before-execute-matched-route" class="anchor" href="#before-execute-matched-route"><span class="octicon octicon-link"></span></a>Before execute matched route</h4>
+
+<p>Arguments are:</p>
+
+<ul>
+<li><code>string $usedRoute</code></li>
+<li><code>\Closure $routeCallback</code></li>
+<li><code>array $argsForCallback</code></li>
+<li><code>\Hahns\Hahns $app</code></li>
+</ul><div class="highlight highlight-php"><pre><span class="nv">$app</span><span class="o">-&gt;</span><span class="na">on</span><span class="p">(</span><span class="nx">\Hahns\Hahns</span><span class="o">::</span><span class="na">EVENT_BEFORE_EXECUTING_ROUTE</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nv">$usedRoute</span><span class="p">,</span> <span class="nx">\Closure</span> <span class="nv">$routeCallback</span><span class="p">,</span> <span class="nv">$argsForCallback</span><span class="p">,</span> <span class="nx">\Hahns\Hahns</span> <span class="nv">$app</span><span class="p">)</span>
+    <span class="c1">// do something</span>
+<span class="p">});</span>
+</pre></div>
+
+<h4>
+<a name="after-execute-matched-route" class="anchor" href="#after-execute-matched-route"><span class="octicon octicon-link"></span></a>After execute matched route</h4>
+
+<p>Arguments are:</p>
+
+<ul>
+<li><code>string $usedRoute</code></li>
+<li><code>\Closure $routeCallback</code></li>
+<li><code>array $argsForCallback</code></li>
+<li><code>\Hahns\Hahns $app</code></li>
+</ul><div class="highlight highlight-php"><pre><span class="nv">$app</span><span class="o">-&gt;</span><span class="na">on</span><span class="p">(</span><span class="nx">\Hahns\Hahns</span><span class="o">::</span><span class="na">EVENT_AFTER_EXECUTING_ROUTE</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nv">$usedRoute</span><span class="p">,</span> <span class="nx">\Closure</span> <span class="nv">$routeCallback</span><span class="p">,</span> <span class="nv">$argsForCallback</span><span class="p">,</span> <span class="nx">\Hahns\Hahns</span> <span class="nv">$app</span><span class="p">)</span>
     <span class="c1">// do something</span>
 <span class="p">});</span>
 </pre></div>
@@ -210,8 +278,8 @@ mixed           config(string $name)                            // get value $na
 void            config(string $name, mixed $value)              // set value $value to config
 void            delete(string $route, \Closure $callback)       // register DELETE-route
 void            get(string $route, \Closure $callback)          // register GET-route
-void            notFound(\Closure $callback)                    // add handler for 404
-void            void parameter(string type, \Closure $callback) // register parameter for route callback
+void            on(int $event, \Closure $callback)              // add handler $callback for event $event
+void            parameter(string type, \Closure $callback) // register parameter for route callback
 void            patch(string $route, \Closure $callback)        // register PATCH-route
 void            post(string $route, \Closure $callback)         // register POST-route
 void            put(string $route, \Closure $callback)          // register PUT-route
