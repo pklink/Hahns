@@ -6,7 +6,7 @@ use Codeception\TestCase\Test;
 use Hahns\Exception\ServiceMustBeAnObjectException;
 use Hahns\Services;
 
-class ServiceHolderTest extends Test
+class ServicesTest extends Test
 {
    /**
     * @var \CodeGuy

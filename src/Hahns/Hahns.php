@@ -7,12 +7,15 @@ namespace Hahns;
 use Hahns\Exception\NotFoundException;
 use Hahns\Exception\ParameterCallbackReturnsWrongTypeException;
 use Hahns\Exception\ParameterIsNotRegisterException;
+use Hahns\Exception\ParameterMustBeABooleanException;
 use Hahns\Exception\ParameterMustBeAnIntegerException;
 use Hahns\Exception\ParameterMustBeAStringException;
 use Hahns\Exception\ParameterMustBeAStringOrNullException;
 use Hahns\Response\Html;
 use Hahns\Response\Json;
 use Hahns\Response\Text;
+use Whoops\Handler\PrettyPageHandler;
+use Whoops\Run;
 
 class Hahns
 {
@@ -30,6 +33,11 @@ class Hahns
      * @var Config
      */
     protected $config;
+
+    /**
+     * @var bool
+     */
+    protected $debug = false;
 
     /**
      * @var \Closure[]
@@ -56,17 +64,39 @@ class Hahns
      */
     protected $onNotFound = [];
 
-    public function __construct()
+    public function __construct($debug = false)
     {
+        if (!is_bool($debug)) {
+            $message = 'Parameter `debug` must be a boolean';
+            throw new ParameterMustBeABooleanException($message);
+        }
+
+        $this->debug = $debug;
+
         // register 404-event-hander
         $this->on(Hahns::EVENT_NOT_FOUND, function () {
             header('HTTP/1.1 404 Not Found');
         });
 
         // register 500-event-hander
-        $this->on(Hahns::EVENT_ERROR, function () {
+        $this->on(Hahns::EVENT_ERROR, function (\Exception $e) {
             header('HTTP/1.1 500 Internal Server Error');
+
+            if ($this->debug) {
+                $whoops = new Run();
+                $whoops->pushHandler(new PrettyPageHandler());
+                $whoops->register();
+                throw $e;
+            }
         });
+
+        // register error_handler for throwing exceptions instead of trigger errors
+        if ($this->debug) {
+            set_error_handler(function ($errno, $errstr, $errfile, $errline) {
+                $e = new \ErrorException($errstr, $errno, 0, $errfile, $errline);
+                $this->trigger(Hahns::EVENT_ERROR, [$e, $this]);
+            });
+        }
 
         $this->registerBuiltInParameters();
     }
@@ -340,7 +370,7 @@ class Hahns
         } catch (NotFoundException $e) {
             $this->trigger(Hahns::EVENT_NOT_FOUND, [$usedRoute, $this, $e]);
         } catch (\Exception $e) {
-            $this->trigger(Hahns::EVENT_ERROR, [$this, $e]);
+            $this->trigger(Hahns::EVENT_ERROR, [$e, $this]);
         }
 
         $this->trigger(Hahns::EVENT_AFTER_RUNNING, [$usedRoute, $this]);

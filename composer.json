@@ -16,6 +16,7 @@
         }
     },
     "require": {
+        "filp/whoops": "1.0.10",
         "php": ">=5.4.0",
         "ext-json": "*"
     },

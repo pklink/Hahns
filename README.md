@@ -45,6 +45,14 @@ Every DELETE-request to `/` will respond
 1
 ```
 
+### Debug mode
+
+For enable debugging pass `true` to the constructor of Hahns
+
+```php
+$app = new \Hahns\Hahns(true);
+```
+
 ### Parameters for routing callback
 
 Hahns will set parameters based on the required type automatically
@@ -172,11 +180,11 @@ $app->get('/not-found', function () {
 
 Arguments are:
 
-* `\Hahns\Hahns $app`
 * `\Exception $e`
+* `\Hahns\Hahns $app`
 
 ```php
-$app->on(\Hahns\Hahns::EVENT_ERROR, function (\Hahns\Hahns $app, \Exception $e) {
+$app->on(\Hahns\Hahns::EVENT_ERROR, function (\Exception $e, \Hahns\Hahns $app) {
     // do something
 });
 ```
