@@ -43,7 +43,6 @@ class Hahns
 
     public function __construct()
     {
-        $this->services = new Services();
         $this->config   = new Config();
 
         $this->registerBuiltInParameters();
@@ -196,7 +195,7 @@ class Hahns
         });
 
         $this->parameter('Hahns\\Services', function () {
-            return $this->services;
+            return $this->services();
         });
     }
 
@@ -303,7 +302,7 @@ class Hahns
      */
     public function service($name, \Closure $callback)
     {
-        $this->services->register($name, $callback);
+        $this->services()->register($name, $callback);
     }
 
     /**
@@ -311,6 +310,10 @@ class Hahns
      */
     public function services()
     {
+        if (is_null($this->services)) {
+            $this->services = new Services();
+        }
+
         return $this->services;
     }
 }
