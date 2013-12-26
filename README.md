@@ -144,9 +144,10 @@ hello world
 ### Services
 
 ```php
-$app->service('myservice', function() {
+$app->service('myservice', function(\Hahns\Hahns $app) {
 	$service = new \stdClass();
-	$service->test = 'hello';
+	$service->test    = 'hello';
+	$service->appName = $app->config('name');
 	return $service;
 });
 

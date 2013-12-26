@@ -384,7 +384,7 @@ class Hahns
     public function service($name, \Closure $callback = null)
     {
         if ($callback instanceof \Closure) {
-            $this->services->register($name, $callback);
+            $this->services->register($name, $callback, [$this]);
             return null;
         } else {
             return $this->services->get($name);

@@ -54,6 +54,14 @@ class HanhsTest extends \Codeception\TestCase\Test
         $this->instance->service('bla', function() { return new stdClass(); });
         $this->instance->service('bla');
 
+        $this->instance->config('service-test-bla', 'hello wort!');
+        $this->instance->service('bla', function(\Hahns\Hahns $app) {
+            $o = new stdClass();
+            $o->arg = $app->config('service-test-bla');
+            return $o;
+        });
+        $this->assertEquals('hello wort!', $this->instance->service('bla')->arg);
+
         try {
             $this->instance->service('asdasd');
             $this->fail();
