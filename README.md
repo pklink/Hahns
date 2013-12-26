@@ -355,7 +355,7 @@ mixed post(string $name, mixed $default)		// get POST-param $name or $default
 ```
 void   header(string $name, string $value)		                // send header $name with value $value
 void   redirect(string $location)                               // send location header with status code 301
-void   redirect(string $location, int $code)                    // send location header with status code $code
+void   redirect(string $location, int $status)                  // send location header with status code $code
 string send(string $data)	                                    // get $data as html
 string send(string $data, int $status)	                        // get $data as html and send status code $status to client
 void   status(int code)                                         // send status code $code with HTTP version 1.1 to client
@@ -367,7 +367,7 @@ void   status(int code, string $message, string $httpVersion)   // send status c
 ```
 void   header(string $name, string $value)		                // send header $name with value $value
 void   redirect(string $location)                               // send location header with status code 301
-void   redirect(string $location, int $code)                    // send location header with status code $code
+void   redirect(string $location, int $status)                  // send location header with status code $code
 string send(string $data)	                                    // get $data as json-decoded string
 string send(string $data, int $status)	                        // get $data as json-decoded string and send status code $status to client
 void   status(int code)                                         // send status code $code with HTTP version 1.1 to client
@@ -379,7 +379,7 @@ void   status(int code, string $message, string $httpVersion)   // send status c
 ```
 void   header(string $name, string $value)		                // send header $name with value $value
 void   redirect(string $location)                               // send location header with status code 301
-void   redirect(string $location, int $code)                    // send location header with status code $code
+void   redirect(string $location, int $status)                  // send location header with status code $code
 string send(string $data)	                                    // get $data as text
 string send(string $data, int $status)	                        // get $data as text and send status code $status to client
 void   status(int code)                                         // send status code $code with HTTP version 1.1 to client

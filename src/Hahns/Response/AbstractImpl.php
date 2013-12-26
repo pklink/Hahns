@@ -35,17 +35,17 @@ abstract class AbstractImpl implements Response
 
     /**
      * @param string $location
-     * @param int $code
+     * @param int $status
      * @throws \Hahns\Exception\ArgumentMustBeAStringException
      */
-    public function redirect($location, $code = Response::CODE_MOVED_PERMANENTLY)
+    public function redirect($location, $status = Response::CODE_MOVED_PERMANENTLY)
     {
         if (!is_string($location)) {
             $message = 'Argument for `location` must be a string';
             throw new ArgumentMustBeAStringException($message);
         }
 
-        $this->status($code);
+        $this->status($status);
         $this->header('Location', $location);
     }
 
