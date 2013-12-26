@@ -68,8 +68,9 @@ class Hahns
         }
         $this->debug = $debug;
 
-        // create config
-        $this->config = new Config();
+        // create config ans services
+        $this->config   = new Config();
+        $this->services = new Services();
 
         // register 404-event-hander
         $this->on(Hahns::EVENT_NOT_FOUND, function () {
@@ -268,7 +269,7 @@ class Hahns
         });
 
         $this->parameter('Hahns\\Services', function () {
-            return $this->services();
+            return $this->services;
         });
     }
 
@@ -378,22 +379,16 @@ class Hahns
     /**
      * @param string $name
      * @param \Closure $callback
+     * @return object|null
      */
-    public function service($name, \Closure $callback)
+    public function service($name, \Closure $callback = null)
     {
-        $this->services()->register($name, $callback);
-    }
-
-    /**
-     * @return \Hahns\Services
-     */
-    public function services()
-    {
-        if (is_null($this->services)) {
-            $this->services = new Services();
+        if ($callback instanceof \Closure) {
+            $this->services->register($name, $callback);
+            return null;
+        } else {
+            return $this->services->get($name);
         }
-
-        return $this->services;
     }
 
     protected function trigger($event, $args = [])

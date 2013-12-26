@@ -51,7 +51,23 @@ class HanhsTest extends \Codeception\TestCase\Test
 
     public function testService()
     {
-        $this->instance->service('bla', function() {});
+        $this->instance->service('bla', function() { return new stdClass(); });
+        $this->instance->service('bla');
+
+        try {
+            $this->instance->service('asdasd');
+            $this->fail();
+        } catch (\Hahns\Exception\ServiceDoesNotExistException $e) { }
+
+        try {
+            $this->instance->service([]);
+            $this->fail();
+        } catch (\Hahns\Exception\ParameterMustBeAStringException $e) { }
+
+        try {
+            $this->instance->service('asdas', 'asdas');
+            $this->fail();
+        } catch (\ErrorException $e) { }
     }
 
     public function testConstructor()
@@ -74,15 +90,15 @@ class HanhsTest extends \Codeception\TestCase\Test
         } catch (ErrorException $e) { }
     }
 
-    public function testServices()
-    {
-        $this->assertInstanceOf('\\Hahns\\Services', $this->instance->services());
-    }
-
     public function testConfig()
     {
         $this->instance->config('clif', 'blabla');
         $this->assertEquals('blabla', $this->instance->config('clif'));
+
+        try {
+            $this->instance->config([]);
+            $this->fail();
+        } catch (\Hahns\Exception\ParameterMustBeAStringException $e) { }
     }
 
     public function testOn()

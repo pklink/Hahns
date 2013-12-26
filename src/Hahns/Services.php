@@ -38,9 +38,15 @@ class Services
      * @return object
      * @throws Exception\ServiceDoesNotExistException
      * @throws Exception\ServiceMustBeAnObjectException
+     * @throws Exception\ParameterMustBeAStringException
      */
     public function get($name)
     {
+        if (!is_string($name)) {
+            $message = 'Parameter `name` must be a string';
+            throw new ParameterMustBeAStringException($message);
+        }
+
         if (!isset($this->services[$name])) {
             $message = sprintf('Service `%s` does not exist', $name);
             throw new ServiceDoesNotExistException($message);

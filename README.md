@@ -334,8 +334,8 @@ void            put(string $route, string $namedRoute)	                    // re
 void            put(string $route, \Closure $callback, string $name)		// register PUT-route with name $name
 void            put(string $route, string $namedRoute, string $name)	    // register PUT-route with name $name using the previous route named $namedRoute
 void            run()										                // start routing
+object          service(string $name)	                                    // get service with name $name
 void            service(string $name, \Closure $callback)	                // register service
-\Hahns\Services services()	                                                // get all registered services
 ```
 
 ### `\Hahns\Request`
@@ -388,7 +388,8 @@ void   status(int code, string $message, string $httpVersion)   // send status c
 
 ### `\Hahns\Services`
 ```
-object get(string $name)	// get service with name $name
+object get(string $name)	                        // get service with name $name
+object register(string $name, \Closure $callback)	// register service with name $name
 ```
 
 
