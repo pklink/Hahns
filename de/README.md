@@ -1,6 +1,6 @@
 # Hahns [![Build Status](https://travis-ci.org/pklink/Hahns.png?branch=master)](https://travis-ci.org/pklink/Hahns) [![Dependency Status](https://www.versioneye.com/user/projects/52b89440ec1375c3f500001b/badge.png)](https://www.versioneye.com/user/projects/52b89440ec1375c3f500001b)
 
-Hahns is a micro framework for PHP 5.4 and higher.
+Hahns ist ein Micro-Web-Framework für PHP 5.4+.
 
 ## Installation
 
@@ -14,13 +14,15 @@ To install using [composer][1], have the following lines in your `composer.json`
 }
 ```
 
-## Usage
+## Benutzung
 
-Create application
+Als Erstes benötigst du eine Instanz von *Hahns*
 
 ```php
 $app = new \Hahns\Hahns();
 ```
+
+Dann teilst du *Hahns* mit auf welchen Routen er zu reagieren hat
 
 
 ```php
@@ -33,17 +35,25 @@ $app->delete('/', function () {
 });
 ```
 
-Every GET-request to `/` will respond
+Wie du siehst wird zwischen den verschiedenen HTTP-Verbs unterschieden. Jeder GET-Request auf `/` gibt nun also
 
 ```
 hello world!
 ```
 
-Every DELETE-request to `/` will respond
+zurück und jeder DELETE-Request auf `/`
 
 ```
 1
 ```
+
+Momentan können folgende Verbs verarbeitet werden:
+
+* GET
+* POST
+* PUT
+* PATCH
+* DELETE
 
 ### Debug mode
 

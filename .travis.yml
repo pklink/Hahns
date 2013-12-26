@@ -1,9 +1,0 @@
-language: php
-php:
-  - 5.5
-  - 5.4
-install:
-  - php -S localhost:8000 &
-  - composer install --dev
-script:
-  - php vendor/bin/codecept run
