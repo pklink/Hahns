@@ -305,26 +305,35 @@ $app->on(\Hahns\Hahns::EVENT_AFTER_EXECUTING_ROUTE, function ($usedRoute, \Closu
 
 ### `\Hahns\Hahns`
 ```
+void            any(string $route, \Closure $callback)	                    // register route for all verbs
+void            any(string $route, string $namedRoute)	                    // register route for all verbs using the previous route named $namedRoute
+void            any(string $route, \Closure $callback, string $name)	    // register routes for all verbs route with name $name
+void            any(string $route, string $namedRoute, string $name)	    // register route for all verbs with name $name using the previous route named $namedRoute
 \Hahns\Config   config()	                                                // get instance of \Hahns\Config
 mixed           config(string $name)	                                    // get value $name from config
 void            config(string $name, mixed $value)	                        // set value $value to config
 void            delete(string $route, \Closure $callback)	                // register DELETE-route
-void            delete(string $route, string $namedRoute)	                // register DELETE-route with a previous route $namedRoute
+void            delete(string $route, string $namedRoute)	                // register DELETE-route using the previous route $namedRoute
 void            delete(string $route, \Closure $callback, string $name)	    // register DELETE-route with name $name
+void            delete(string $route, string $namedRoute, string $name)	    // register DELETE-route with name $name using the previous route named $namedRoute
 void            get(string $route, \Closure $callback)		                // register GET-route
-void            get(string $route, string $namedRoute)	                    // register GET-route with a previous route $namedRoute
+void            get(string $route, string $namedRoute)	                    // register GET-route using the previous route $namedRoute
 void            get(string $route, \Closure $callback, string $name)	    // register GET-route with name $name
+void            get(string $route, string $namedRoute, string $name)	    // register GET-route with name $name using the previous route named $namedRoute
 void            on(int $event, \Closure $callback)                          // add handler $callback for event $event
 void            parameter(string type, \Closure $callback)                  // register parameter for route callback
 void            patch(string $route, \Closure $callback)	                // register PATCH-route
-void            patch(string $route, string $namedRoute)	                // register PATCH-route with a previous route $namedRoute
+void            patch(string $route, string $namedRoute)	                // register PATCH-route using the previous route $namedRoute
 void            patch(string $route, \Closure $callback, string $name)	    // register PATCH-route with name $name
+void            patch(string $route, string $namedRoute, string $name)	    // register PATCH-route with name $name using the previous route named $namedRoute
 void            post(string $route, \Closure $callback)	                    // register POST-route
-void            post(string $route, string $namedRoute)	                    // register POST-route with a previous route $namedRoute
+void            post(string $route, string $namedRoute)	                    // register POST-route using the previous route $namedRoute
 void            post(string $route, \Closure $callback, string $name)	    // register POST-route with name $name
+void            post(string $route, string $namedRoute, string $name)	    // register POST-route with name $name using the previous route named $namedRoute
 void            put(string $route, \Closure $callback)		                // register PUT-route
-void            put(string $route, string $namedRoute)	                    // register PUT-route with a previous route $namedRoute
+void            put(string $route, string $namedRoute)	                    // register PUT-route using the previous route $namedRoute
 void            put(string $route, \Closure $callback, string $name)		// register PUT-route with name $name
+void            put(string $route, string $namedRoute, string $name)	    // register PUT-route with name $name using the previous route named $namedRoute
 void            run()										                // start routing
 void            service(string $name, \Closure $callback)	                // register service
 \Hahns\Services services()	                                                // get all registered services

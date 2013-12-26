@@ -110,6 +110,20 @@ class Hahns
     }
 
     /**
+     * @param string          $route
+     * @param \Closure|string $callbackOrNamedRoute
+     * @param string|null     $name
+     */
+    public function any($route, $callbackOrNamedRoute, $name = null)
+    {
+        $this->delete($route, $callbackOrNamedRoute, $name);
+        $this->get($route, $callbackOrNamedRoute, $name);
+        $this->patch($route, $callbackOrNamedRoute, $name);
+        $this->post($route, $callbackOrNamedRoute, $name);
+        $this->put($route, $callbackOrNamedRoute, $name);
+    }
+
+    /**
      * @param string|null $name
      * @param string|null $value
      * @return mixed

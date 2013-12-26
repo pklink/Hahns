@@ -101,4 +101,10 @@ class HanhsTest extends \Codeception\TestCase\Test
 ;        } catch (ErrorException $e) { }
     }
 
+
+    public function testAny()
+    {
+        $this->instance->any('any', function() {});
+    }
+
 }
