@@ -9,7 +9,7 @@ To install using [composer][1], have the following lines in your `composer.json`
 ```json
 {
   "require": {
-    "pklink/Hahns": "*",
+    "pklink/hahns": "*",
   }
 }
 ```
