@@ -70,7 +70,7 @@ class HanhsTest extends \Codeception\TestCase\Test
         try {
             $this->instance->service([]);
             $this->fail();
-        } catch (\Hahns\Exception\ParameterMustBeAStringException $e) { }
+        } catch (\Hahns\Exception\ArgumentMustBeAStringException $e) { }
 
         try {
             $this->instance->service('asdas', 'asdas');
@@ -90,7 +90,7 @@ class HanhsTest extends \Codeception\TestCase\Test
         try {
             $this->instance->parameter([], function () {});
             $this->fail();
-        } catch (\Hahns\Exception\ParameterMustBeAStringException $e) { }
+        } catch (\Hahns\Exception\ArgumentMustBeAStringException $e) { }
 
         try {
             $this->instance->parameter('type', 'invalid');
@@ -106,7 +106,7 @@ class HanhsTest extends \Codeception\TestCase\Test
         try {
             $this->instance->config([]);
             $this->fail();
-        } catch (\Hahns\Exception\ParameterMustBeAStringException $e) { }
+        } catch (\Hahns\Exception\ArgumentMustBeAStringException $e) { }
     }
 
     public function testOn()
@@ -116,7 +116,7 @@ class HanhsTest extends \Codeception\TestCase\Test
         try {
             $this->instance->on('2', function() {});
             $this->fail();
-        } catch (\Hahns\Exception\ParameterMustBeAnIntegerException $e) { }
+        } catch (\Hahns\Exception\ArgumentMustBeAnIntegerException $e) { }
 
         try {
             $this->instance->on(21, '');

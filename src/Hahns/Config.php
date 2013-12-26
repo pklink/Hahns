@@ -4,7 +4,7 @@
 namespace Hahns;
 
 
-use Hahns\Exception\ParameterMustBeAStringException;
+use Hahns\Exception\ArgumentMustBeAStringException;
 
 class Config
 {
@@ -18,13 +18,13 @@ class Config
      * @param string $name
      * @param mixed $default
      * @return mixed
-     * @throws Exception\ParameterMustBeAStringException
+     * @throws Exception\ArgumentMustBeAStringException
      */
     public function get($name, $default = null)
     {
         if (!is_string($name)) {
-            $message = 'Parameter `name` must be a string';
-            throw new ParameterMustBeAStringException($message);
+            $message = 'Argument for `name` must be a string';
+            throw new ArgumentMustBeAStringException($message);
         }
 
         if (!isset($this->config[$name])) {
@@ -37,13 +37,13 @@ class Config
     /**
      * @param string $name
      * @param mixed $value
-     * @throws Exception\ParameterMustBeAStringException
+     * @throws Exception\ArgumentMustBeAStringException
      */
     public function set($name, $value)
     {
         if (!is_string($name)) {
-            $message = 'Parameter `name` must be a string';
-            throw new ParameterMustBeAStringException($message);
+            $message = 'Argument for `name` must be a string';
+            throw new ArgumentMustBeAStringException($message);
         }
 
         $this->config[$name] = $value;

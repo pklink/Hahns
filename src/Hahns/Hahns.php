@@ -7,10 +7,10 @@ namespace Hahns;
 use Hahns\Exception\NotFoundException;
 use Hahns\Exception\ParameterCallbackReturnsWrongTypeException;
 use Hahns\Exception\ParameterIsNotRegisterException;
-use Hahns\Exception\ParameterMustBeABooleanException;
-use Hahns\Exception\ParameterMustBeAnIntegerException;
-use Hahns\Exception\ParameterMustBeAStringException;
-use Hahns\Exception\ParameterMustBeAStringOrNullException;
+use Hahns\Exception\ArgumentMustBeABooleanException;
+use Hahns\Exception\ArgumentMustBeAnIntegerException;
+use Hahns\Exception\ArgumentMustBeAStringException;
+use Hahns\Exception\ArgumentMustBeAStringOrNullException;
 use Hahns\Response\Html;
 use Hahns\Response\Json;
 use Hahns\Response\Text;
@@ -59,12 +59,16 @@ class Hahns
      */
     protected $services;
 
+    /**
+     * @param bool $debug
+     * @throws Exception\ArgumentMustBeABooleanException
+     */
     public function __construct($debug = false)
     {
         // set debug mode
         if (!is_bool($debug)) {
-            $message = 'Parameter `debug` must be a boolean';
-            throw new ParameterMustBeABooleanException($message);
+            $message = 'Argument for `debug` must be a boolean';
+            throw new ArgumentMustBeABooleanException($message);
         }
         $this->debug = $debug;
 
@@ -105,7 +109,7 @@ class Hahns
      * @param string $route
      * @param \Closure|string $callbackOrNamedRoute
      * @param string|null $name
-     * @throws Exception\ParameterMustBeAStringException
+     * @throws Exception\ArgumentMustBeAStringException
      */
     protected function addPrefixedRoute($prefix, $route, $callbackOrNamedRoute, $name = null)
     {
@@ -165,13 +169,13 @@ class Hahns
     /**
      * @param int $event
      * @param \Closure $callback
-     * @throws Exception\ParameterMustBeAnIntegerException
+     * @throws Exception\ArgumentMustBeAnIntegerException
      */
     public function on($event, \Closure $callback)
     {
         if (!is_int($event)) {
-            $message = 'Parameter `event` must be an integer';
-            throw new ParameterMustBeAnIntegerException($message);
+            $message = 'Argument for `event` must be an integer';
+            throw new ArgumentMustBeAnIntegerException($message);
         }
 
         if (!isset($this->eventHandler[$event])) {
@@ -184,13 +188,13 @@ class Hahns
     /**
      * @param string $type
      * @param \Closure $callback
-     * @throws Exception\ParameterMustBeAStringException
+     * @throws Exception\ArgumentMustBeAStringException
      */
     public function parameter($type, \Closure $callback)
     {
         if (!is_string($type)) {
-            $message = 'Parameter `type` must be a string';
-            throw new ParameterMustBeAStringException($message);
+            $message = 'Argument for `type` must be a string';
+            throw new ArgumentMustBeAStringException($message);
         }
 
         // remove first backslash
@@ -302,7 +306,7 @@ class Hahns
     }
 
     /**
-     * @throws Exception\ParameterMustBeAStringOrNullException
+     * @throws Exception\ArgumentMustBeAStringOrNullException
      */
     public function run($route = null)
     {
@@ -310,7 +314,7 @@ class Hahns
 
         if (!is_string($route) && !is_null($route)) {
             $message = 'Parameter `route` must be a string or null';
-            throw new ParameterMustBeAStringOrNullException($message);
+            throw new ArgumentMustBeAStringOrNullException($message);
         }
 
         // get route
@@ -394,8 +398,8 @@ class Hahns
     protected function trigger($event, $args = [])
     {
         if (!is_int($event)) {
-            $message = 'Parameter `event` must be an integer';
-            throw new ParameterMustBeAnIntegerException($message);
+            $message = 'Argument for `event` must be an integer';
+            throw new ArgumentMustBeAnIntegerException($message);
         }
 
         if (isset($this->eventHandler[$event])) {

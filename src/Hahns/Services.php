@@ -4,8 +4,8 @@
 namespace Hahns;
 
 
-use Hahns\Exception\ParameterMustBeAnArrayException;
-use Hahns\Exception\ParameterMustBeAStringException;
+use Hahns\Exception\ArgumentMustBeAnArrayException;
+use Hahns\Exception\ArgumentMustBeAStringException;
 use Hahns\Exception\ServiceDoesNotExistException;
 use Hahns\Exception\ServiceMustBeAnObjectException;
 
@@ -21,19 +21,19 @@ class Services
      * @param string   $name
      * @param \Closure $callable
      * @param array    $args
-     * @throws Exception\ParameterMustBeAStringException
-     * @throws Exception\ParameterMustBeAnArrayException
+     * @throws Exception\ArgumentMustBeAStringException
+     * @throws Exception\ArgumentMustBeAnArrayException
      */
     public function register($name, \Closure $callable, $args = [])
     {
         if (!is_string($name)) {
-            $message = 'Parameter `name` must be a string';
-            throw new ParameterMustBeAStringException($message);
+            $message = 'Argument for `name` must be a string';
+            throw new ArgumentMustBeAStringException($message);
         }
 
         if (!is_array($args)) {
-            $message = 'Parameter `args` must be an array';
-            throw new ParameterMustBeAnArrayException($message);
+            $message = 'Argument for `args` must be an array';
+            throw new ArgumentMustBeAnArrayException($message);
         }
 
         $this->services[$name] = [
@@ -47,13 +47,13 @@ class Services
      * @return object
      * @throws Exception\ServiceDoesNotExistException
      * @throws Exception\ServiceMustBeAnObjectException
-     * @throws Exception\ParameterMustBeAStringException
+     * @throws Exception\ArgumentMustBeAStringException
      */
     public function get($name)
     {
         if (!is_string($name)) {
-            $message = 'Parameter `name` must be a string';
-            throw new ParameterMustBeAStringException($message);
+            $message = 'Argument for `name` must be a string';
+            throw new ArgumentMustBeAStringException($message);
         }
 
         if (!isset($this->services[$name])) {

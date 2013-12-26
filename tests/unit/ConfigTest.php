@@ -29,7 +29,7 @@ class ConfigTest extends \Codeception\TestCase\Test
         try {
             $this->instance->get([]);
             $this->fail();
-        } catch (\Hahns\Exception\ParameterMustBeAStringException $e) { }
+        } catch (\Hahns\Exception\ArgumentMustBeAStringException $e) { }
     }
 
     public function testSet()
@@ -40,6 +40,6 @@ class ConfigTest extends \Codeception\TestCase\Test
         try {
             $this->instance->set([], 'as');
             $this->fail();
-        } catch (\Hahns\Exception\ParameterMustBeAStringException $e) { }
+        } catch (\Hahns\Exception\ArgumentMustBeAStringException $e) { }
     }
 }

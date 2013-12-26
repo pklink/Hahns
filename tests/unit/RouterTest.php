@@ -29,7 +29,7 @@ class RouterTest extends \Codeception\TestCase\Test
         try {
             $this->instance->add([], function() {});
             $this->fail();
-        } catch (\Hahns\Exception\ParameterMustBeAStringException $e) { }
+        } catch (\Hahns\Exception\ArgumentMustBeAStringException $e) { }
 
         try {
             $this->instance->add('bla', 'bla');
@@ -39,7 +39,7 @@ class RouterTest extends \Codeception\TestCase\Test
         try {
             $this->instance->add('asdas', function(){}, []);
             $this->fail();
-        } catch (\Hahns\Exception\ParameterMustBeAStringOrNullException $e) { }
+        } catch (\Hahns\Exception\ArgumentMustBeAStringOrNullException $e) { }
     }
 
     public function testGetCallback()
@@ -52,7 +52,7 @@ class RouterTest extends \Codeception\TestCase\Test
         // dispatch invalid route
         try {
             $this->instance->dispatch([]);
-        } catch (\Hahns\Exception\ParameterMustBeAStringException $e) { }
+        } catch (\Hahns\Exception\ArgumentMustBeAStringException $e) { }
 
         try {
             $this->instance->getCallback();
@@ -173,7 +173,7 @@ class RouterTest extends \Codeception\TestCase\Test
         try {
             $this->instance->getRoute([]);
             $this->fail();
-        } catch (\Hahns\Exception\ParameterMustBeAStringException $e) {}
+        } catch (\Hahns\Exception\ArgumentMustBeAStringException $e) {}
     }
 
 }

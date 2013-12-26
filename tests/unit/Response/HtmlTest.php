@@ -21,12 +21,12 @@ class HtmlTest extends \Codeception\TestCase\Test
         try {
             $instance->send([]);
             $this->fail();
-        } catch (\Hahns\Exception\ParameterMustBeAStringException $e) { }
+        } catch (\Hahns\Exception\ArgumentMustBeAStringException $e) { }
 
         try {
             $instance->send('', 'as');
             $this->fail();
-        } catch (\Hahns\Exception\ParameterMustBeAnArrayException $e) { }
+        } catch (\Hahns\Exception\ArgumentMustBeAnArrayException $e) { }
     }
 
 }

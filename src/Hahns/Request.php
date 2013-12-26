@@ -4,7 +4,7 @@
 namespace Hahns;
 
 
-use Hahns\Exception\ParameterMustBeAStringException;
+use Hahns\Exception\ArgumentMustBeAStringException;
 
 class Request
 {
@@ -53,13 +53,13 @@ class Request
      * @param string $name
      * @param mixed $default
      * @return mixed
-     * @throws Exception\ParameterMustBeAStringException
+     * @throws Exception\ArgumentMustBeAStringException
      */
     public function header($name, $default = null)
     {
         if (!is_string($name)) {
-            $message = 'Parameter `name` must be a string';
-            throw new ParameterMustBeAStringException($message);
+            $message = 'Argument for `name` must be a string';
+            throw new ArgumentMustBeAStringException($message);
         }
 
         $name = sprintf('HTTP_%s', strtoupper($name));

@@ -6,9 +6,9 @@ namespace Hahns;
 
 use Hahns\Exception\CallbackDoesNotExistException;
 use Hahns\Exception\NotFoundException;
-use Hahns\Exception\ParameterMustBeAClosureOrStringException;
-use Hahns\Exception\ParameterMustBeAStringException;
-use Hahns\Exception\ParameterMustBeAStringOrNullException;
+use Hahns\Exception\ArgumentMustBeAClosureOrStringException;
+use Hahns\Exception\ArgumentMustBeAStringException;
+use Hahns\Exception\ArgumentMustBeAStringOrNullException;
 use Hahns\Exception\RouteIsNotExistException;
 
 class Router
@@ -37,27 +37,27 @@ class Router
     /**
      * @param string $route
      * @param \Closure $callback
-     * @throws Exception\ParameterMustBeAStringException
+     * @throws Exception\ArgumentMustBeAStringException
      */
 
     /**
      * @param string $route
      * @param \Closure|string $callbackOrNamedRoute
      * @param string|null $name
-     * @throws Exception\ParameterMustBeAStringException
-     * @throws Exception\ParameterMustBeAStringOrNullException
-     * @throws ParameterMustBeAClosureOrStringException
+     * @throws Exception\ArgumentMustBeAStringException
+     * @throws Exception\ArgumentMustBeAStringOrNullException
+     * @throws ArgumentMustBeAClosureOrStringException
      */
     public function add($route, $callbackOrNamedRoute, $name = null)
     {
         if (!is_string($route)) {
-            $message = 'Parameter `route` must be a string';
-            throw new ParameterMustBeAStringException($message);
+            $message = 'Argument for `route` must be a string';
+            throw new ArgumentMustBeAStringException($message);
         }
 
         if (!is_null($name) && !is_string($name)) {
             $message = 'Parameter `name` must be a string or null';
-            throw new ParameterMustBeAStringOrNullException($message);
+            throw new ArgumentMustBeAStringOrNullException($message);
         }
 
         // get callback
@@ -67,8 +67,8 @@ class Router
         } elseif (is_string($callbackOrNamedRoute)) {
             $callback = $this->getRoute($callbackOrNamedRoute)[1];
         } else {
-            $message = 'Parameter `callbackOrNamedRoute` must be a \\Closure or a string';
-            throw new ParameterMustBeAClosureOrStringException($message);
+            $message = 'Argumet for `callbackOrNamedRoute` must be a \\Closure or a string';
+            throw new ArgumentMustBeAClosureOrStringException($message);
         }
 
         if (!is_null($name)) {
@@ -112,14 +112,14 @@ class Router
     /**
      * @param string $name
      * @return array [route, callback]
-     * @throws Exception\ParameterMustBeAStringException
+     * @throws Exception\ArgumentMustBeAStringException
      * @throws Exception\RouteIsNotExistException
      */
     public function getRoute($name)
     {
         if (!is_string($name)) {
-            $message = 'Parameter `name` must be a string';
-            throw new ParameterMustBeAStringException($message);
+            $message = 'Argument for `name` must be a string';
+            throw new ArgumentMustBeAStringException($message);
         }
 
         $index = sprintf('named-%s', $name);
@@ -156,13 +156,13 @@ class Router
     /**
      * @param string $parsable
      * @throws Exception\NotFoundException
-     * @throws Exception\ParameterMustBeAStringException
+     * @throws Exception\ArgumentMustBeAStringException
      */
     public function dispatch($parsable)
     {
         if (!is_string($parsable)) {
-            $message = 'Parameter `parseable` must be a string';
-            throw new ParameterMustBeAStringException($message);
+            $message = 'Argument for `parseable` must be a string';
+            throw new ArgumentMustBeAStringException($message);
         }
 
         // clear named parameters
