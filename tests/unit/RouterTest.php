@@ -19,8 +19,11 @@ class RouterTest extends \Codeception\TestCase\Test
         $this->instance = new \Hahns\Router();
     }
 
-    public function testInvalidAdd()
+    public function testAdd()
     {
+        $this->instance->add('asdas', function(){});
+        $this->instance->add('asdas', function(){}, 'name');
+
         try {
             $this->instance->add([], function() {});
             $this->fail();
@@ -30,6 +33,11 @@ class RouterTest extends \Codeception\TestCase\Test
             $this->instance->add('bla', 'bla');
             $this->fail();
         } catch (ErrorException $e) { }
+
+        try {
+            $this->instance->add('asdas', function(){}, []);
+            $this->fail();
+        } catch (\Hahns\Exception\ParameterMustBeAStringOrNullException $e) { }
     }
 
     public function testGetCallback()
@@ -129,6 +137,33 @@ class RouterTest extends \Codeception\TestCase\Test
         $instance->add('/hello/[.+:blah]', function () {});
         $instance->dispatch('/hello/peter');
         $this->assertEquals(['name' => 'peter'], $instance->getNamedParameters());
+    }
+
+    public function testGetRoute()
+    {
+        $this->instance->add('hello', function(){}, 'route1');
+        $this->instance->add('hallo', function(){}, 'route2');
+        $this->instance->add('h0llo', function(){}, 'route3');
+        $this->instance->add('bye', function(){}, 'route3');
+
+        $route = $this->instance->getRoute('route1');
+        $this->assertEquals('hello', $route[0]);
+
+        $route = $this->instance->getRoute('route2');
+        $this->assertEquals('hallo', $route[0]);
+
+        $route = $this->instance->getRoute('route3');
+        $this->assertEquals('bye', $route[0]);
+
+        try {
+            $this->instance->getRoute('asdasd');
+            $this->fail();
+        } catch (\Hahns\Exception\RouteIsNotExistException $e) {}
+
+        try {
+            $this->instance->getRoute([]);
+            $this->fail();
+        } catch (\Hahns\Exception\ParameterMustBeAStringException $e) {}
     }
 
 }

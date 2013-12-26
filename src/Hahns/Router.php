@@ -8,6 +8,7 @@ use Hahns\Exception\CallbackDoesNotExistException;
 use Hahns\Exception\NotFoundException;
 use Hahns\Exception\ParameterMustBeAStringException;
 use Hahns\Exception\ParameterMustBeAStringOrNullException;
+use Hahns\Exception\RouteIsNotExistException;
 
 class Router
 {
@@ -93,6 +94,28 @@ class Router
     private function getPathDepth($path)
     {
         return count(explode('/', $path));
+    }
+
+    /**
+     * @param string $name
+     * @return array [route, callback]
+     * @throws Exception\ParameterMustBeAStringException
+     * @throws Exception\RouteIsNotExistException
+     */
+    public function getRoute($name)
+    {
+        if (!is_string($name)) {
+            $message = 'Parameter `name` must be a string';
+            throw new ParameterMustBeAStringException($message);
+        }
+
+        $index = sprintf('named-%s', $name);
+        if (!isset($this->routes[$index])) {
+            $message = sprintf('Route `%r` is not exist', $name);
+            throw new RouteIsNotExistException($message);
+        }
+
+        return $this->routes[$index];
     }
 
     /**
