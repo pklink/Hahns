@@ -127,7 +127,7 @@ $app->delete('/cars/id-[\d+:id]/now', function (\Hahns\Response\Json $response, 
 
 ### Named Routes
 
-```
+```php
 $app->get('/route1', function () {
     return 'hello world';
 }, 'route1');
