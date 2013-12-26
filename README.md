@@ -125,6 +125,22 @@ $app->delete('/cars/id-[\d+:id]/now', function (\Hahns\Response\Json $response, 
 });
 ```
 
+### Named Routes
+
+```
+$app->get('/route1', function () {
+    return 'hello world';
+}, 'route1');
+$app->get('/route2', 'route1', 'route2');
+$app->get('/route3', 'route2');
+```
+
+All GET_request to `/route1`, `/route2` or `/route3` respond
+
+```
+hello world
+```
+
 ### Services
 
 ```php
@@ -293,16 +309,21 @@ $app->on(\Hahns\Hahns::EVENT_AFTER_EXECUTING_ROUTE, function ($usedRoute, \Closu
 mixed           config(string $name)	                                    // get value $name from config
 void            config(string $name, mixed $value)	                        // set value $value to config
 void            delete(string $route, \Closure $callback)	                // register DELETE-route
+void            delete(string $route, string $namedRoute)	                // register DELETE-route with a previous route $namedRoute
 void            delete(string $route, \Closure $callback, string $name)	    // register DELETE-route with name $name
 void            get(string $route, \Closure $callback)		                // register GET-route
+void            get(string $route, string $namedRoute)	                    // register GET-route with a previous route $namedRoute
 void            get(string $route, \Closure $callback, string $name)	    // register GET-route with name $name
 void            on(int $event, \Closure $callback)                          // add handler $callback for event $event
 void            parameter(string type, \Closure $callback)                  // register parameter for route callback
 void            patch(string $route, \Closure $callback)	                // register PATCH-route
+void            patch(string $route, string $namedRoute)	                // register PATCH-route with a previous route $namedRoute
 void            patch(string $route, \Closure $callback, string $name)	    // register PATCH-route with name $name
 void            post(string $route, \Closure $callback)	                    // register POST-route
+void            post(string $route, string $namedRoute)	                    // register POST-route with a previous route $namedRoute
 void            post(string $route, \Closure $callback, string $name)	    // register POST-route with name $name
 void            put(string $route, \Closure $callback)		                // register PUT-route
+void            put(string $route, string $namedRoute)	                    // register PUT-route with a previous route $namedRoute
 void            put(string $route, \Closure $callback, string $name)		// register PUT-route with name $name
 \Hahns\Router   router()                                                    // get instance of \Hanhs\Router
 void            run()										                // start routing

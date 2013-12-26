@@ -23,6 +23,8 @@ class RouterTest extends \Codeception\TestCase\Test
     {
         $this->instance->add('asdas', function(){});
         $this->instance->add('asdas', function(){}, 'name');
+        $this->instance->add('asdas', 'name', 'anothername');
+        $this->instance->add('asdas', 'anothername');
 
         try {
             $this->instance->add([], function() {});
@@ -32,7 +34,7 @@ class RouterTest extends \Codeception\TestCase\Test
         try {
             $this->instance->add('bla', 'bla');
             $this->fail();
-        } catch (ErrorException $e) { }
+        } catch (\Hahns\Exception\RouteIsNotExistException $e) { }
 
         try {
             $this->instance->add('asdas', function(){}, []);
@@ -145,6 +147,8 @@ class RouterTest extends \Codeception\TestCase\Test
         $this->instance->add('hallo', function(){}, 'route2');
         $this->instance->add('h0llo', function(){}, 'route3');
         $this->instance->add('bye', function(){}, 'route3');
+        $this->instance->add('route4', 'route3', 'route4');
+        $this->instance->add('route5', 'route4', 'route5');
 
         $route = $this->instance->getRoute('route1');
         $this->assertEquals('hello', $route[0]);
@@ -154,6 +158,12 @@ class RouterTest extends \Codeception\TestCase\Test
 
         $route = $this->instance->getRoute('route3');
         $this->assertEquals('bye', $route[0]);
+
+        $route = $this->instance->getRoute('route4');
+        $this->assertEquals('route4', $route[0]);
+
+        $route = $this->instance->getRoute('route5');
+        $this->assertEquals('route5', $route[0]);
 
         try {
             $this->instance->getRoute('asdasd');

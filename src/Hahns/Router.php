@@ -6,6 +6,7 @@ namespace Hahns;
 
 use Hahns\Exception\CallbackDoesNotExistException;
 use Hahns\Exception\NotFoundException;
+use Hahns\Exception\ParameterMustBeAClosureOrStringException;
 use Hahns\Exception\ParameterMustBeAStringException;
 use Hahns\Exception\ParameterMustBeAStringOrNullException;
 use Hahns\Exception\RouteIsNotExistException;
@@ -41,12 +42,13 @@ class Router
 
     /**
      * @param string $route
-     * @param \Closure $callback
+     * @param \Closure|string $callbackOrNamedRoute
      * @param string|null $name
      * @throws Exception\ParameterMustBeAStringException
      * @throws Exception\ParameterMustBeAStringOrNullException
+     * @throws ParameterMustBeAClosureOrStringException
      */
-    public function add($route, \Closure $callback, $name = null)
+    public function add($route, $callbackOrNamedRoute, $name = null)
     {
         if (!is_string($route)) {
             $message = 'Parameter `route` must be a string';
@@ -56,6 +58,17 @@ class Router
         if (!is_null($name) && !is_string($name)) {
             $message = 'Parameter `name` must be a string or null';
             throw new ParameterMustBeAStringOrNullException($message);
+        }
+
+        // get callback
+        $callback = null;
+        if ($callbackOrNamedRoute instanceof \Closure) {
+            $callback = $callbackOrNamedRoute;
+        } elseif (is_string($callbackOrNamedRoute)) {
+            $callback = $this->getRoute($callbackOrNamedRoute)[1];
+        } else {
+            $message = 'Parameter `callbackOrNamedRoute` must be a \\Closure or a string';
+            throw new ParameterMustBeAClosureOrStringException($message);
         }
 
         if (!is_null($name)) {
@@ -111,7 +124,7 @@ class Router
 
         $index = sprintf('named-%s', $name);
         if (!isset($this->routes[$index])) {
-            $message = sprintf('Route `%r` is not exist', $name);
+            $message = sprintf('Route `%s` is not exist', $name);
             throw new RouteIsNotExistException($message);
         }
 

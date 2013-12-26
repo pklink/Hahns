@@ -20,6 +20,7 @@ require '_server/html-get.php';
 require '_server/events.php';
 require '_server/not-found.php';
 require '_server/error.php';
+require '_server/named-routes.php';
 
 $app->on(\Hahns\Hahns::EVENT_NOT_FOUND, function () {
     echo '1';
