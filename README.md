@@ -309,7 +309,6 @@ void            any(string $route, \Closure $callback)	                    // re
 void            any(string $route, string $namedRoute)	                    // register route for all verbs using the previous route named $namedRoute
 void            any(string $route, \Closure $callback, string $name)	    // register routes for all verbs route with name $name
 void            any(string $route, string $namedRoute, string $name)	    // register route for all verbs with name $name using the previous route named $namedRoute
-\Hahns\Config   config()	                                                // get instance of \Hahns\Config
 mixed           config(string $name)	                                    // get value $name from config
 void            config(string $name, mixed $value)	                        // set value $value to config
 void            delete(string $route, \Closure $callback)	                // register DELETE-route

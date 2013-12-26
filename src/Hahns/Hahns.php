@@ -61,12 +61,15 @@ class Hahns
 
     public function __construct($debug = false)
     {
+        // set debug mode
         if (!is_bool($debug)) {
             $message = 'Parameter `debug` must be a boolean';
             throw new ParameterMustBeABooleanException($message);
         }
-
         $this->debug = $debug;
+
+        // create config
+        $this->config = new Config();
 
         // register 404-event-hander
         $this->on(Hahns::EVENT_NOT_FOUND, function () {
@@ -124,23 +127,17 @@ class Hahns
     }
 
     /**
-     * @param string|null $name
+     * @param string $name
      * @param string|null $value
-     * @return mixed
+     * @return mixed|null
      */
-    public function config($name = null, $value = null)
+    public function config($name, $value = null)
     {
-        if (is_null($this->config)) {
-            $this->config = new Config();
-        }
-
-        if (!is_null($name) && !is_null($value)) {
+        if (!is_null($value)) {
             $this->config->set($name, $value);
             return null;
-        } elseif (!is_null($name)) {
-            return $this->config->get($name);
         } else {
-            return $this->config;
+            return $this->config->get($name);
         }
     }
 
@@ -255,7 +252,7 @@ class Hahns
         });
 
         $this->parameter('Hahns\\Config', function () {
-            return $this->config();
+            return $this->config;
         });
 
         $this->parameter('Hahns\\Response\\Json', function () {
