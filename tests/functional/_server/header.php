@@ -7,20 +7,13 @@ $app->get('/header/using/header/bli/blub', function (\Hahns\Response\Json $respo
     return $response->send([]);
 });
 
-$app->get('/header/using/send/bli/blub', function (\Hahns\Response\Json $response) {
-    return $response->send([], ['bli' => 'blub']);
-});
-
-$app->get('/header/using/send/bli/blub/bla/bloh', function (\Hahns\Response\Json $response) {
-    return $response->send([], [
-        'bli' => 'blub',
-        'bla' => 'bloh'
-    ]);
-});
-
 $app->get('/header/code/created', function (\Hahns\Response\Json $response) {
     $response->status(\Hahns\Response::CODE_CREATED);
     return $response->send([]);
+});
+
+$app->get('/header/code/created/by/send', function (\Hahns\Response\Json $response) {
+    return $response->send([], \Hahns\Response::CODE_CREATED);
 });
 
 $app->get('/header/return/bla', function (\Hahns\Request $request) {

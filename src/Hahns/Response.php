@@ -202,11 +202,11 @@ interface Response
     public function redirect($location, $code = Response::CODE_MOVED_PERMANENTLY);
 
     /**
-     * @param mixed $data
-     * @param array $headers
-     * @return string
+     * @param mixed    $data
+     * @param int|null $status
+     * @return mixed
      */
-    public function send($data, $headers = []);
+    public function send($data, $status = null);
 
     /**
      * @param int $code

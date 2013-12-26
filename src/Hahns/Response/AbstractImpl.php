@@ -4,7 +4,6 @@
 namespace Hahns\Response;
 
 
-use Hahns\Exception\ArgumentMustBeAnArrayException;
 use Hahns\Exception\ArgumentMustBeAnIntegerException;
 use Hahns\Exception\ArgumentMustBeAStringException;
 use Hahns\Exception\ArgumentMustBeAStringOrNullException;
@@ -51,26 +50,20 @@ abstract class AbstractImpl implements Response
     }
 
     /**
-     * @param string $data
-     * @param array $headers
+     * @param string   $data
+     * @param int|null $status
      * @return string
      * @throws \Hahns\Exception\ArgumentMustBeAStringException
-     * @throws \Hahns\Exception\ArgumentMustBeAnArrayException
      */
-    public function send($data, $headers = [])
+    public function send($data, $status = null)
     {
         if (!is_string($data)) {
             $message = 'Argument for `data` must be a string';
             throw new ArgumentMustBeAStringException($message);
         }
 
-        if (!is_array($headers)) {
-            $message = 'Argument for `headers` must be an array';
-            throw new ArgumentMustBeAnArrayException($message);
-        }
-
-        foreach ($headers as $name => $value) {
-            $this->header($name, $value);
+        if (!is_null($status)) {
+            $this->status($status);
         }
 
         return $data;

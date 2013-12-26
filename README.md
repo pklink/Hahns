@@ -357,7 +357,7 @@ void   header(string $name, string $value)		                // send header $name
 void   redirect(string $location)                               // send location header with status code 301
 void   redirect(string $location, int $code)                    // send location header with status code $code
 string send(string $data)	                                    // get $data as html
-string send(string $data, array $header)	                    // get $data as html and send $header ['name' => 'value'] to to client
+string send(string $data, int $status)	                        // get $data as html and send status code $status to client
 void   status(int code)                                         // send status code $code with HTTP version 1.1 to client
 void   status(int code, string $message)                        // send status code $code with message $message to client
 void   status(int code, string $message, string $httpVersion)   // send status code $code with message $message and HTTP version $version to client
@@ -369,7 +369,7 @@ void   header(string $name, string $value)		                // send header $name
 void   redirect(string $location)                               // send location header with status code 301
 void   redirect(string $location, int $code)                    // send location header with status code $code
 string send(string $data)	                                    // get $data as json-decoded string
-string send(string $data, array $header)	                    // get $data as json-decoded string and send $header ['name' => 'value'] to to client
+string send(string $data, int $status)	                        // get $data as json-decoded string and send status code $status to client
 void   status(int code)                                         // send status code $code with HTTP version 1.1 to client
 void   status(int code, string $message)                        // send status code $code with message $message to client
 void   status(int code, string $message, string $httpVersion)   // send status code $code with message $message and HTTP version $version to client
@@ -381,7 +381,7 @@ void   header(string $name, string $value)		                // send header $name
 void   redirect(string $location)                               // send location header with status code 301
 void   redirect(string $location, int $code)                    // send location header with status code $code
 string send(string $data)	                                    // get $data as text
-string send(string $data, array $header)	                    // get $data as text and send $header ['name' => 'value'] to to client
+string send(string $data, int $status)	                        // get $data as text and send status code $status to client
 void   status(int code)                                         // send status code $code with HTTP version 1.1 to client
 void   status(int code, string $message)                        // send status code $code with message $message to client
 void   status(int code, string $message, string $httpVersion)   // send status code $code with message $message and HTTP version $version to client

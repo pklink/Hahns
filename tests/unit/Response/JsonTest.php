@@ -20,7 +20,7 @@ class JsonTest extends \Codeception\TestCase\Test
 
         $obj = new stdClass();
         $obj->hello = 'world!';
-        $json = $instance->send($obj, ['bla' => 'blub']);
+        $json = $instance->send($obj, \Hahns\Response::CODE_OK);
         $this->assertEquals('{"hello":"world!"}', $json);
 
         try {
@@ -31,7 +31,7 @@ class JsonTest extends \Codeception\TestCase\Test
         try {
             $instance->send([], 'as');
             $this->fail();
-        } catch (\Hahns\Exception\ArgumentMustBeAnArrayException $e) { }
+        } catch (\Hahns\Exception\ArgumentMustBeAnIntegerException $e) { }
     }
 
 }

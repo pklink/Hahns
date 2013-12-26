@@ -26,7 +26,7 @@ class HtmlTest extends \Codeception\TestCase\Test
         try {
             $instance->send('', 'as');
             $this->fail();
-        } catch (\Hahns\Exception\ArgumentMustBeAnArrayException $e) { }
+        } catch (\Hahns\Exception\ArgumentMustBeAnIntegerException $e) { }
     }
 
 }
