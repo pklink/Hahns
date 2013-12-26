@@ -6,7 +6,7 @@ namespace Hahns;
 
 use Hahns\Exception\NotFoundException;
 use Hahns\Exception\ParameterCallbackReturnsWrongTypeException;
-use Hahns\Exception\ParameterIsNotRegisterException;
+use Hahns\Exception\ParameterDoesNotExistException;
 use Hahns\Exception\ArgumentMustBeABooleanException;
 use Hahns\Exception\ArgumentMustBeAnIntegerException;
 use Hahns\Exception\ArgumentMustBeAStringException;
@@ -347,8 +347,8 @@ class Hahns
 
                 // check if type exist
                 if (!isset($this->parameters[$type])) {
-                    $message = sprintf('Type `%s is not register. See Hahns::parameter()`', $type);
-                    throw new ParameterIsNotRegisterException($message);
+                    $message = sprintf('Type `%s does not exist. See Hahns::parameter()`', $type);
+                    throw new ParameterDoesNotExistException($message);
                 }
 
                 // create instance of parameter

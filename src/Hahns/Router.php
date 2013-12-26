@@ -9,7 +9,7 @@ use Hahns\Exception\NotFoundException;
 use Hahns\Exception\ArgumentMustBeAClosureOrStringException;
 use Hahns\Exception\ArgumentMustBeAStringException;
 use Hahns\Exception\ArgumentMustBeAStringOrNullException;
-use Hahns\Exception\RouteIsNotExistException;
+use Hahns\Exception\RouteDoesNotExistException;
 
 class Router
 {
@@ -113,7 +113,7 @@ class Router
      * @param string $name
      * @return array [route, callback]
      * @throws Exception\ArgumentMustBeAStringException
-     * @throws Exception\RouteIsNotExistException
+     * @throws Exception\RouteDoesNotExistException
      */
     public function getRoute($name)
     {
@@ -124,8 +124,8 @@ class Router
 
         $index = sprintf('named-%s', $name);
         if (!isset($this->routes[$index])) {
-            $message = sprintf('Route `%s` is not exist', $name);
-            throw new RouteIsNotExistException($message);
+            $message = sprintf('Route `%s` does not exist', $name);
+            throw new RouteDoesNotExistException($message);
         }
 
         return $this->routes[$index];

@@ -34,7 +34,7 @@ class RouterTest extends \Codeception\TestCase\Test
         try {
             $this->instance->add('bla', 'bla');
             $this->fail();
-        } catch (\Hahns\Exception\RouteIsNotExistException $e) { }
+        } catch (\Hahns\Exception\RouteDoesNotExistException $e) { }
 
         try {
             $this->instance->add('asdas', function(){}, []);
@@ -168,7 +168,7 @@ class RouterTest extends \Codeception\TestCase\Test
         try {
             $this->instance->getRoute('asdasd');
             $this->fail();
-        } catch (\Hahns\Exception\RouteIsNotExistException $e) {}
+        } catch (\Hahns\Exception\RouteDoesNotExistException $e) {}
 
         try {
             $this->instance->getRoute([]);
