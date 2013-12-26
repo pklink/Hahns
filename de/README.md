@@ -1,4 +1,6 @@
-# Hahns [![Build Status](https://travis-ci.org/pklink/Hahns.png?branch=master)](https://travis-ci.org/pklink/Hahns) [![Dependency Status](https://www.versioneye.com/user/projects/52b89440ec1375c3f500001b/badge.png)](https://www.versioneye.com/user/projects/52b89440ec1375c3f500001b)
+# Dokumentation
+
+* version 0.1-pre *
 
 Hahns ist ein Micro-Web-Framework für PHP 5.4+.
 
@@ -22,7 +24,7 @@ Als Erstes benötigst du eine Instanz von *Hahns*
 $app = new \Hahns\Hahns();
 ```
 
-Dann teilst du *Hahns* mit auf welchen Routen er zu reagieren hat
+Dann teilst du *Hahns* mit auf welche Routen er zu reagieren hat
 
 
 ```php
