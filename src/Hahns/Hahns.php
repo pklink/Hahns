@@ -280,7 +280,7 @@ class Hahns
     /**
      * @return \Hahns\Router
      */
-    public function router()
+    protected function router()
     {
         if (is_null($this->router)) {
             $this->router = new Router();

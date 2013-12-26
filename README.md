@@ -325,7 +325,6 @@ void            post(string $route, \Closure $callback, string $name)	    // reg
 void            put(string $route, \Closure $callback)		                // register PUT-route
 void            put(string $route, string $namedRoute)	                    // register PUT-route with a previous route $namedRoute
 void            put(string $route, \Closure $callback, string $name)		// register PUT-route with name $name
-\Hahns\Router   router()                                                    // get instance of \Hanhs\Router
 void            run()										                // start routing
 void            service(string $name, \Closure $callback)	                // register service
 \Hahns\Services services()	                                                // get all registered services

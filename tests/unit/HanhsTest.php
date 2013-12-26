@@ -74,11 +74,6 @@ class HanhsTest extends \Codeception\TestCase\Test
         } catch (ErrorException $e) { }
     }
 
-    public function testRouter()
-    {
-        $this->assertInstanceOf('\\Hahns\\Router', $this->instance->router());
-    }
-
     public function testServices()
     {
         $this->assertInstanceOf('\\Hahns\\Services', $this->instance->services());
