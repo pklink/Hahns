@@ -15,6 +15,11 @@ class Request
     protected $params = [];
 
     /**
+     * @var array
+     */
+    protected $payload = [];
+
+    /**
      * @param string $name
      * @param mixed $default
      * @return mixed
@@ -79,11 +84,13 @@ class Request
      */
     public function payload($name, $default = null)
     {
-        $fp = fopen('php://input', 'r');
-        parse_str(stream_get_contents($fp), $params);
-        fclose($fp);
+        if (count($this->payload) === 0) {
+            $fp = fopen('php://input', 'r');
+            parse_str(stream_get_contents($fp), $this->payload);
+            fclose($fp);
+        }
 
-        return $this->getFrom($params, $name, $default);
+        return $this->getFrom($this->payload, $name, $default);
     }
 
     /**
