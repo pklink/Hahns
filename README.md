@@ -166,6 +166,13 @@ Every GET-request to `/service-test` will respond
 hello
 ```
 
+Built-in services are:
+
+* `config` returns instance of `\Hahns\Config`
+* `html-response` returns instance of `\Hahns\Response\Html`
+* `json-response` returns instance of `\Hahns\Response\Json`
+* `text-response` returns instance of `\Hahns\Response\Text`
+
 ### Events
 
 Hahns trigger various events. Use the `on`-method to add your own handler.

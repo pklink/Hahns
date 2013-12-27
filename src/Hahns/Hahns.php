@@ -78,7 +78,7 @@ class Hahns
 
         // register 404-event-hander
         $this->on(Hahns::EVENT_NOT_FOUND, function () {
-            header('HTTP/1.1 404 Not Found');
+            $this->service('json-response')->status(404);
         });
 
         // register 500-event-hander
@@ -101,6 +101,7 @@ class Hahns
             });
         }
 
+        $this->registerBuiltInServices();
         $this->registerBuiltInParameters();
     }
 
@@ -308,23 +309,45 @@ class Hahns
         });
 
         $this->parameter('Hahns\\Config', function () {
-            return $this->config;
+            return $this->service('config');
         });
 
         $this->parameter('Hahns\\Response\\Json', function () {
-            return new Json();
+            return $this->service('json-response');
         });
 
         $this->parameter('Hahns\\Response\\Text', function () {
-            return new Text();
+            return $this->service('text-response');
         });
 
         $this->parameter('Hahns\\Response\\Html', function () {
-            return new Html();
+            return $this->service('html-response');
         });
 
         $this->parameter('Hahns\\Services', function () {
             return $this->services;
+        });
+    }
+
+    /**
+     * @return void
+     */
+    protected function registerBuiltInServices()
+    {
+        $this->services->register('config', function () {
+            return $this->config;
+        });
+
+        $this->services->register('json-response', function () {
+            return new Json();
+        });
+
+        $this->services->register('text-response', function () {
+            return new Text();
+        });
+
+        $this->services->register('html-response', function () {
+            return new Html();
         });
     }
 
