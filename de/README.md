@@ -1,6 +1,6 @@
 # Dokumentation
 
-*version 0.1-pre*
+*version 0.1.1*
 
 Hahns ist ein Micro-Web-Framework für PHP 5.4+.
 
@@ -65,11 +65,11 @@ For enable debugging pass `true` to the constructor of Hahns
 $app = new \Hahns\Hahns(true);
 ```
 
-### Parameters for routing callback
+### Parameter für Routing-Callbacks
 
-Hahns will set parameters based on the required type automatically
+Du kannst beliebige Parameter für den Callback einer Route benutzen - *Hahns* setzt diese automatisch. Dabei schaut er bevor der Callback ausgeführt wird welche Parameter erwartet werden und setzt diese dann entsprechend. Es ist also zwingend erforderlich, dass die Parameter typisiert sind.
 
-The following types are built-in:
+Es können nun Parameter benutzt werden, die vorher dafür registriert (siehe weiter unten) wurden. Bereits vorregistriert sind:
 
 * `\Hahns\Hahns`
 * `\Hahns\Config`
@@ -97,7 +97,9 @@ $app->get('/cars', function (\Hahns\Response\Json $response, \Hahns\Services $se
 });
 ```
 
-#### Add your own parameter
+#### Erstelle deinen eigenen Route-Parameter
+
+Bis darauf, dass ein Parameter ein Objekt sein muss, sind keine besonderen Bedingungen an einen Parameter geknüpft. Du kannst beliebige neue Typen mit der `parameter()`-Methode registrieren. Diese erwartet als erstes Argument den Typen des zu registrierenden Parameters und als zweites Argument einen Callback in dem das Objekt instanziiert und zurückgegeben wird.
 
 ```
 $app->parameter('\\stdClass', function() {
@@ -111,7 +113,14 @@ $app->get('/own/parameter', function (\stdClass $obj) {
 });
 ```
 
-The callback for `parameter()` must be return an instance of the given type.
+Parameter werden per Default als Singleton gehandhabt. Das heißt, dass der Callback nur einmalig aufgerufen wird, das zurückgegeben Objelt wird gespeichert und im weiteren wiederverwendet. Möchtest du allerdings, dass der Callback bei jeder Benutzung erneut aufgerufen wird (der Parameter also jedes Mal erneut erstellt wird), dann übergeben der `parameter
+()`-Methode als drittes Argument `false`
+
+```php
+$app->parameter('\\stdClass' function() {
+    // ....
+}, false);
+```
 
 
 ### Named Parameters
