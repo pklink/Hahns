@@ -81,7 +81,7 @@ class Hahns
 
         // register 500-event-hander
         $this->on(Hahns::EVENT_ERROR, function (\Exception $e) {
-            header('HTTP/1.1 500 Internal Server Error');
+            $this->service('json-response')->status(500);
 
             if ($this->debug) {
                 $whoops = new Run();
