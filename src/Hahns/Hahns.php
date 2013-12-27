@@ -5,11 +5,8 @@ namespace Hahns;
 
 
 use Hahns\Exception\NotFoundException;
-use Hahns\Exception\ParameterCallbackReturnsWrongTypeException;
-use Hahns\Exception\ParameterDoesNotExistException;
 use Hahns\Exception\ArgumentMustBeABooleanException;
 use Hahns\Exception\ArgumentMustBeAnIntegerException;
-use Hahns\Exception\ArgumentMustBeAStringException;
 use Hahns\Exception\ArgumentMustBeAStringOrNullException;
 use Hahns\Response\Html;
 use Hahns\Response\Json;
@@ -45,9 +42,9 @@ class Hahns
     protected $eventHandler = [];
 
     /**
-     * @var array
+     * @var ParameterHolder
      */
-    protected $parameters = [];
+    protected $parameterHolder = [];
 
     /**
      * @var Router
@@ -72,9 +69,10 @@ class Hahns
         }
         $this->debug = $debug;
 
-        // create config ans services
-        $this->config   = new Config();
-        $this->services = new ServiceHolder();
+        // create config, service holder and parameter holder
+        $this->config          = new Config();
+        $this->services        = new ServiceHolder();
+        $this->parameterHolder = new ParameterHolder();
 
         // register 404-event-hander
         $this->on(Hahns::EVENT_NOT_FOUND, function () {
@@ -148,46 +146,6 @@ class Hahns
     }
 
     /**
-     * @param string $type
-     * @return object
-     * @throws Exception\ParameterDoesNotExistException
-     * @throws Exception\ParameterCallbackReturnsWrongTypeException
-     */
-    private function createParameter($type)
-    {
-        // check if type exist
-        if (!isset($this->parameters[$type])) {
-            $message = sprintf('Type `%s does not exist. See Hahns::parameter()`', $type);
-            throw new ParameterDoesNotExistException($message);
-        }
-
-        // get instance
-        $instance = null;
-        if (is_object($this->parameters[$type]['instance'])) {
-            $instance = $this->parameters[$type]['instance'];
-        } else {
-            $instance = call_user_func($this->parameters[$type]['callback'], $this);
-        }
-
-        // check if parameter callback returned a valid instance
-        if (!($instance instanceof $type)) {
-            $message = sprintf(
-                'Callback for parameter of type `%s` must be return an instance of `%s`',
-                $type,
-                $type
-            );
-            throw new ParameterCallbackReturnsWrongTypeException($message);
-        }
-
-        // save instance
-        if ($this->parameters[$type]['isSingleton'] === true) {
-            $this->parameters[$type]['instance'] = $instance;
-        }
-
-        return $instance;
-    }
-
-    /**
      * @param string $route
      * @param \Closure|string $callbackOrNamedRoute
      * @param string|null $name
@@ -230,31 +188,10 @@ class Hahns
      * @param string   $type
      * @param \Closure $callback
      * @param boolean  $asSingleton
-     * @throws Exception\ArgumentMustBeAStringException
-     * @throws Exception\ArgumentMustBeABooleanException
      */
     public function parameter($type, \Closure $callback, $asSingleton = true)
     {
-        if (!is_string($type)) {
-            $message = 'Argument for `type` must be a string';
-            throw new ArgumentMustBeAStringException($message);
-        }
-
-        if (!is_bool($asSingleton)) {
-            $message = 'Argument for `asSingleton` must be a boolean';
-            throw new ArgumentMustBeABooleanException($message);
-        }
-
-        // remove first backslash
-        if (strlen($type) > 0 && $type{0} == '\\') {
-            $type = substr($type, 1);
-        }
-
-        $this->parameters[$type] = [
-            'isSingleton' => $asSingleton,
-            'callback'    => $callback,
-            'instance'    => null
-        ];
+        $this->parameterHolder->register($type, $callback, $asSingleton, [$this]);
     }
 
     /**
@@ -426,7 +363,7 @@ class Hahns
 
             foreach ($callbackReflection->getParameters() as $parameter) {
                 $type         = $parameter->getClass()->getName();
-                $attributes[] = $this->createParameter($type);
+                $attributes[] = $this->parameterHolder->get($type);
             }
 
             // call callback
