@@ -54,7 +54,7 @@ class Hahns
     /**
      * @var ServiceHolder
      */
-    protected $services;
+    protected $serviceHolder;
 
     /**
      * @param bool $debug
@@ -71,7 +71,7 @@ class Hahns
 
         // create config, service holder and parameter holder
         $this->config          = new Config();
-        $this->services        = new ServiceHolder();
+        $this->serviceHolder   = new ServiceHolder();
         $this->parameterHolder = new ParameterHolder();
 
         // register 404-event-hander
@@ -245,10 +245,6 @@ class Hahns
             return $this;
         });
 
-        $this->parameter('Hahns\\Config', function () {
-            return $this->service('config');
-        });
-
         $this->parameter('Hahns\\Response\\Json', function () {
             return $this->service('json-response');
         });
@@ -267,19 +263,15 @@ class Hahns
      */
     protected function registerBuiltInServices()
     {
-        $this->services->register('config', function () {
-            return $this->config;
-        });
-
-        $this->services->register('json-response', function () {
+        $this->serviceHolder->register('json-response', function () {
             return new Json();
         });
 
-        $this->services->register('text-response', function () {
+        $this->serviceHolder->register('text-response', function () {
             return new Text();
         });
 
-        $this->services->register('html-response', function () {
+        $this->serviceHolder->register('html-response', function () {
             return new Html();
         });
     }
@@ -387,10 +379,10 @@ class Hahns
     public function service($name, \Closure $callback = null)
     {
         if ($callback instanceof \Closure) {
-            $this->services->register($name, $callback, [$this]);
+            $this->serviceHolder->register($name, $callback, [$this]);
             return null;
         } else {
-            return $this->services->get($name);
+            return $this->serviceHolder->get($name);
         }
     }
 

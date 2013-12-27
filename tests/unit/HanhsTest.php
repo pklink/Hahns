@@ -192,7 +192,6 @@ class HanhsTest extends \Codeception\TestCase\Test
     public function testBuiltInServices()
     {
         $app = new \Hahns\Hahns();
-        $this->assertInstanceOf('\\Hahns\\Config', $app->service('config'));
         $this->assertInstanceOf('\\Hahns\\Response\\Html', $app->service('html-response'));
         $this->assertInstanceOf('\\Hahns\\Response\\Json', $app->service('json-response'));
         $this->assertInstanceOf('\\Hahns\\Response\\Text', $app->service('text-response'));

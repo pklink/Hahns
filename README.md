@@ -60,7 +60,6 @@ Hahns will set parameters based on the required type automatically
 The following types are built-in:
 
 * `\Hahns\Hahns`
-* `\Hahns\Config`
 * `\Hahns\Request`
 * `\Hahns\Response\Html`
 * `\Hahns\Response\Json`
@@ -163,7 +162,6 @@ hello
 
 Built-in services are:
 
-* `config` returns instance of `\Hahns\Config`
 * `html-response` returns instance of `\Hahns\Response\Html`
 * `json-response` returns instance of `\Hahns\Response\Json`
 * `text-response` returns instance of `\Hahns\Response\Text`

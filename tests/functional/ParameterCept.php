@@ -11,8 +11,5 @@ $I->seeResponseEquals('yup');
 $I->sendGET('/parameters/app');
 $I->seeResponseEquals('Hahns\\Hahns');
 
-$I->sendGET('/parameters/config');
-$I->seeResponseEquals('world');
-
 $I->sendGET('/parameters/invalid');
 $I->seeResponseCodeIs(500);
