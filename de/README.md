@@ -1,6 +1,6 @@
 # Dokumentation
 
-*version 0.1.1 basierend auf Hahns 0.x.x*
+*version 0.1.2 basierend auf Hahns 0.x.x*
 
 Hahns ist ein Micro-Web-Framework für PHP 5.4+.
 
@@ -110,6 +110,14 @@ $app->parameter('\\stdClass', function() {
 
 $app->get('/own/parameter', function (\stdClass $obj) {
     return $obj->test;
+});
+```
+
+Optional kannst du auch die Instanz von `\Hahns\Hahns` in deinem Callback nutzen. Dazu reicht es einfach einen entsprechenden Parameter zu verlangen.
+
+```php
+$app->parameter('\\stdClass', function(\Hahns\Hahns $app) {
+    // ...
 });
 ```
 
