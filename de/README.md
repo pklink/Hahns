@@ -1,6 +1,6 @@
 # Dokumentation
 
-*version 0.1.1*
+*version 0.1.1 basierend auf Hahns 0.x.x*
 
 Hahns ist ein Micro-Web-Framework für PHP 5.4+.
 
