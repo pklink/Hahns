@@ -65,7 +65,6 @@ The following types are built-in:
 * `\Hahns\Response\Html`
 * `\Hahns\Response\Json`
 * `\Hahns\Response\Text`
-* `\Hahns\Services`
 
 ```php
 $app->get('/', function (\Hahns\Request $request) {
@@ -76,11 +75,7 @@ $app->patch('/', function (\Hahns\Response\Json $response) {
     // ...
 });
 
-$app->post('/cars', function (\Hahns\Services $services) {
-    // ...
-});
-
-$app->get('/cars', function (\Hahns\Response\Json $response, \Hahns\Services $services) {
+$app->get('/cars', function (\Hahns\Response\Json $response, \Hahns\Request $request) {
     // ...
 });
 ```
@@ -155,8 +150,8 @@ $app->service('myservice', function(\Hahns\Hahns $app) {
 	return $service;
 });
 
-$app->get('/service-test', function (\Hahns\Services $services) {
-	echo $service->test;
+$app->get('/service-test', function (\Hahns\Hahns $app) {
+	echo $app->service->test;
 });
 ```
 
@@ -400,13 +395,6 @@ void   status(int code)                                         // send status c
 void   status(int code, string $message)                        // send status code $code with message $message to client
 void   status(int code, string $message, string $httpVersion)   // send status code $code with message $message and HTTP version $version to client
 ```
-
-### `\Hahns\Services`
-```
-object get(string $name)	                        // get service with name $name
-object register(string $name, \Closure $callback)	// register service with name $name
-```
-
 
 [1]: http://getcomposer.org/
 [2]: http://en.wikipedia.org/wiki/Regular_expression

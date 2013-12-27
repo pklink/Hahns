@@ -7,7 +7,7 @@ use Hahns\Exception\ArgumentMustBeAnArrayException;
 use Hahns\Exception\ArgumentMustBeAStringException;
 use Hahns\Exception\ServiceDoesNotExistException;
 use Hahns\Exception\ServiceMustBeAnObjectException;
-use Hahns\Services;
+use Hahns\ServiceHolder;
 
 class ServicesTest extends Test
 {
@@ -17,13 +17,13 @@ class ServicesTest extends Test
     protected $codeGuy;
 
     /**
-     * @var Services
+     * @var ServiceHolder
      */
     protected $instance;
 
     protected function _before()
     {
-        $this->instance = new Services();
+        $this->instance = new ServiceHolder();
     }
 
     public function testGet()

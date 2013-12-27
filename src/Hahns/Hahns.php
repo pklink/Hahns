@@ -55,7 +55,7 @@ class Hahns
     protected $router;
 
     /**
-     * @var Services
+     * @var ServiceHolder
      */
     protected $services;
 
@@ -74,7 +74,7 @@ class Hahns
 
         // create config ans services
         $this->config   = new Config();
-        $this->services = new Services();
+        $this->services = new ServiceHolder();
 
         // register 404-event-hander
         $this->on(Hahns::EVENT_NOT_FOUND, function () {
@@ -322,10 +322,6 @@ class Hahns
 
         $this->parameter('Hahns\\Response\\Html', function () {
             return $this->service('html-response');
-        });
-
-        $this->parameter('Hahns\\Services', function () {
-            return $this->services;
         });
     }
 

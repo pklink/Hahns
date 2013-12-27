@@ -8,7 +8,7 @@ $app->service('bla', function () {
     return $obj;
 });
 
-$app->get('/service', function (\Hahns\Response\Json $response, \Hahns\Services $container) {
+$app->get('/service', function (\Hahns\Response\Json $response, \Hahns\ServiceHolder $container) {
     return $response->send([
         'message' => $container->get('bla')->hello
     ]);
