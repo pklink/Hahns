@@ -1,6 +1,6 @@
 # Dokumentation
 
-*version 0.1.3 basierend auf Hahns 0.7.0*
+*version 0.1.4 basierend auf Hahns 0.7.0*
 
 Hahns ist ein Micro-Web-Framework für PHP 5.4+.
 
@@ -113,7 +113,7 @@ $app->get('/own/parameter', function (\stdClass $obj) {
 });
 ```
 
-Optional kannst du auch die Instanz von `\Hahns\Hahns` in deinem Callback nutzen. Dazu reicht es einfach einen entsprechenden Parameter zu verlangen.
+Optional kannst du auch die Instanz von `\Hahns\Hahns` in deinem Callback nutzen. Dazu reicht es einfach einen entsprechenden Parameter zu setzen.
 
 ```php
 $app->parameter('\\stdClass', function(\Hahns\Hahns $app) {
@@ -170,7 +170,7 @@ Per Default sind folgende Services verfügbar:
 * `text-response` liefer eine Instanz von  `\Hahns\Response\Text`
 
 
-#### Eigenen Service erstellen
+#### Erstelle deinen eigenen Service
 
 Services sind optimal dazu geeignet andere Libraries innerhalb deiner Application zu nutzen - also bspw. [Twig](http://twig.sensiolabs.org/) als Template Enginge oder [Propel](http://propelorm.org/) als ORM.
 
@@ -178,15 +178,23 @@ Um einen Service zu erstellen nutzt du ebenfalls die `service()`-Methode von Hah
 
 ```php
 $app->service('myservice', function() {
-	$service = new \stdClass();
-	$service->test = 'hello';
-	return $service;
+    $service = new \stdClass();
+    $service->test = 'hello';
+    return $service;
 });
 ```
 
 Als erstes Argument gibst du den Namen an mit dem du auf den Service später zugreifen möchtest. Als zweiten Parameter übergibst du einen Callback, der den zu nutzenden Service erstellt und zurückgibt.
 
 Das besondere an Services sind, dass der Callback in jedem Fall nur ein Mal ausgeführt wird. Hier kannst du alos sämtliche Konfiguration u.Ä. auführen ohne dir Sorgen machen zu müssen, dass diese mehrfach durchgeführt wird.
+
+Optional kannst du auch die Instanz von `\Hahns\Hahns` in deinem Callback nutzen. Dazu reicht es einfach einen entsprechenden Parameter zu setzen.
+
+```php
+$app->service('myservice', function(\Hahns\Hahns $app) {
+    // ...
+});
+```
 
 ### Events
 
