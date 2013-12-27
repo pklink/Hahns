@@ -65,6 +65,26 @@ For enable debugging pass `true` to the constructor of Hahns
 $app = new \Hahns\Hahns(true);
 ```
 
+### Routing
+
+Durch das Routing verknüpfst du bestimmte Request mit von dir erstellten Funktionen, die einen String zurückgeben und dadurch an den Client (in den meisten Fällen wird dies wohl einen Browser sein) gesendet werden.
+
+Möchtest du bspw. das nach dem Aufruf von `index.php/hello` ein freundliches `Hallo!` ausgegeben wird, dann lässt sich das wie folgt lösen.
+
+```php
+$app->get('/hello', function () {
+    return 'Hallo!';
+});
+```
+
+Du hast somit die Route `/hello` registriert. Wird also im Browser dieses Route aufgerufen, dann führt Hans den Callback aus, der wiederum die freundliche Begrüßung zurückgibt. Das Ergebnis sieht also wie folgt aus:
+
+```
+Hallo!
+```
+
+In diesem Fall wird allerdings nur auf GET-Requests reagiert. Möchtest du, dass nur auf POST-Requests reagiert wird, dann nutze die `post()`-Methode, soll nur auf DELETE-Request reagiert werden, dann nutze `delete()` usw.
+
 ### Parameter für Routing-Callbacks
 
 Du kannst beliebige Parameter für den Callback einer Route benutzen - *Hahns* setzt diese automatisch. Dabei schaut er bevor der Callback ausgeführt wird welche Parameter erwartet werden und setzt diese dann entsprechend. Es ist also zwingend erforderlich, dass die Parameter typisiert sind.
@@ -125,7 +145,7 @@ $app->parameter('\\stdClass' function() {
 ```
 
 
-### Named Parameters
+### Named Parameter
 
 Based on [regular expressions][2]
 
