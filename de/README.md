@@ -1,6 +1,6 @@
 # Dokumentation
 
-*version 0.1.10 basierend auf Hahns 0.7.1*
+*version 0.1.11 basierend auf Hahns 0.7.1*
 
 Hahns ist ein leichtgewichtiges Micro-Web-Framework für PHP 5.4+.
 
@@ -33,7 +33,7 @@ oder
 ```php
 $app = new \Hahns\Hahns();
 $app->get('/', function (\Hahns\Response\Html $response) {
-    return $response->send('<h1>Hello World</h1>');
+    return $response->send('<h1>Hello World!</h1>');
 });
 $app->run();
 ```
@@ -43,7 +43,7 @@ oder
 ```php
 $app = new \Hahns\Hahns();
 $app->get('/', function (\Hahns\Hahns $app) {
-    return $app->service('text-response')->send('hello world!');
+    return $app->service('text-response')->send('Hello World!');
 });
 $app->run();
 ```
