@@ -1,6 +1,6 @@
 # Dokumentation
 
-*version 0.1.8 basierend auf Hahns 0.7.1*
+*version 0.1.9 basierend auf Hahns 0.7.1*
 
 Hahns ist ein Micro-Web-Framework für PHP 5.4+.
 
@@ -38,7 +38,7 @@ $app->get('/', function (\Hahns\Response\Html $response) {
 $app->run();
 ```
 
-### Routing
+## Routing
 
 Durch das Routing verknüpfst du bestimmte Request mit von dir erstellten Funktionen, die einen String zurückgeben und dadurch an den Client (in den meisten Fällen wird dies wohl einen Browser sein) gesendet werden.
 
@@ -58,7 +58,7 @@ Hallo!
 
 In diesem Fall wird allerdings nur auf GET-Requests reagiert. Möchtest du, dass nur auf POST-Requests reagiert wird, dann nutze die `post()`-Methode, soll nur auf DELETE-Request reagiert werden, dann nutze `delete()` usw.
 
-### Parameter für Routing-Callbacks
+## Parameter für Routing-Callbacks
 
 Du kannst beliebige Parameter für den Callback einer Route benutzen - *Hahns* setzt diese automatisch. Dabei schaut er bevor der Callback ausgeführt wird welche Parameter erwartet werden und setzt diese dann entsprechend. Es ist also zwingend erforderlich, dass die Parameter typisiert sind.
 
@@ -84,7 +84,7 @@ $app->get('/cars', function (\Hahns\Response\Json $response, \Hahns\Request $req
 });
 ```
 
-#### Erstelle deinen eigenen Route-Parameter
+### Erstelle deinen eigenen Route-Parameter
 
 Bis darauf, dass ein Parameter ein Objekt sein muss, sind keine besonderen Bedingungen an einen Parameter geknüpft. Du kannst beliebige neue Typen mit der `parameter()`-Methode registrieren. Diese erwartet als erstes Argument den Typen des zu registrierenden Parameters und als zweites Argument einen Callback in dem das Objekt instanziiert und zurückgegeben wird.
 
@@ -118,7 +118,7 @@ $app->parameter('\\stdClass' function() {
 ```
 
 
-### Named Parameter
+## Named Parameter
 
 Based on [regular expressions][2]
 
@@ -141,7 +141,7 @@ $app->delete('/cars/id-[\d+:id]/now', function (\Hahns\Response\Json $response, 
 });
 ```
 
-### Services
+## Services
 
 Services sind benannte Objekte, die einmalig erstellt werden und über *Hahns* jederzeit verfügbar sind. Um auf einen Service zuzugreifen nutzt du die `service()`-Methode von *Hahns*.
 
@@ -156,7 +156,7 @@ Per Default sind folgende Services verfügbar:
 * `text-response` liefer eine Instanz von  `\Hahns\Response\Text`
 
 
-#### Erstelle deinen eigenen Service
+### Erstelle deinen eigenen Service
 
 Services sind optimal dazu geeignet andere Libraries innerhalb deiner Application zu nutzen - also bspw. [Twig](http://twig.sensiolabs.org/) als Template Enginge oder [Propel](http://propelorm.org/) als ORM.
 
@@ -182,11 +182,11 @@ $app->service('myservice', function(\Hahns\Hahns $app) {
 });
 ```
 
-### Events
+## Events
 
 Hahns trigger various events. Use the `on`-method to add your own handler.
 
-#### Not Found (404)
+### Not Found (404)
 
 Arguments are:
 
@@ -202,7 +202,7 @@ $app->on(\Hahns\Hahns::EVENT_NOT_FOUND, function ($usedRoute, \Hahns\Hahns $app,
 
 Per default Hahns sends status code 404
 
-##### Trigger a "Not Found" event
+#### Trigger a "Not Found" event
 
 Simply throw a `\Hahns\Exception\NotFoundException`
 
@@ -213,7 +213,7 @@ $app->get('/not-found', function () {
 ```
 
 
-#### Error
+### Error
 
 Arguments are:
 
@@ -228,7 +228,7 @@ $app->on(\Hahns\Hahns::EVENT_ERROR, function (\Exception $e, \Hahns\Hahns $app) 
 
 Per default Hahns sends status code 500
 
-##### Trigger an "Error" event
+#### Trigger an "Error" event
 
 Simply throw a `\Hahns\Exception\ErrorException`
 
@@ -240,7 +240,7 @@ $app->get('/not-found', function () {
 
 
 
-#### Before Running
+### Before Running
 
 Arguments are:
 
@@ -253,7 +253,7 @@ $app->on(\Hahns\Hahns::EVENT_BEFORE_RUNNING, function ($givenRoute, \Hahns\Hahns
 });
 ```
 
-#### After Running
+### After Running
 
 Arguments are:
 
@@ -266,7 +266,7 @@ $app->on(\Hahns\Hahns::EVENT_AFTER_RUNNING, function ($usedRoute, \Hahns\Hahns $
 });
 ```
 
-#### Before Routing
+### Before Routing
 
 Arguments are:
 
@@ -279,7 +279,7 @@ $app->on(\Hahns\Hahns::EVENT_BEFORE_ROUTING, function ($usedRoute, \Hahns\Hahns 
 });
 ```
 
-#### After Routing
+### After Routing
 
 Arguments are:
 
@@ -292,7 +292,7 @@ $app->on(\Hahns\Hahns::EVENT_AFTER_ROUTING, function ($usedRoute, \Hahns\Hahns $
 });
 ```
 
-#### Before execute matched route
+### Before execute matched route
 
 Arguments are:
 
@@ -307,7 +307,7 @@ $app->on(\Hahns\Hahns::EVENT_BEFORE_EXECUTING_ROUTE, function ($usedRoute, \Clos
 });
 ```
 
-#### After execute matched route
+### After execute matched route
 
 Arguments are:
 
