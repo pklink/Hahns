@@ -38,6 +38,16 @@ $app->get('/', function (\Hahns\Response\Html $response) {
 $app->run();
 ```
 
+oder
+
+```php
+$app = new \Hahns\Hahns();
+$app->get('/', function (\Hahns\Hahns $app) {
+    return $app->service('text-response')->send('hello world!');
+});
+$app->run();
+```
+
 ## Routing
 
 Durch das Routing verknüpfst du bestimmte Request mit von dir erstellten Funktionen, die einen String zurückgeben und dadurch an den Client (in den meisten Fällen wird dies wohl einen Browser sein) gesendet werden.
