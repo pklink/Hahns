@@ -1,6 +1,6 @@
 # Dokumentation
 
-*version 0.1.7 basierend auf Hahns 0.7.1*
+*version 0.1.8 basierend auf Hahns 0.7.1*
 
 Hahns ist ein Micro-Web-Framework für PHP 5.4+.
 
@@ -16,53 +16,26 @@ To install using [composer][1], have the following lines in your `composer.json`
 }
 ```
 
-## Benutzung
+## Hello World!
 
-Als Erstes benötigst du eine Instanz von *Hahns*
+Ja ja ja! Hello World! Hier mehrere mögliche Implementierungen
 
 ```php
 $app = new \Hahns\Hahns();
-```
-
-Dann teilst du *Hahns* mit auf welche Routen er zu reagieren hat
-
-
-```php
 $app->get('/', function () {
-    return "hello world!";
+    return 'Hello World!';
 });
-
-$app->delete('/', function () {
-    return "1";
-});
+$app->run();
 ```
 
-Wie du siehst wird zwischen den verschiedenen HTTP-Verbs unterschieden. Jeder GET-Request auf `/` gibt nun also
-
-```
-hello world!
-```
-
-zurück und jeder DELETE-Request auf `/`
-
-```
-1
-```
-
-Momentan können folgende Verbs verarbeitet werden:
-
-* GET
-* POST
-* PUT
-* PATCH
-* DELETE
-
-### Debug mode
-
-For enable debugging pass `true` to the constructor of Hahns
+oder
 
 ```php
-$app = new \Hahns\Hahns(true);
+$app = new \Hahns\Hahns();
+$app->get('/', function (\Hahns\Response\Html $response) {
+    return $response->send('<h1>Hello World</h1>');
+});
+$app->run();
 ```
 
 ### Routing
