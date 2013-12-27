@@ -1,6 +1,6 @@
 # Dokumentation
 
-*version 0.1.4 basierend auf Hahns 0.7.0*
+*version 0.1.5 basierend auf Hahns 0.7.1*
 
 Hahns ist ein Micro-Web-Framework für PHP 5.4+.
 
@@ -72,12 +72,10 @@ Du kannst beliebige Parameter für den Callback einer Route benutzen - *Hahns* s
 Es können nun Parameter benutzt werden, die vorher dafür registriert (siehe weiter unten) wurden. Bereits vorregistriert sind:
 
 * `\Hahns\Hahns`
-* `\Hahns\Config`
 * `\Hahns\Request`
 * `\Hahns\Response\Html`
 * `\Hahns\Response\Json`
 * `\Hahns\Response\Text`
-* `\Hahns\Services`
 
 ```php
 $app->get('/', function (\Hahns\Request $request) {
@@ -88,11 +86,7 @@ $app->patch('/', function (\Hahns\Response\Json $response) {
     // ...
 });
 
-$app->post('/cars', function (\Hahns\Services $services) {
-    // ...
-});
-
-$app->get('/cars', function (\Hahns\Response\Json $response, \Hahns\Services $services) {
+$app->get('/cars', function (\Hahns\Response\Json $response, \Hahns\Request $request) {
     // ...
 });
 ```
@@ -164,7 +158,6 @@ $app->service('service-name');
 
 Per Default sind folgende Services verfügbar:
 
-* `config` liefert eine Instanz von `\Hahns\Config`
 * `html-response` liefer eine Instanz von  `\Hahns\Response\Html`
 * `json-response` liefer eine Instanz von  `\Hahns\Response\Json`
 * `text-response` liefer eine Instanz von  `\Hahns\Response\Text`
