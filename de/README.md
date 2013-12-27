@@ -1,6 +1,6 @@
 # Dokumentation
 
-*version 0.1.2 basierend auf Hahns 0.x.x*
+*version 0.1.3 basierend auf Hahns 0.7.0*
 
 Hahns ist ein Micro-Web-Framework für PHP 5.4+.
 
@@ -156,23 +156,37 @@ $app->delete('/cars/id-[\d+:id]/now', function (\Hahns\Response\Json $response, 
 
 ### Services
 
+Services sind benannte Objekte, die einmalig erstellt werden und über *Hahns* jederzeit verfügbar sind. Um auf einen Service zuzugreifen nutzt du die `service()`-Methode von *Hahns*.
+
+```php
+$app->service('service-name');
+```
+
+Per Default sind folgende Services verfügbar:
+
+* `config` liefert eine Instanz von `\Hahns\Config`
+* `html-response` liefer eine Instanz von  `\Hahns\Response\Html`
+* `json-response` liefer eine Instanz von  `\Hahns\Response\Json`
+* `text-response` liefer eine Instanz von  `\Hahns\Response\Text`
+
+
+#### Eigenen Service erstellen
+
+Services sind optimal dazu geeignet andere Libraries innerhalb deiner Application zu nutzen - also bspw. [Twig](http://twig.sensiolabs.org/) als Template Enginge oder [Propel](http://propelorm.org/) als ORM.
+
+Um einen Service zu erstellen nutzt du ebenfalls die `service()`-Methode von Hahns
+
 ```php
 $app->service('myservice', function() {
 	$service = new \stdClass();
 	$service->test = 'hello';
 	return $service;
 });
-
-$app->get('/service-test', function (\Hahns\Services $services) {
-	echo $service->test;
-});
 ```
 
-Every GET-request to `/service-test` will respond
+Als erstes Argument gibst du den Namen an mit dem du auf den Service später zugreifen möchtest. Als zweiten Parameter übergibst du einen Callback, der den zu nutzenden Service erstellt und zurückgibt.
 
-```
-hello
-```
+Das besondere an Services sind, dass der Callback in jedem Fall nur ein Mal ausgeführt wird. Hier kannst du alos sämtliche Konfiguration u.Ä. auführen ohne dir Sorgen machen zu müssen, dass diese mehrfach durchgeführt wird.
 
 ### Events
 
