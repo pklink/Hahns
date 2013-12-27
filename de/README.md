@@ -1,6 +1,6 @@
 # Dokumentation
 
-*version 0.1.11 basierend auf Hahns 0.7.1*
+*version 0.1.12 basierend auf Hahns 0.7.1*
 
 Hahns ist ein leichtgewichtiges Micro-Web-Framework für PHP 5.4+.
 
@@ -68,7 +68,30 @@ Hallo!
 
 In diesem Fall wird allerdings nur auf GET-Requests reagiert. Möchtest du, dass nur auf POST-Requests reagiert wird, dann nutze die `post()`-Methode, soll nur auf DELETE-Request reagiert werden, dann nutze `delete()` usw.
 
-## Parameter für Routing-Callbacks
+### Named Parameter
+
+Based on regular expressions
+
+```php
+$app->get('/hello/[.+:name]', function (\Hahns\Response\Json $response, \Hahns\Request $request) {
+	return $response->send([
+		'message' => sprintf('hello %s %s', $request->get('first'), $request->get('last'))
+});
+
+$app->get('/hello/[.+:first]/[.+:last]', function (\Hahns\Request $request, \Hahns\Response\Json $response) {
+	return $response->send([
+		'message' => sprintf('hello %s %s', $request->get('first'), $request->get('last'))
+	]);
+});
+
+$app->delete('/cars/id-[\d+:id]/now', function (\Hahns\Response\Json $response, \Hahns\Request $request) {
+    return $response->send([
+        'message' => sprintf('removed card with id `%d`', $request->get('id'))
+    ]);
+});
+```
+
+### Parameter für Callbacks
 
 Du kannst beliebige Parameter für den Callback einer Route benutzen - *Hahns* setzt diese automatisch. Dabei schaut er bevor der Callback ausgeführt wird welche Parameter erwartet werden und setzt diese dann entsprechend. Es ist also zwingend erforderlich, dass die Parameter typisiert sind.
 
@@ -94,7 +117,7 @@ $app->get('/cars', function (\Hahns\Response\Json $response, \Hahns\Request $req
 });
 ```
 
-### Erstelle deinen eigenen Route-Parameter
+#### Erstelle deinen eigenen Route-Parameter
 
 Bis darauf, dass ein Parameter ein Objekt sein muss, sind keine besonderen Bedingungen an einen Parameter geknüpft. Du kannst beliebige neue Typen mit der `parameter()`-Methode registrieren. Diese erwartet als erstes Argument den Typen des zu registrierenden Parameters und als zweites Argument einen Callback in dem das Objekt instanziiert und zurückgegeben wird.
 
@@ -128,28 +151,7 @@ $app->parameter('\\stdClass' function() {
 ```
 
 
-## Named Parameter
 
-Based on regular expressions
-
-```php
-$app->get('/hello/[.+:name]', function (\Hahns\Response\Json $response, \Hahns\Request $request) {
-	return $response->send([
-		'message' => sprintf('hello %s %s', $request->get('first'), $request->get('last'))
-});
-
-$app->get('/hello/[.+:first]/[.+:last]', function (\Hahns\Request $request, \Hahns\Response\Json $response) {
-	return $response->send([
-		'message' => sprintf('hello %s %s', $request->get('first'), $request->get('last'))
-	]);
-});
-
-$app->delete('/cars/id-[\d+:id]/now', function (\Hahns\Response\Json $response, \Hahns\Request $request) {
-    return $response->send([
-        'message' => sprintf('removed card with id `%d`', $request->get('id'))
-    ]);
-});
-```
 
 ## Services
 
