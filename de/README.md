@@ -1,12 +1,12 @@
 # Dokumentation
 
-*version 0.1.9 basierend auf Hahns 0.7.1*
+*version 0.1.10 basierend auf Hahns 0.7.1*
 
-Hahns ist ein Micro-Web-Framework für PHP 5.4+.
+Hahns ist ein leichtgewichtiges Micro-Web-Framework für PHP 5.4+.
 
 ## Installation
 
-To install using [composer][1], have the following lines in your `composer.json` file.
+To install using [composer](http://getcomposer.org/), have the following lines in your `composer.json` file.
 
 ```json
 {
@@ -120,7 +120,7 @@ $app->parameter('\\stdClass' function() {
 
 ## Named Parameter
 
-Based on [regular expressions][2]
+Based on regular expressions
 
 ```php
 $app->get('/hello/[.+:name]', function (\Hahns\Response\Json $response, \Hahns\Request $request) {
@@ -409,6 +409,3 @@ void   status(int code)                                         // send status c
 void   status(int code, string $message)                        // send status code $code with message $message to client
 void   status(int code, string $message, string $httpVersion)   // send status code $code with message $message and HTTP version $version to client
 ```
-
-[1]: http://getcomposer.org/
-[2]: http://en.wikipedia.org/wiki/Regular_expression
