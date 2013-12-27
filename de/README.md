@@ -101,7 +101,7 @@ $app->get('/cars', function (\Hahns\Response\Json $response, \Hahns\Services $se
 
 Bis darauf, dass ein Parameter ein Objekt sein muss, sind keine besonderen Bedingungen an einen Parameter geknüpft. Du kannst beliebige neue Typen mit der `parameter()`-Methode registrieren. Diese erwartet als erstes Argument den Typen des zu registrierenden Parameters und als zweites Argument einen Callback in dem das Objekt instanziiert und zurückgegeben wird.
 
-```
+```php
 $app->parameter('\\stdClass', function() {
     $obj = new stdClass();
     $obj->test = 'yup';
@@ -113,7 +113,7 @@ $app->get('/own/parameter', function (\stdClass $obj) {
 });
 ```
 
-Parameter werden per Default als Singleton gehandhabt. Das heißt, dass der Callback nur einmalig aufgerufen wird, das zurückgegeben Objelt wird gespeichert und im weiteren wiederverwendet. Möchtest du allerdings, dass der Callback bei jeder Benutzung erneut aufgerufen wird (der Parameter also jedes Mal erneut erstellt wird), dann übergeben der `parameter
+Parameter werden per Default als Singleton gehandhabt. Das heißt, dass der Callback nur einmalig aufgerufen wird, das zurückgegebe Objekt wird gespeichert und im weiteren wiederverwendet. Möchtest du allerdings, dass der Callback bei jeder Benutzung erneut aufgerufen wird (der Parameter also jedes Mal erneut erstellt wird), dann übergeben der `parameter
 ()`-Methode als drittes Argument `false`
 
 ```php
