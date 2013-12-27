@@ -46,7 +46,33 @@ class HanhsTest extends \Codeception\TestCase\Test
 
     public function testRun()
     {
-        $this->instance->run();
+        $app = new \Hahns\Hahns();
+
+        $app->run();
+        $app->run('asdas');
+        $app->run('asdas', 'asdas');
+
+        try {
+            $app->run([]);
+            $this->fail();
+        } catch (\Hahns\Exception\ArgumentMustBeAStringOrNullException $e) { }
+
+        try {
+            $app->run('asd', []);
+            $this->fail();
+        } catch (\Hahns\Exception\ArgumentMustBeAStringOrNullException $e) { }
+
+        $app->get('/test', function(\Hahns\Hahns $p) {
+            $p->config('test', 'test');
+        });
+        $app->run('/test');
+        $this->assertEquals('test', $app->config('test'));
+
+        $app->post('/test', function(\Hahns\Hahns $p) {
+            $p->config('test', 'test2');
+        });
+        $app->run('/test', 'post');
+        $this->assertEquals('test2', $app->config('test'));
     }
 
     public function testService()
@@ -96,6 +122,32 @@ class HanhsTest extends \Codeception\TestCase\Test
             $this->instance->parameter('type', 'invalid');
             $this->fail();
         } catch (ErrorException $e) { }
+
+        // singleton test
+        $hahns = new \Hahns\Hahns();
+        $hahns->parameter('\\IsSingleton', function() {
+            return new IsSingleton();
+        });
+
+        $hahns->parameter('\\IsNotSingleton', function() {
+            return new IsNotSingleton();
+        }, false);
+
+        $hahns->get('/singleton', function(IsSingleton $p, \Hahns\Hahns $app) {
+            $app->config('test', $p->test);
+        });
+        $hahns->run('/singleton', 'get');
+        $test = $hahns->config('test');
+        $hahns->run('/singleton', 'get');
+        $this->assertEquals($test, $hahns->config('test'));
+
+        $hahns->get('/is/not/singleton', function(IsNotSingleton $p, \Hahns\Hahns $app) {
+            $app->config('test', $p->test);
+        });
+        $hahns->run('/is/not/singleton', 'get');
+        $test = $hahns->config('test');
+        $hahns->run('/is/not/singleton', 'get');
+        $this->assertNotEquals($test, $hahns->config('test'));
     }
 
     public function testConfig()

@@ -147,6 +147,46 @@ class Hahns
     }
 
     /**
+     * @param $type
+     * @return object
+     * @throws Exception\ParameterDoesNotExistException
+     * @throws Exception\ParameterCallbackReturnsWrongTypeException
+     */
+    private function createParameter($type)
+    {
+        // check if type exist
+        if (!isset($this->parameters[$type])) {
+            $message = sprintf('Type `%s does not exist. See Hahns::parameter()`', $type);
+            throw new ParameterDoesNotExistException($message);
+        }
+
+        // get instance
+        $instance = null;
+        if (is_object($this->parameters[$type]['instance'])) {
+            $instance = $this->parameters[$type]['instance'];
+        } else {
+            $instance = call_user_func($this->parameters[$type]['callback']);
+        }
+
+        // check if parameter callback returned a valid instance
+        if (!($instance instanceof $type)) {
+            $message = sprintf(
+                'Callback for parameter of type `%s` must be return an instance of `%s`',
+                $type,
+                $type
+            );
+            throw new ParameterCallbackReturnsWrongTypeException($message);
+        }
+
+        // save instance
+        if ($this->parameters[$type]['isSingleton'] === true) {
+            $this->parameters[$type]['instance'] = $instance;
+        }
+
+        return $instance;
+    }
+
+    /**
      * @param string $route
      * @param \Closure|string $callbackOrNamedRoute
      * @param string|null $name
@@ -186,15 +226,22 @@ class Hahns
     }
 
     /**
-     * @param string $type
+     * @param string   $type
      * @param \Closure $callback
+     * @param boolean  $asSingleton
      * @throws Exception\ArgumentMustBeAStringException
+     * @throws Exception\ArgumentMustBeABooleanException
      */
-    public function parameter($type, \Closure $callback)
+    public function parameter($type, \Closure $callback, $asSingleton = true)
     {
         if (!is_string($type)) {
             $message = 'Argument for `type` must be a string';
             throw new ArgumentMustBeAStringException($message);
+        }
+
+        if (!is_bool($asSingleton)) {
+            $message = 'Argument for `asSingleton` must be a boolean';
+            throw new ArgumentMustBeABooleanException($message);
         }
 
         // remove first backslash
@@ -202,7 +249,11 @@ class Hahns
             $type = substr($type, 1);
         }
 
-        $this->parameters[$type] = $callback;
+        $this->parameters[$type] = [
+            'isSingleton' => $asSingleton,
+            'callback'    => $callback,
+            'instance'    => null
+        ];
     }
 
     /**
@@ -308,12 +359,17 @@ class Hahns
     /**
      * @throws Exception\ArgumentMustBeAStringOrNullException
      */
-    public function run($route = null)
+    public function run($route = null, $requestMethod = null)
     {
         $this->trigger(Hahns::EVENT_BEFORE_RUNNING, [$route, $this]);
 
         if (!is_string($route) && !is_null($route)) {
-            $message = 'Parameter `route` must be a string or null';
+            $message = 'Argument for `route` must be a string or null';
+            throw new ArgumentMustBeAStringOrNullException($message);
+        }
+
+        if (!is_null($requestMethod) && !is_string($requestMethod)) {
+            $message = 'Argument for `requestMethod` must be a string or null';
             throw new ArgumentMustBeAStringOrNullException($message);
         }
 
@@ -326,9 +382,16 @@ class Hahns
             $route = '';
         }
 
-        // get method and concat with $route
+        // save used route
         $usedRoute = $route;
-        $route     = strtolower($_SERVER['REQUEST_METHOD']) . '-' . $route;
+
+        // get request method
+        if (is_null($requestMethod)) {
+            $requestMethod = $_SERVER['REQUEST_METHOD'];
+        }
+
+        // get method and concat with $route
+        $route = strtolower($requestMethod) . '-' . $route;
 
         try {
             $this->trigger(Hahns::EVENT_BEFORE_ROUTING, [$usedRoute, $this]);
@@ -343,28 +406,8 @@ class Hahns
             $callbackReflection = new \ReflectionFunction($callback);
 
             foreach ($callbackReflection->getParameters() as $parameter) {
-                $type = $parameter->getClass()->getName();
-
-                // check if type exist
-                if (!isset($this->parameters[$type])) {
-                    $message = sprintf('Type `%s does not exist. See Hahns::parameter()`', $type);
-                    throw new ParameterDoesNotExistException($message);
-                }
-
-                // create instance of parameter
-                $parameterInstance = call_user_func($this->parameters[$type]);
-
-                // check if parameter callback returned a valid instance
-                if (!($parameterInstance instanceof $type)) {
-                    $message = sprintf(
-                        'Callback for parameter of type `%s` must be return an instance of `%s`',
-                        $type,
-                        $type
-                    );
-                    throw new ParameterCallbackReturnsWrongTypeException($message);
-                }
-
-                $attributes[] = $parameterInstance;
+                $type         = $parameter->getClass()->getName();
+                $attributes[] = $this->createParameter($type);
             }
 
             // call callback
