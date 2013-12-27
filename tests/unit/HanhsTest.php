@@ -123,6 +123,13 @@ class HanhsTest extends \Codeception\TestCase\Test
             $this->fail();
         } catch (ErrorException $e) { }
 
+        // with app as parameter. parameterparameter roflcopter
+        $this->instance->get('/bla', function (\Hahns\Hahns $app) {
+            $app->config('roflcopter', '111');
+        });
+        $this->instance->run('/bla', 'get');
+        $this->assertEquals('111', $this->instance->config('roflcopter'));
+
         // singleton test
         $hahns = new \Hahns\Hahns();
         $hahns->parameter('\\IsSingleton', function() {

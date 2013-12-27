@@ -147,7 +147,7 @@ class Hahns
     }
 
     /**
-     * @param $type
+     * @param string $type
      * @return object
      * @throws Exception\ParameterDoesNotExistException
      * @throws Exception\ParameterCallbackReturnsWrongTypeException
@@ -165,7 +165,7 @@ class Hahns
         if (is_object($this->parameters[$type]['instance'])) {
             $instance = $this->parameters[$type]['instance'];
         } else {
-            $instance = call_user_func($this->parameters[$type]['callback']);
+            $instance = call_user_func($this->parameters[$type]['callback'], $this);
         }
 
         // check if parameter callback returned a valid instance

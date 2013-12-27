@@ -97,6 +97,10 @@ $app->parameter('\\stdClass', function() {
 $app->get('/own/parameter', function (\stdClass $obj) {
     return $obj->test;
 });
+
+$app->parameter('\Package\MyOwnClass', function(\Hahns\Hahns $app) {
+    // ...
+});
 ```
 
 The callback for `parameter()` must be return an instance of the given type.
