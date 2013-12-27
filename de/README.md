@@ -1,6 +1,6 @@
 # Dokumentation
 
-*version 0.1.5 basierend auf Hahns 0.7.1*
+*version 0.1.6 basierend auf Hahns 0.7.1*
 
 Hahns ist ein Micro-Web-Framework für PHP 5.4+.
 
@@ -333,25 +333,40 @@ $app->on(\Hahns\Hahns::EVENT_AFTER_EXECUTING_ROUTE, function ($usedRoute, \Closu
 
 ### `\Hahns\Hahns`
 ```
-\Hahns\Config   config()	                                                // get instance of \Hahns\Config
-mixed           config(string $name)	                                    // get value $name from config
-void            config(string $name, mixed $value)	                        // set value $value to config
-void            delete(string $route, \Closure $callback)	                // register DELETE-route
-void            delete(string $route, \Closure $callback, string $name)	    // register DELETE-route with name $name
-void            get(string $route, \Closure $callback)		                // register GET-route
-void            get(string $route, \Closure $callback, string $name)	    // register GET-route with name $name
-void            on(int $event, \Closure $callback)                          // add handler $callback for event $event
-void            parameter(string type, \Closure $callback)                  // register parameter for route callback
-void            patch(string $route, \Closure $callback)	                // register PATCH-route
-void            patch(string $route, \Closure $callback, string $name)	    // register PATCH-route with name $name
-void            post(string $route, \Closure $callback)	                    // register POST-route
-void            post(string $route, \Closure $callback, string $name)	    // register POST-route with name $name
-void            put(string $route, \Closure $callback)		                // register PUT-route
-void            put(string $route, \Closure $callback, string $name)		// register PUT-route with name $name
-\Hahns\Router   router()                                                    // get instance of \Hanhs\Router
-void            run()										                // start routing
-void            service(string $name, \Closure $callback)	                // register service
-\Hahns\Services services()	                                                // get all registered services
+void            any(string $route, \Closure $callback)	                        // register route for all verbs
+void            any(string $route, string $namedRoute)	                        // register route for all verbs using the previous route named $namedRoute
+void            any(string $route, \Closure $callback, string $name)	        // register routes for all verbs route with name $name
+void            any(string $route, string $namedRoute, string $name)	        // register route for all verbs with name $name using the previous route named $namedRoute
+mixed           config(string $name)	                                        // get value $name from config
+void            config(string $name, mixed $value)	                            // set value $value to config
+void            delete(string $route, \Closure $callback)	                    // register DELETE-route
+void            delete(string $route, string $namedRoute)	                    // register DELETE-route using the previous route $namedRoute
+void            delete(string $route, \Closure $callback, string $name)	        // register DELETE-route with name $name
+void            delete(string $route, string $namedRoute, string $name)	        // register DELETE-route with name $name using the previous route named $namedRoute
+void            get(string $route, \Closure $callback)		                    // register GET-route
+void            get(string $route, string $namedRoute)	                        // register GET-route using the previous route $namedRoute
+void            get(string $route, \Closure $callback, string $name)	        // register GET-route with name $name
+void            get(string $route, string $namedRoute, string $name)	        // register GET-route with name $name using the previous route named $namedRoute
+void            on(int $event, \Closure $callback)                              // add handler $callback for event $event
+void            parameter(string type, \Closure $callback)                      // register parameter for route callback as singleton
+void            parameter(string type, \Closure $callback, bool $asSingleton)   // register parameter for route callback
+void            patch(string $route, \Closure $callback)	                    // register PATCH-route
+void            patch(string $route, string $namedRoute)	                    // register PATCH-route using the previous route $namedRoute
+void            patch(string $route, \Closure $callback, string $name)	        // register PATCH-route with name $name
+void            patch(string $route, string $namedRoute, string $name)	        // register PATCH-route with name $name using the previous route named $namedRoute
+void            post(string $route, \Closure $callback)	                        // register POST-route
+void            post(string $route, string $namedRoute)	                        // register POST-route using the previous route $namedRoute
+void            post(string $route, \Closure $callback, string $name)	        // register POST-route with name $name
+void            post(string $route, string $namedRoute, string $name)	        // register POST-route with name $name using the previous route named $namedRoute
+void            put(string $route, \Closure $callback)		                    // register PUT-route
+void            put(string $route, string $namedRoute)	                        // register PUT-route using the previous route $namedRoute
+void            put(string $route, \Closure $callback, string $name)		    // register PUT-route with name $name
+void            put(string $route, string $namedRoute, string $name)	        // register PUT-route with name $name using the previous route named $namedRoute
+void            run()										                    // start routing
+void            run(string $route)                                              // start routing with the given route $route
+void            run(string $route, string $requestMethod)                       // start routing with the given route $route and the request method $requestMethod (useful for simulating request)
+object          service(string $name)	                                        // get service with name $name
+void            service(string $name, \Closure $callback)	                    // register service
 ```
 
 ### `\Hahns\Request`
@@ -370,9 +385,9 @@ mixed post(string $name, mixed $default)		// get POST-param $name or $default
 ```
 void   header(string $name, string $value)		                // send header $name with value $value
 void   redirect(string $location)                               // send location header with status code 301
-void   redirect(string $location, int $code)                    // send location header with status code $code
+void   redirect(string $location, int $status)                  // send location header with status code $code
 string send(string $data)	                                    // get $data as html
-string send(string $data, array $header)	                    // get $data as html and send $header ['name' => 'value'] to to client
+string send(string $data, int $status)	                        // get $data as html and send status code $status to client
 void   status(int code)                                         // send status code $code with HTTP version 1.1 to client
 void   status(int code, string $message)                        // send status code $code with message $message to client
 void   status(int code, string $message, string $httpVersion)   // send status code $code with message $message and HTTP version $version to client
@@ -382,9 +397,9 @@ void   status(int code, string $message, string $httpVersion)   // send status c
 ```
 void   header(string $name, string $value)		                // send header $name with value $value
 void   redirect(string $location)                               // send location header with status code 301
-void   redirect(string $location, int $code)                    // send location header with status code $code
+void   redirect(string $location, int $status)                  // send location header with status code $code
 string send(string $data)	                                    // get $data as json-decoded string
-string send(string $data, array $header)	                    // get $data as json-decoded string and send $header ['name' => 'value'] to to client
+string send(string $data, int $status)	                        // get $data as json-decoded string and send status code $status to client
 void   status(int code)                                         // send status code $code with HTTP version 1.1 to client
 void   status(int code, string $message)                        // send status code $code with message $message to client
 void   status(int code, string $message, string $httpVersion)   // send status code $code with message $message and HTTP version $version to client
@@ -394,19 +409,13 @@ void   status(int code, string $message, string $httpVersion)   // send status c
 ```
 void   header(string $name, string $value)		                // send header $name with value $value
 void   redirect(string $location)                               // send location header with status code 301
-void   redirect(string $location, int $code)                    // send location header with status code $code
+void   redirect(string $location, int $status)                  // send location header with status code $code
 string send(string $data)	                                    // get $data as text
-string send(string $data, array $header)	                    // get $data as text and send $header ['name' => 'value'] to to client
+string send(string $data, int $status)	                        // get $data as text and send status code $status to client
 void   status(int code)                                         // send status code $code with HTTP version 1.1 to client
 void   status(int code, string $message)                        // send status code $code with message $message to client
 void   status(int code, string $message, string $httpVersion)   // send status code $code with message $message and HTTP version $version to client
 ```
-
-### `\Hahns\Services`
-```
-object get(string $name)	// get service with name $name
-```
-
 
 [1]: http://getcomposer.org/
 [2]: http://en.wikipedia.org/wiki/Regular_expression
