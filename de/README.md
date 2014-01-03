@@ -50,9 +50,9 @@ $app->run();
 
 ## Routing
 
-Durch das Routing verknüpfst du bestimmte Request mit von dir erstellten Funktionen, die einen String zurückgeben und dadurch an den Client (in den meisten Fällen wird dies wohl einen Browser sein) gesendet werden.
+Durch das Routing verknüpfst du bestimmte Request mit von dir erstellten Funktionen, die einen String zurückgeben und dadurch an den Client (in den meisten Fällen wird dies wohl ein Browser sein) gesendet werden.
 
-Möchtest du bspw. das nach dem Aufruf von `index.php/hello` ein freundliches `Hallo!` ausgegeben wird, dann lässt sich das wie folgt lösen.
+Möchtest du bspw., dass nach dem Aufruf von `index.php/hello` ein freundliches `Hallo!` ausgegeben wird, dann lässt sich das wie folgt lösen:
 
 ```php
 $app->get('/hello', function () {
@@ -60,7 +60,7 @@ $app->get('/hello', function () {
 });
 ```
 
-Du hast somit die Route `/hello` registriert. Wird also im Browser dieses Route aufgerufen, dann führt Hans den Callback aus, der wiederum die freundliche Begrüßung zurückgibt. Das Ergebnis sieht also wie folgt aus:
+Du hast somit die Route `/hello` registriert. Wird also im Browser diese Route aufgerufen, dann führt Hans den Callback aus, der wiederum die freundliche Begrüßung zurückgibt. Das Ergebnis sieht also wie folgt aus:
 
 ```
 Hallo!
@@ -93,7 +93,7 @@ $app->delete('/cars/id-[\d+:id]/now', function (\Hahns\Response\Json $response, 
 
 ### Parameter für Callbacks
 
-Du kannst beliebige Parameter für den Callback einer Route benutzen - *Hahns* setzt diese automatisch. Dabei schaut er bevor der Callback ausgeführt wird welche Parameter erwartet werden und setzt diese dann entsprechend. Es ist also zwingend erforderlich, dass die Parameter typisiert sind.
+Du kannst beliebige Parameter für den Callback einer Route benutzen - *Hahns* setzt diese automatisch. Dabei schaut er, noch bevor der Callback ausgeführt wird, welche Parameter erwartet werden und setzt diese dann entsprechend. Es ist also zwingend erforderlich, dass die Parameter typisiert sind.
 
 Es können nun Parameter benutzt werden, die vorher dafür registriert (siehe weiter unten) wurden. Bereits vorregistriert sind:
 
@@ -119,7 +119,7 @@ $app->get('/cars', function (\Hahns\Response\Json $response, \Hahns\Request $req
 
 #### Erstelle deinen eigenen Route-Parameter
 
-Bis darauf, dass ein Parameter ein Objekt sein muss, sind keine besonderen Bedingungen an einen Parameter geknüpft. Du kannst beliebige neue Typen mit der `parameter()`-Methode registrieren. Diese erwartet als erstes Argument den Typen des zu registrierenden Parameters und als zweites Argument einen Callback in dem das Objekt instanziiert und zurückgegeben wird.
+Abgesehen davon, dass ein Parameter ein Objekt sein muss, sind keine besonderen Bedingungen an einen Parameter geknüpft. Du kannst beliebige neue Typen mit der `parameter()`-Methode registrieren. Diese erwartet als erstes Argument den Typen des zu registrierenden Parameters und als zweites Argument einen Callback, in dem das Objekt instanziert und zurückgegeben wird.
 
 ```php
 $app->parameter('\\stdClass', function() {
@@ -133,7 +133,7 @@ $app->get('/own/parameter', function (\stdClass $obj) {
 });
 ```
 
-Optional kannst du auch die Instanz von `\Hahns\Hahns` in deinem Callback nutzen. Dazu reicht es einfach einen entsprechenden Parameter zu setzen.
+Optional kannst du auch die Instanz von `\Hahns\Hahns` in deinem Callback nutzen. Dazu reicht es, einfach einen entsprechenden Parameter zu setzen.
 
 ```php
 $app->parameter('\\stdClass', function(\Hahns\Hahns $app) {
@@ -141,7 +141,7 @@ $app->parameter('\\stdClass', function(\Hahns\Hahns $app) {
 });
 ```
 
-Parameter werden per Default als Singleton gehandhabt. Das heißt, dass der Callback nur einmalig aufgerufen wird, das zurückgegebe Objekt wird gespeichert und im weiteren wiederverwendet. Möchtest du allerdings, dass der Callback bei jeder Benutzung erneut aufgerufen wird (der Parameter also jedes Mal erneut erstellt wird), dann übergeben der `parameter
+Parameter werden per Default als Singleton gehandhabt. Das bedeutet, dass der Callback nur einmalig aufgerufen, das zurückgegebe Objekt gespeichert und im weiteren wiederverwendet wird. Möchtest du allerdings, dass der Callback bei jeder Benutzung erneut aufgerufen wird (der Parameter also jedes Mal erneut erstellt wird), dann übergib der `parameter
 ()`-Methode als drittes Argument `false`
 
 ```php
@@ -163,16 +163,16 @@ $app->service('service-name');
 
 Per Default sind folgende Services verfügbar:
 
-* `html-response` liefer eine Instanz von  `\Hahns\Response\Html`
-* `json-response` liefer eine Instanz von  `\Hahns\Response\Json`
-* `text-response` liefer eine Instanz von  `\Hahns\Response\Text`
+* `html-response` liefert eine Instanz von  `\Hahns\Response\Html`
+* `json-response` liefert eine Instanz von  `\Hahns\Response\Json`
+* `text-response` liefert eine Instanz von  `\Hahns\Response\Text`
 
 
 ### Erstelle deinen eigenen Service
 
-Services sind optimal dazu geeignet andere Libraries innerhalb deiner Application zu nutzen - also bspw. [Twig](http://twig.sensiolabs.org/) als Template Enginge oder [Propel](http://propelorm.org/) als ORM.
+Services sind optimal dazu geeignet, andere Libraries innerhalb deiner Application zu nutzen - also bspw. [Twig](http://twig.sensiolabs.org/) als Template Enginge oder [Propel](http://propelorm.org/) als ORM.
 
-Um einen Service zu erstellen nutzt du ebenfalls die `service()`-Methode von Hahns
+Um einen Service zu erstellen, nutzt du ebenfalls die `service()`-Methode von Hahns:
 
 ```php
 $app->service('myservice', function() {
@@ -184,7 +184,7 @@ $app->service('myservice', function() {
 
 Als erstes Argument gibst du den Namen an mit dem du auf den Service später zugreifen möchtest. Als zweiten Parameter übergibst du einen Callback, der den zu nutzenden Service erstellt und zurückgibt.
 
-Das besondere an Services sind, dass der Callback in jedem Fall nur ein Mal ausgeführt wird. Hier kannst du alos sämtliche Konfiguration u.Ä. auführen ohne dir Sorgen machen zu müssen, dass diese mehrfach durchgeführt wird.
+Das besondere an Services sind, dass der Callback in jedem Fall nur ein Mal ausgeführt wird. Hier kannst du also sämtliche Konfiguration u.Ä. auführen ohne dir Sorgen machen zu müssen, dass diese mehrfach durchgeführt wird.
 
 Optional kannst du auch die Instanz von `\Hahns\Hahns` in deinem Callback nutzen. Dazu reicht es einfach einen entsprechenden Parameter zu setzen.
 
