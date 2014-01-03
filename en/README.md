@@ -121,7 +121,7 @@ $app->get('/cars', function (\Hahns\Response\Json $response, \Hahns\Request $req
 
 #### Erstelle deinen eigenen Route-Parameter
 
-Abgesehen davon, dass ein Parameter ein Objekt sein muss, sind keine besonderen Bedingungen an einen Parameter geknüpft. Du kannst beliebige neue Typen mit der `parameter()`-Methode registrieren. Diese erwartet als erstes Argument den Typen des zu registrierenden Parameters und als zweites Argument einen Callback, in dem das Objekt instanziert und zurückgegeben wird.
+Besides having to be an object, there are no special conditions bound to parameters. You can register any new types with the `parameter()`-method. This method expects the type of the parameter as the first and a callback, in which the object gets instanced and returned as the second argument:
 
 ```php
 $app->parameter('\\stdClass', function() {
@@ -135,7 +135,8 @@ $app->get('/own/parameter', function (\stdClass $obj) {
 });
 ```
 
-Optional kannst du auch die Instanz von `\Hahns\Hahns` in deinem Callback nutzen. Dazu reicht es, einfach einen entsprechenden Parameter zu setzen.
+Optionally, you can use the instance of `\Hahns\Hahns` in your callback. It is sufficent to set the corresponding parameter:
+
 
 ```php
 $app->parameter('\\stdClass', function(\Hahns\Hahns $app) {
@@ -143,8 +144,7 @@ $app->parameter('\\stdClass', function(\Hahns\Hahns $app) {
 });
 ```
 
-Parameter werden per Default als Singleton gehandhabt. Das bedeutet, dass der Callback nur einmalig aufgerufen, das zurückgegebe Objekt gespeichert und im weiteren wiederverwendet wird. Möchtest du allerdings, dass der Callback bei jeder Benutzung erneut aufgerufen wird (der Parameter also jedes Mal erneut erstellt wird), dann übergib der `parameter
-()`-Methode als drittes Argument `false`
+In default, parameters are handled as singleton. This means that the callback gets invoced once, the returned object saved and reused. You want to the callback to get invoced again - in order to rebuild the parameter - on each use? Just assign `false` als a third argument to the `parameter()`-method.
 
 ```php
 $app->parameter('\\stdClass' function() {
@@ -157,24 +157,25 @@ $app->parameter('\\stdClass' function() {
 
 ## Services
 
-Services sind benannte Objekte, die einmalig erstellt werden und über *Hahns* jederzeit verfügbar sind. Um auf einen Service zuzugreifen nutzt du die `service()`-Methode von *Hahns*.
+Services are named objects, generated once and available via *Hahns* at all time. To use a service, there's *Hahns* `service()`-method.
+
 
 ```php
 $app->service('service-name');
 ```
 
-Per Default sind folgende Services verfügbar:
+In default, the following services are available:
 
-* `html-response` liefert eine Instanz von  `\Hahns\Response\Html`
-* `json-response` liefert eine Instanz von  `\Hahns\Response\Json`
-* `text-response` liefert eine Instanz von  `\Hahns\Response\Text`
+* `html-response` delivers an instance of  `\Hahns\Response\Html`
+* `json-response` delivers an instance of  `\Hahns\Response\Json`
+* `text-response` delivers an instance of  `\Hahns\Response\Text`
 
 
-### Erstelle deinen eigenen Service
+### Create your own service
 
-Services sind optimal dazu geeignet, andere Libraries innerhalb deiner Application zu nutzen - also bspw. [Twig](http://twig.sensiolabs.org/) als Template Enginge oder [Propel](http://propelorm.org/) als ORM.
+Services are the ideal way to use third-party-libraries within your application - for example [Twig](http://twig.sensiolabs.org/) as a template engine or [Propel](http://propelorm.org/) as an ORM.
 
-Um einen Service zu erstellen, nutzt du ebenfalls die `service()`-Methode von Hahns:
+To create a service, you use *Hahns* `service()`-method likewise:
 
 ```php
 $app->service('myservice', function() {
@@ -184,11 +185,13 @@ $app->service('myservice', function() {
 });
 ```
 
-Als erstes Argument gibst du den Namen an mit dem du auf den Service später zugreifen möchtest. Als zweiten Parameter übergibst du einen Callback, der den zu nutzenden Service erstellt und zurückgibt.
+The name you'll use to access the service later goes as the first argument. Just deliver a callback, which creates and returns the service, as the second argument.
+The best thing about services is that the callback gets executed only once - you can do all your configuration tasks without having to worry about them getting executed multiple times.
 
-Das besondere an Services sind, dass der Callback in jedem Fall nur ein Mal ausgeführt wird. Hier kannst du also sämtliche Konfiguration u.Ä. auführen ohne dir Sorgen machen zu müssen, dass diese mehrfach durchgeführt wird.
 
-Optional kannst du auch die Instanz von `\Hahns\Hahns` in deinem Callback nutzen. Dazu reicht es einfach einen entsprechenden Parameter zu setzen.
+
+
+Optionally, you can use the instance of `\Hahns\Hahns` in your callback. It is sufficent to set the corresponding parameter:
 
 ```php
 $app->service('myservice', function(\Hahns\Hahns $app) {
@@ -198,7 +201,7 @@ $app->service('myservice', function(\Hahns\Hahns $app) {
 
 ## Events
 
-Hahns trigger various events. Use the `on`-method to add your own handler.
+Hahns triggers various events. Use the `on`-method to add your own handler.
 
 ### Not Found (404)
 
@@ -214,7 +217,7 @@ $app->on(\Hahns\Hahns::EVENT_NOT_FOUND, function ($usedRoute, \Hahns\Hahns $app,
 });
 ```
 
-Per default Hahns sends status code 404
+In default, Hahns sends status code 404
 
 #### Trigger a "Not Found" event
 
@@ -240,7 +243,7 @@ $app->on(\Hahns\Hahns::EVENT_ERROR, function (\Exception $e, \Hahns\Hahns $app) 
 });
 ```
 
-Per default Hahns sends status code 500
+In default Hahns sends status code 500
 
 #### Trigger an "Error" event
 
