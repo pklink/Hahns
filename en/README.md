@@ -1,8 +1,8 @@
 # Dokumentation
 
-*version 0.1.12 basierend auf Hahns 0.7.1*
+*version 0.1 based on Hahns 0.7.1*
 
-Hahns ist ein leichtgewichtiges Micro-Web-Framework für PHP 5.4+.
+Hahns is a lightweight Micro-Web-Framework for PHP 5.4+.
 
 ## Installation
 
@@ -18,7 +18,7 @@ To install using [composer](http://getcomposer.org/), have the following lines i
 
 ## Hello World!
 
-Ja ja ja! Hello World! Hier mehrere mögliche Implementierungen
+Yip yip! Hello World! Here are a few implementation examples: 
 
 ```php
 $app = new \Hahns\Hahns();
@@ -28,7 +28,7 @@ $app->get('/', function () {
 $app->run();
 ```
 
-oder
+or
 
 ```php
 $app = new \Hahns\Hahns();
@@ -38,7 +38,7 @@ $app->get('/', function (\Hahns\Response\Html $response) {
 $app->run();
 ```
 
-oder
+or
 
 ```php
 $app = new \Hahns\Hahns();
@@ -50,23 +50,25 @@ $app->run();
 
 ## Routing
 
-Durch das Routing verknüpfst du bestimmte Request mit von dir erstellten Funktionen, die einen String zurückgeben und dadurch an den Client (in den meisten Fällen wird dies wohl ein Browser sein) gesendet werden.
+Using routing, you bind certain requests with your very own functions, which return a string and get sent to the client - probably a browser.
 
-Möchtest du bspw., dass nach dem Aufruf von `index.php/hello` ein freundliches `Hallo!` ausgegeben wird, dann lässt sich das wie folgt lösen:
+For example, if you want a request to `index.php/hello` to return a  pleasant  `Hello!`, you could solve it like this:
 
 ```php
 $app->get('/hello', function () {
-    return 'Hallo!';
+    return 'Hello!';
 });
 ```
 
-Du hast somit die Route `/hello` registriert. Wird also im Browser diese Route aufgerufen, dann führt Hans den Callback aus, der wiederum die freundliche Begrüßung zurückgibt. Das Ergebnis sieht also wie folgt aus:
+You just registered the route `/hello`. If this route gets called in a browser, Hahns executes the callback, which in turn emits the pleasant greeting:
+
 
 ```
-Hallo!
+Hello!
 ```
 
-In diesem Fall wird allerdings nur auf GET-Requests reagiert. Möchtest du, dass nur auf POST-Requests reagiert wird, dann nutze die `post()`-Methode, soll nur auf DELETE-Request reagiert werden, dann nutze `delete()` usw.
+In this special case, only GET-requests will be handled. If you want to respond to POST-requests only, use the `post()`-method. Same goes for DELETE-requests, just use `delete()`.
+
 
 ### Named Parameter
 
@@ -93,9 +95,9 @@ $app->delete('/cars/id-[\d+:id]/now', function (\Hahns\Response\Json $response, 
 
 ### Parameter für Callbacks
 
-Du kannst beliebige Parameter für den Callback einer Route benutzen - *Hahns* setzt diese automatisch. Dabei schaut er, noch bevor der Callback ausgeführt wird, welche Parameter erwartet werden und setzt diese dann entsprechend. Es ist also zwingend erforderlich, dass die Parameter typisiert sind.
+You can use arbitrary parameters for the callback of a route - *Hahns* applies them automatically. He hereby checks, which parameters are expected, and applies them accordingly. Therefore, it is inevitable that the parameters are typecasted.
 
-Es können nun Parameter benutzt werden, die vorher dafür registriert (siehe weiter unten) wurden. Bereits vorregistriert sind:
+You can now use parameters, which are registered beforehand (see below). Pre-defined are:
 
 * `\Hahns\Hahns`
 * `\Hahns\Request`
