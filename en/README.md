@@ -93,7 +93,7 @@ $app->delete('/cars/id-[\d+:id]/now', function (\Hahns\Response\Json $response, 
 });
 ```
 
-### Parameter für Callbacks
+### Parameters for Callbacks
 
 You can use arbitrary parameters for the callback of a route - *Hahns* applies them automatically. He hereby checks, which parameters are expected, and applies them accordingly. Therefore, it is inevitable that the parameters are typecasted.
 
@@ -119,7 +119,7 @@ $app->get('/cars', function (\Hahns\Response\Json $response, \Hahns\Request $req
 });
 ```
 
-#### Erstelle deinen eigenen Route-Parameter
+#### Create your own Routing-Parameter
 
 Besides having to be an object, there are no special conditions bound to parameters. You can register any new types with the `parameter()`-method. This method expects the type of the parameter as the first and a callback, in which the object gets instanced and returned as the second argument:
 
