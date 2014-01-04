@@ -1,6 +1,6 @@
 # Dokumentation
 
-*version 0.1.12 basierend auf Hahns 0.7.1*
+*version 0.1.13 basierend auf Hahns 0.7.1*
 
 Hahns ist ein leichtgewichtiges Micro-Web-Framework für PHP 5.4+.
 
@@ -196,15 +196,21 @@ $app->service('myservice', function(\Hahns\Hahns $app) {
 
 ## Events
 
-Hahns trigger various events. Use the `on`-method to add your own handler.
+*Hahns* löst während der Verarbeitung eines Requests diverse Events aus. Du kannst mit Hilfe der `on()`-Methode auf diese Events reagieren. Das ist bspw. sehr nützlich um darauf zu reagieren, wenn ein Request nicht aufgelöst werden kann.
+
+Die `on()`-Methode erwartet zwei Argumente. Das Erste ist das Event auf das du reagieren möchtest - hierfür stehen entsprechende Konstanten in `\Hahns\Hahns` zur Verfügung. Als zweites Argument wird ein Callback erwartet, der ausgeführt wird, wenn das Event ausgelöst wird. Die möglichen Parameter für das Callback unterscheiden sich dabei in Abhängigkeit zum Event.
+
+Hier eine Liste mit Beschreibungen für alle verfügbaren Events.
 
 ### Not Found (404)
 
-Arguments are:
+Wird ausgelöst, wenn der Request nicht aufgelöst werden kann
 
-* `string $usedRoute`
-* `\Hahns\Hahns $app`
-* `\Hahns\Exception\NotFoundException $e`
+Die möglichen Parameter sind
+
+* `string $usedRoute`: Die angefragte Route, die nicht aufgelöst werden konnte
+* `\Hahns\Hahns $app`: Die Instanz von *Hahns*
+* `\Hahns\Exception\NotFoundException $e`: Die ausgelöste Exception
 
 ```php
 $app->on(\Hahns\Hahns::EVENT_NOT_FOUND, function ($usedRoute, \Hahns\Hahns $app, \Hahns\Exception\NotFoundException $e) {
@@ -212,11 +218,11 @@ $app->on(\Hahns\Hahns::EVENT_NOT_FOUND, function ($usedRoute, \Hahns\Hahns $app,
 });
 ```
 
-Per default Hahns sends status code 404
+Standardmäßig sendet *Hahns* bei diesem Event einen 404-Statuscode
 
-#### Trigger a "Not Found" event
+#### "Not Found"-Event auslösen
 
-Simply throw a `\Hahns\Exception\NotFoundException`
+Um selber ein "Not Found"-Event auszulösen reicht es eine `\Hahns\Exception\NotFoundException` zu werfen.
 
 ```php
 $app->get('/not-found', function () {
@@ -224,13 +230,14 @@ $app->get('/not-found', function () {
 });
 ```
 
-
 ### Error
+
+Wird ausgelöst, wenn irgendetwas unerwartet schief gelaufen ist.
 
 Arguments are:
 
-* `\Exception $e`
-* `\Hahns\Hahns $app`
+* `\Exception $e`: Die ausgelöste Exception
+* `\Hahns\Hahns $app`: Die Instanz von *Hahns*
 
 ```php
 $app->on(\Hahns\Hahns::EVENT_ERROR, function (\Exception $e, \Hahns\Hahns $app) {
@@ -238,11 +245,11 @@ $app->on(\Hahns\Hahns::EVENT_ERROR, function (\Exception $e, \Hahns\Hahns $app) 
 });
 ```
 
-Per default Hahns sends status code 500
+Standardmäßig sendet *Hahns* bei diesem Event einen 500-Statuscode
 
-#### Trigger an "Error" event
+#### "Error"-Event auslösen
 
-Simply throw a `\Hahns\Exception\ErrorException`
+Um selber ein "Not Found"-Event auszulösen reicht es eine `\Hahns\Exception\ErrorException` zu werfen.
 
 ```php
 $app->get('/not-found', function () {
