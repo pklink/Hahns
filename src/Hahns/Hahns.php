@@ -409,6 +409,10 @@ class Hahns
             }
 
             foreach ($eventHandler as $handler) {
+                if (!is_callable($handler)) {
+                    throw new \Exception('`$handler` must be callable');
+                }
+
                 call_user_func_array($handler, $args);
             }
         }
