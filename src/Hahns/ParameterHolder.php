@@ -65,7 +65,6 @@ class ParameterHolder
         }
 
         // get instance
-        $instance = null;
         if (is_object($this->parameters[$type]['instance'])) {
             $instance = $this->parameters[$type]['instance'];
         } else {

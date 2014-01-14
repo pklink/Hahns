@@ -61,7 +61,6 @@ class Router
         }
 
         // get callback
-        $callback = null;
         if ($callbackOrNamedRoute instanceof \Closure) {
             $callback = $callbackOrNamedRoute;
         } elseif (is_string($callbackOrNamedRoute)) {
