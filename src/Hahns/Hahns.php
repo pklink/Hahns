@@ -4,6 +4,7 @@
 namespace Hahns;
 
 
+use Hahns\Exception\ArgumentMustBeAStringException;
 use Hahns\Exception\NotFoundException;
 use Hahns\Exception\ArgumentMustBeABooleanException;
 use Hahns\Exception\ArgumentMustBeAnIntegerException;
@@ -11,6 +12,7 @@ use Hahns\Exception\ArgumentMustBeAStringOrNullException;
 use Hahns\Response\Html;
 use Hahns\Response\Json;
 use Hahns\Response\Text;
+use WebDriver\Exception;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
 
@@ -58,7 +60,7 @@ class Hahns
 
     /**
      * @param bool $debug
-     * @throws Exception\ArgumentMustBeABooleanException
+     * @throws ArgumentMustBeABooleanException
      */
     public function __construct($debug = false)
     {
@@ -108,7 +110,7 @@ class Hahns
      * @param string $route
      * @param \Closure|string $callbackOrNamedRoute
      * @param string|null $name
-     * @throws Exception\ArgumentMustBeAStringException
+     * @throws ArgumentMustBeAStringException
      */
     protected function addPrefixedRoute($prefix, $route, $callbackOrNamedRoute, $name = null)
     {
@@ -168,7 +170,7 @@ class Hahns
     /**
      * @param int $event
      * @param \Closure $callback
-     * @throws Exception\ArgumentMustBeAnIntegerException
+     * @throws ArgumentMustBeAnIntegerException
      */
     public function on($event, \Closure $callback)
     {
@@ -305,7 +307,7 @@ class Hahns
     }
 
     /**
-     * @throws Exception\ArgumentMustBeAStringOrNullException
+     * @throws ArgumentMustBeAStringOrNullException
      */
     public function run($route = null, $requestMethod = null)
     {
@@ -386,15 +388,27 @@ class Hahns
         }
     }
 
-    protected function trigger($event, $args = [])
+    /**
+     * @param int $handler
+     * @param array $args
+     * @throws ArgumentMustBeAnIntegerException
+     * @throws \Exception
+     */
+    protected function trigger($handler, $args = [])
     {
-        if (!is_int($event)) {
+        if (!is_int($handler)) {
             $message = 'Argument for `event` must be an integer';
             throw new ArgumentMustBeAnIntegerException($message);
         }
 
-        if (isset($this->eventHandler[$event])) {
-            foreach ($this->eventHandler[$event] as $handler) {
+        if (isset($this->eventHandler[$handler])) {
+            $eventHandler = $this->eventHandler[$handler];
+
+            if (!is_array($eventHandler)) {
+                throw new \Exception('`$eventHandler` must be an array');
+            }
+
+            foreach ($eventHandler as $handler) {
                 call_user_func_array($handler, $args);
             }
         }
