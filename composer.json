@@ -21,8 +21,8 @@
         "ext-json": "*"
     },
     "require-dev": {
-        "squizlabs/php_codesniffer": "1.5.1",
-        "codeception/codeception": "1.8.1"
+        "squizlabs/php_codesniffer": "1.5.2",
+        "codeception/codeception": "1.8.2"
     }
 
 }
