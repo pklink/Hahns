@@ -2,6 +2,9 @@
 
 Hahns is a micro framework for PHP 5.4 and higher.
 
+* [Detailed documentation in English](https://github.com/pklink/Hahns/tree/documentation/en) (work in progess)
+* [Detailed documentation in German](https://github.com/pklink/Hahns/tree/documentation/de) (work in progess)
+
 ## Installation
 
 To install using [composer][1], have the following lines in your `composer.json` file.
