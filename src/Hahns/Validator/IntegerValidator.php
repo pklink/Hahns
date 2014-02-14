@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Hahns\Validator\Argument;
+namespace Hahns\Validator;
 
 
 use Hahns\Exception\ArgumentMustBeAnIntegerException;

@@ -9,7 +9,7 @@ use Hahns\Exception\NotFoundException;
 use Hahns\Exception\ArgumentMustBeAClosureOrStringException;
 use Hahns\Exception\ArgumentMustBeAStringException;
 use Hahns\Exception\RouteDoesNotExistException;
-use Hahns\Validator\Argument\StringValidator;
+use Hahns\Validator\StringValidator;
 
 class Router
 {

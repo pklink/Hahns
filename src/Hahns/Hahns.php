@@ -12,8 +12,8 @@ use Hahns\Exception\ArgumentMustBeAStringOrNullException;
 use Hahns\Response\Html;
 use Hahns\Response\Json;
 use Hahns\Response\Text;
-use Hahns\Validator\Argument\BooleanValidator;
-use Hahns\Validator\Argument\StringValidator;
+use Hahns\Validator\BooleanValidator;
+use Hahns\Validator\StringValidator;
 use WebDriver\Exception;
 
 class Hahns

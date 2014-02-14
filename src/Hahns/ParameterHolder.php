@@ -6,8 +6,8 @@ namespace Hahns;
 
 use Hahns\Exception\ParameterCallbackReturnsWrongTypeException;
 use Hahns\Exception\ParameterDoesNotExistException;
-use Hahns\Validator\Argument\BooleanValidator;
-use Hahns\Validator\Argument\StringValidator;
+use Hahns\Validator\BooleanValidator;
+use Hahns\Validator\StringValidator;
 
 class ParameterHolder
 {

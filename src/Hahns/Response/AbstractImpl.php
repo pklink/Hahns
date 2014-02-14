@@ -7,8 +7,8 @@ namespace Hahns\Response;
 use Hahns\Exception\ArgumentMustBeAStringException;
 use Hahns\Exception\StatusMessageCannotFindException;
 use Hahns\Response;
-use Hahns\Validator\Argument\IntegerValidator;
-use Hahns\Validator\Argument\StringValidator;
+use Hahns\Validator\IntegerValidator;
+use Hahns\Validator\StringValidator;
 
 abstract class AbstractImpl implements Response
 {
