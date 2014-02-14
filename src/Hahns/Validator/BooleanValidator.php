@@ -17,7 +17,7 @@ class BooleanValidator
     public static function hasTo($v, $name)
     {
         if (!is_bool($v)) {
-            $message = sprintf('Argument for `%s` must be a boolean', $name);
+            $message = sprintf('`%s` has to be a boolean', $name);
             throw new ArgumentMustBeABooleanException($message);
         }
     }

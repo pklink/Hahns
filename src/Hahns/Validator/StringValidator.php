@@ -18,7 +18,7 @@ class StringValidator
     public static function hasTo($v, $name)
     {
         if (!is_string($v)) {
-            $message = sprintf('Argument for `%s` must be a string', $name);
+            $message = sprintf('`%s` has to be a string', $name);
             throw new ArgumentMustBeAStringException($message);
         }
     }
@@ -31,7 +31,7 @@ class StringValidator
     public static function hasToBeStringOrNull($v, $name)
     {
         if (!is_string($v) && !is_null($v)) {
-            $message = sprintf('Argument for `%s` must be a string or null', $name);
+            $message = sprintf('`%s` has to be a string or null', $name);
             throw new ArgumentMustBeAStringOrNullException($message);
         }
     }
