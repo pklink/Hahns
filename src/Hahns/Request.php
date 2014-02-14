@@ -90,6 +90,11 @@ class Request
             fclose($fp);
         }
 
+        // check if payload still a array
+        if (!is_array($this->payload)) {
+            $this->payload = [];
+        }
+
         return $this->getFrom($this->payload, $name, $default);
     }
 
