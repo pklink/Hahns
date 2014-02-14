@@ -21,12 +21,12 @@ class TestTest extends \Codeception\TestCase\Test
         try {
             $instance->send([]);
             $this->fail();
-        } catch (\Hahns\Exception\ArgumentMustBeAStringException $e) { }
+        } catch (\Hahns\Exception\VariableHasToBeAStringException $e) { }
 
         try {
             $instance->send('', 'as');
             $this->fail();
-        } catch (\Hahns\Exception\ArgumentMustBeAnIntegerException $e) { }
+        } catch (\Hahns\Exception\VariableHasToBeAnIntegerException $e) { }
     }
 
 }

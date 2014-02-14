@@ -4,7 +4,7 @@
 namespace Hahns\Response;
 
 
-use Hahns\Exception\ArgumentMustBeAStringException;
+use Hahns\Exception\VariableHasToBeAStringException;
 use Hahns\Exception\StatusMessageCannotFindException;
 use Hahns\Response;
 use Hahns\Validator\IntegerValidator;
@@ -16,18 +16,18 @@ abstract class AbstractImpl implements Response
     /**
      * @param string $name
      * @param string $value
-     * @throws \Hahns\Exception\ArgumentMustBeAStringException
+     * @throws \Hahns\Exception\VariableHasToBeAStringException
      */
     public function header($name, $value)
     {
         if (!is_string($name)) {
             $message = 'Argument for `name` must be a string';
-            throw new ArgumentMustBeAStringException($message);
+            throw new VariableHasToBeAStringException($message);
         }
 
         if (!is_string($value)) {
             $message = 'Argument for `value` must be a string';
-            throw new ArgumentMustBeAStringException($message);
+            throw new VariableHasToBeAStringException($message);
         }
 
         header(sprintf('%s: %s', $name, $value));
@@ -36,13 +36,13 @@ abstract class AbstractImpl implements Response
     /**
      * @param string $location
      * @param int $status
-     * @throws \Hahns\Exception\ArgumentMustBeAStringException
+     * @throws \Hahns\Exception\VariableHasToBeAStringException
      */
     public function redirect($location, $status = Response::CODE_MOVED_PERMANENTLY)
     {
         if (!is_string($location)) {
             $message = 'Argument for `location` must be a string';
-            throw new ArgumentMustBeAStringException($message);
+            throw new VariableHasToBeAStringException($message);
         }
 
         $this->status($status);
@@ -53,13 +53,13 @@ abstract class AbstractImpl implements Response
      * @param string   $data
      * @param int|null $status
      * @return string
-     * @throws \Hahns\Exception\ArgumentMustBeAStringException
+     * @throws \Hahns\Exception\VariableHasToBeAStringException
      */
     public function send($data, $status = null)
     {
         if (!is_string($data)) {
             $message = 'Argument for `data` must be a string';
-            throw new ArgumentMustBeAStringException($message);
+            throw new VariableHasToBeAStringException($message);
         }
 
         if (!is_null($status)) {
@@ -74,9 +74,9 @@ abstract class AbstractImpl implements Response
      * @param string|null $message
      * @param string $httpVersion
      * @throws \Hahns\Exception\StatusMessageCannotFindException
-     * @throws \Hahns\Exception\ArgumentMustBeAnIntegerException
-     * @throws \Hahns\Exception\ArgumentMustBeAStringOrNullException
-     * @throws \Hahns\Exception\ArgumentMustBeAStringException
+     * @throws \Hahns\Exception\VariableHasToBeAnIntegerException
+     * @throws \Hahns\Exception\VariableHasToBeAStringOrNullException
+     * @throws \Hahns\Exception\VariableHasToBeAStringException
      */
     public function status($code = Response::CODE_OK, $message = null, $httpVersion = '1.1')
     {
@@ -85,7 +85,7 @@ abstract class AbstractImpl implements Response
 
         if (!is_string($httpVersion)) {
             $message = 'Argument for `httpVersion` must be a string';
-            throw new ArgumentMustBeAStringException($message);
+            throw new VariableHasToBeAStringException($message);
         }
 
         // get message

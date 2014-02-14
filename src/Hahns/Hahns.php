@@ -4,11 +4,11 @@
 namespace Hahns;
 
 
-use Hahns\Exception\ArgumentMustBeAStringException;
+use Hahns\Exception\VariableHasToBeAStringException;
 use Hahns\Exception\NotFoundException;
-use Hahns\Exception\ArgumentMustBeABooleanException;
-use Hahns\Exception\ArgumentMustBeAnIntegerException;
-use Hahns\Exception\ArgumentMustBeAStringOrNullException;
+use Hahns\Exception\VariableHasToBeABooleanException;
+use Hahns\Exception\VariableHasToBeAnIntegerException;
+use Hahns\Exception\VariableHasToBeAStringOrNullException;
 use Hahns\Response\Html;
 use Hahns\Response\Json;
 use Hahns\Response\Text;
@@ -63,7 +63,7 @@ class Hahns
 
     /**
      * @param bool $debug
-     * @throws ArgumentMustBeABooleanException
+     * @throws VariableHasToBeABooleanException
      */
     public function __construct($debug = false)
     {
@@ -102,7 +102,7 @@ class Hahns
      * @param string $route
      * @param \Closure|string $callbackOrNamedRoute
      * @param string|null $name
-     * @throws ArgumentMustBeAStringException
+     * @throws VariableHasToBeAStringException
      */
     protected function addPrefixedRoute($prefix, $route, $callbackOrNamedRoute, $name = null)
     {
@@ -162,7 +162,7 @@ class Hahns
     /**
      * @param int $event
      * @param \Closure $callback
-     * @throws ArgumentMustBeAnIntegerException
+     * @throws VariableHasToBeAnIntegerException
      */
     public function on($event, \Closure $callback)
     {
@@ -297,7 +297,7 @@ class Hahns
     }
 
     /**
-     * @throws ArgumentMustBeAStringOrNullException
+     * @throws VariableHasToBeAStringOrNullException
      */
     public function run($route = null, $requestMethod = null)
     {
@@ -374,7 +374,7 @@ class Hahns
     /**
      * @param int $handler
      * @param array $args
-     * @throws ArgumentMustBeAnIntegerException
+     * @throws VariableHasToBeAnIntegerException
      * @throws \Exception
      */
     protected function trigger($handler, $args = [])

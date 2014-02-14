@@ -4,7 +4,7 @@
 namespace Hahns\Validator;
 
 
-use Hahns\Exception\VariableMustBeCallableException;
+use Hahns\Exception\VariableHasToBeCallableException;
 
 class CallableValidator
 {
@@ -18,7 +18,7 @@ class CallableValidator
     {
         if (!is_callable($v)) {
             $message = sprintf('`%s` has to be callable', $name);
-            throw new VariableMustBeCallableException($message);
+            throw new VariableHasToBeCallableException($message);
         }
     }
 }

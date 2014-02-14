@@ -4,7 +4,7 @@
 namespace Hahns\Validator;
 
 
-use Hahns\Exception\ArgumentMustBeABooleanException;
+use Hahns\Exception\VariableHasToBeABooleanException;
 
 class BooleanValidator
 {
@@ -12,13 +12,13 @@ class BooleanValidator
     /**
      * @param boolean $v
      * @param string  $name
-     * @throws \Hahns\Exception\ArgumentMustBeABooleanException
+     * @throws \Hahns\Exception\VariableHasToBeABooleanException
      */
     public static function hasTo($v, $name)
     {
         if (!is_bool($v)) {
             $message = sprintf('`%s` has to be a boolean', $name);
-            throw new ArgumentMustBeABooleanException($message);
+            throw new VariableHasToBeABooleanException($message);
         }
     }
 }

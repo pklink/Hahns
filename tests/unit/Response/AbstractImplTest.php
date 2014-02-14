@@ -1,8 +1,8 @@
 <?php
 namespace Response;
-use Hahns\Exception\ArgumentMustBeAnIntegerException;
-use Hahns\Exception\ArgumentMustBeAStringException;
-use Hahns\Exception\ArgumentMustBeAStringOrNullException;
+use Hahns\Exception\VariableHasToBeAnIntegerException;
+use Hahns\Exception\VariableHasToBeAStringException;
+use Hahns\Exception\VariableHasToBeAStringOrNullException;
 use Hahns\Exception\StatusMessageCannotFindException;
 use Hahns\Response\AbstractImpl;
 use Hahns\Response;
@@ -31,12 +31,12 @@ class AbstractImplTest extends \Codeception\TestCase\Test
         try {
             $this->instance->header([], 'bla');
             $this->fail();
-        } catch (ArgumentMustBeAStringException $e) { }
+        } catch (VariableHasToBeAStringException $e) { }
 
         try {
             $this->instance->header('bla', []);
             $this->fail();
-        } catch (ArgumentMustBeAStringException $e) { }
+        } catch (VariableHasToBeAStringException $e) { }
     }
 
     public function testStatus()
@@ -49,17 +49,17 @@ class AbstractImplTest extends \Codeception\TestCase\Test
         try {
             $this->instance->status('s');
             $this->fail();
-        } catch (ArgumentMustBeAnIntegerException $e) {}
+        } catch (VariableHasToBeAnIntegerException $e) {}
 
         try {
             $this->instance->status(201, []);
             $this->fail();
-        } catch (ArgumentMustBeAStringOrNullException $e) {}
+        } catch (VariableHasToBeAStringOrNullException $e) {}
 
         try {
             $this->instance->status(201, null, []);
             $this->fail();
-        } catch (ArgumentMustBeAStringException $e) {}
+        } catch (VariableHasToBeAStringException $e) {}
 
         try {
             $this->instance->status(213123);
@@ -75,7 +75,7 @@ class AbstractImplTest extends \Codeception\TestCase\Test
         try {
             $this->instance->redirect([]);
             $this->fail();
-        } catch (ArgumentMustBeAStringException $e) { }
+        } catch (VariableHasToBeAStringException $e) { }
 
         try {
             $this->instance->redirect('1', 324234);

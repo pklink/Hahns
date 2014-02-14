@@ -4,10 +4,10 @@
 namespace Hahns;
 
 
-use Hahns\Exception\ArgumentMustBeAnArrayException;
-use Hahns\Exception\ArgumentMustBeAStringException;
+use Hahns\Exception\VariableHasToBeAnArrayException;
+use Hahns\Exception\VariableHasToBeAStringException;
 use Hahns\Exception\ServiceDoesNotExistException;
-use Hahns\Exception\ServiceMustBeAnObjectException;
+use Hahns\Exception\ServiceHasToBeAnObjectException;
 
 class ServiceHolder
 {
@@ -21,19 +21,19 @@ class ServiceHolder
      * @param string   $name
      * @param \Closure $callable
      * @param array    $args
-     * @throws Exception\ArgumentMustBeAStringException
-     * @throws Exception\ArgumentMustBeAnArrayException
+     * @throws Exception\VariableHasToBeAStringException
+     * @throws Exception\VariableHasToBeAnArrayException
      */
     public function register($name, \Closure $callable, $args = [])
     {
         if (!is_string($name)) {
             $message = 'Argument for `name` must be a string';
-            throw new ArgumentMustBeAStringException($message);
+            throw new VariableHasToBeAStringException($message);
         }
 
         if (!is_array($args)) {
             $message = 'Argument for `args` must be an array';
-            throw new ArgumentMustBeAnArrayException($message);
+            throw new VariableHasToBeAnArrayException($message);
         }
 
         $this->services[$name] = [
@@ -46,14 +46,14 @@ class ServiceHolder
      * @param string $name
      * @return object
      * @throws Exception\ServiceDoesNotExistException
-     * @throws Exception\ServiceMustBeAnObjectException
-     * @throws Exception\ArgumentMustBeAStringException
+     * @throws Exception\ServiceHasToBeAnObjectException
+     * @throws Exception\VariableHasToBeAStringException
      */
     public function get($name)
     {
         if (!is_string($name)) {
             $message = 'Argument for `name` must be a string';
-            throw new ArgumentMustBeAStringException($message);
+            throw new VariableHasToBeAStringException($message);
         }
 
         if (!isset($this->services[$name])) {
@@ -70,7 +70,7 @@ class ServiceHolder
 
             if (!is_object($service['instance'])) {
                 $message = sprintf('Service `%s` must be an object', $name);
-                throw new ServiceMustBeAnObjectException($message);
+                throw new ServiceHasToBeAnObjectException($message);
             }
         }
 

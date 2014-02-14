@@ -4,7 +4,7 @@
 namespace Hahns\Validator;
 
 
-use Hahns\Exception\VariableMustBeAnArrayException;
+use Hahns\Exception\VariableHasToBeAnArrayException;
 
 class ArrayValidator
 {
@@ -18,7 +18,7 @@ class ArrayValidator
     {
         if (!is_array($v)) {
             $message = sprintf('`%s` has to be an array', $name);
-            throw new VariableMustBeAnArrayException($message);
+            throw new VariableHasToBeAnArrayException($message);
         }
     }
 }

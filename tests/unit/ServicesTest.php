@@ -3,10 +3,10 @@
 namespace Hahns\Test;
 
 use Codeception\TestCase\Test;
-use Hahns\Exception\ArgumentMustBeAnArrayException;
-use Hahns\Exception\ArgumentMustBeAStringException;
+use Hahns\Exception\VariableHasToBeAnArrayException;
+use Hahns\Exception\VariableHasToBeAStringException;
 use Hahns\Exception\ServiceDoesNotExistException;
-use Hahns\Exception\ServiceMustBeAnObjectException;
+use Hahns\Exception\ServiceHasToBeAnObjectException;
 use Hahns\ServiceHolder;
 
 class ServicesTest extends Test
@@ -34,7 +34,7 @@ class ServicesTest extends Test
         try {
             $this->instance->get([]);
             $this->fail();
-        } catch (ArgumentMustBeAStringException $e) { }
+        } catch (VariableHasToBeAStringException $e) { }
 
         try {
             $this->instance->get('Asdasda');
@@ -67,7 +67,7 @@ class ServicesTest extends Test
         try {
             $this->instance->get('test');
             $this->fail();
-        } catch (ServiceMustBeAnObjectException $e) { }
+        } catch (ServiceHasToBeAnObjectException $e) { }
 
         // return nothing
         $this->instance->register('test', function () {});
@@ -75,11 +75,11 @@ class ServicesTest extends Test
         try {
             $this->instance->get('test');
             $this->fail();
-        } catch (ServiceMustBeAnObjectException $e) { }
+        } catch (ServiceHasToBeAnObjectException $e) { }
 
         try {
             $this->instance->register('test', function() {}, 1);
             $this->fail();
-        } catch (ArgumentMustBeAnArrayException $e) { }
+        } catch (VariableHasToBeAnArrayException $e) { }
     }
 }

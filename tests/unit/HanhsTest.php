@@ -55,12 +55,12 @@ class HanhsTest extends \Codeception\TestCase\Test
         try {
             $app->run([]);
             $this->fail();
-        } catch (\Hahns\Exception\ArgumentMustBeAStringOrNullException $e) { }
+        } catch (\Hahns\Exception\VariableHasToBeAStringOrNullException $e) { }
 
         try {
             $app->run('asd', []);
             $this->fail();
-        } catch (\Hahns\Exception\ArgumentMustBeAStringOrNullException $e) { }
+        } catch (\Hahns\Exception\VariableHasToBeAStringOrNullException $e) { }
 
         $app->get('/test', function(\Hahns\Hahns $p) {
             $p->config('test', 'test');
@@ -96,7 +96,7 @@ class HanhsTest extends \Codeception\TestCase\Test
         try {
             $this->instance->service([]);
             $this->fail();
-        } catch (\Hahns\Exception\ArgumentMustBeAStringException $e) { }
+        } catch (\Hahns\Exception\VariableHasToBeAStringException $e) { }
 
         try {
             $this->instance->service('asdas', 'asdas');
@@ -116,7 +116,7 @@ class HanhsTest extends \Codeception\TestCase\Test
         try {
             $this->instance->parameter([], function () {});
             $this->fail();
-        } catch (\Hahns\Exception\ArgumentMustBeAStringException $e) { }
+        } catch (\Hahns\Exception\VariableHasToBeAStringException $e) { }
 
         try {
             $this->instance->parameter('type', 'invalid');
@@ -165,7 +165,7 @@ class HanhsTest extends \Codeception\TestCase\Test
         try {
             $this->instance->config([]);
             $this->fail();
-        } catch (\Hahns\Exception\ArgumentMustBeAStringException $e) { }
+        } catch (\Hahns\Exception\VariableHasToBeAStringException $e) { }
     }
 
     public function testOn()
@@ -175,7 +175,7 @@ class HanhsTest extends \Codeception\TestCase\Test
         try {
             $this->instance->on('2', function() {});
             $this->fail();
-        } catch (\Hahns\Exception\ArgumentMustBeAnIntegerException $e) { }
+        } catch (\Hahns\Exception\VariableHasToBeAnIntegerException $e) { }
 
         try {
             $this->instance->on(21, '');

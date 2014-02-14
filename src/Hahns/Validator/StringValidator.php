@@ -4,8 +4,8 @@
 namespace Hahns\Validator;
 
 
-use Hahns\Exception\ArgumentMustBeAStringException;
-use Hahns\Exception\ArgumentMustBeAStringOrNullException;
+use Hahns\Exception\VariableHasToBeAStringException;
+use Hahns\Exception\VariableHasToBeAStringOrNullException;
 
 class StringValidator
 {
@@ -13,26 +13,26 @@ class StringValidator
     /**
      * @param string $v
      * @param string $name
-     * @throws \Hahns\Exception\ArgumentMustBeAStringException
+     * @throws \Hahns\Exception\VariableHasToBeAStringException
      */
     public static function hasTo($v, $name)
     {
         if (!is_string($v)) {
             $message = sprintf('`%s` has to be a string', $name);
-            throw new ArgumentMustBeAStringException($message);
+            throw new VariableHasToBeAStringException($message);
         }
     }
 
     /**
      * @param string|null $v
      * @param string      $name
-     * @throws \Hahns\Exception\ArgumentMustBeAStringOrNullException
+     * @throws \Hahns\Exception\VariableHasToBeAStringOrNullException
      */
     public static function hasToBeStringOrNull($v, $name)
     {
         if (!is_string($v) && !is_null($v)) {
             $message = sprintf('`%s` has to be a string or null', $name);
-            throw new ArgumentMustBeAStringOrNullException($message);
+            throw new VariableHasToBeAStringOrNullException($message);
         }
     }
 }

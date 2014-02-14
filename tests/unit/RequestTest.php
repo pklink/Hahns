@@ -53,7 +53,7 @@ class RequestTest extends \Codeception\TestCase\Test
         try {
             $this->instance->header([]);
             $this->fail();
-        } catch (\Hahns\Exception\ArgumentMustBeAStringException $e) { }
+        } catch (\Hahns\Exception\VariableHasToBeAStringException $e) { }
 
     }
 
