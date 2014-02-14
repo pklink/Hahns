@@ -13,8 +13,6 @@ use Hahns\Response\Html;
 use Hahns\Response\Json;
 use Hahns\Response\Text;
 use WebDriver\Exception;
-use Whoops\Handler\PrettyPageHandler;
-use Whoops\Run;
 
 class Hahns
 {
@@ -81,16 +79,8 @@ class Hahns
             $this->service('json-response')->status(404);
         });
 
-        // register 500-event-hander
-        $this->on(Hahns::EVENT_ERROR, function (\Exception $e) {
-            $this->service('json-response')->status(500);
-
-            if ($this->debug) {
-                $whoops = new Run();
-                $whoops->pushHandler(new PrettyPageHandler());
-                $whoops->register();
-                throw $e;
-            }
+        $this->on(Hahns::EVENT_ERROR, function () {
+            $this->service('text-response')->status(500);
         });
 
         // register error_handler for throwing exceptions instead of trigger errors
