@@ -50,8 +50,8 @@ class Router
      */
     public function add($route, $callbackOrNamedRoute, $name = null)
     {
-        StringValidator::string($route, 'route');
-        StringValidator::stringOrNull($name, 'name');
+        StringValidator::hasTo($route, 'route');
+        StringValidator::hasToBeStringOrNull($name, 'name');
 
         // get callback
         if ($callbackOrNamedRoute instanceof \Closure) {

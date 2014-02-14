@@ -27,8 +27,8 @@ class ParameterHolder
      */
     public function register($type, \Closure $callback, $asSingleton = true, $args = [])
     {
-        StringValidator::string($type, 'type');
-        BooleanValidator::boolean($asSingleton, 'asSingleton');
+        StringValidator::hasTo($type, 'type');
+        BooleanValidator::hasTo($asSingleton, 'asSingleton');
 
         // remove first backslash
         if (strlen($type) > 0 && $type{0} == '\\') {

@@ -14,7 +14,7 @@ class BooleanValidator
      * @param string  $name
      * @throws \Hahns\Exception\ArgumentMustBeABooleanException
      */
-    public static function boolean($v, $name)
+    public static function hasTo($v, $name)
     {
         if (!is_bool($v)) {
             $message = sprintf('Argument for `%s` must be a boolean', $name);

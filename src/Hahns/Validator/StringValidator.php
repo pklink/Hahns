@@ -15,7 +15,7 @@ class StringValidator
      * @param string $name
      * @throws \Hahns\Exception\ArgumentMustBeAStringException
      */
-    public static function string($v, $name)
+    public static function hasTo($v, $name)
     {
         if (!is_string($v)) {
             $message = sprintf('Argument for `%s` must be a string', $name);
@@ -28,7 +28,7 @@ class StringValidator
      * @param string      $name
      * @throws \Hahns\Exception\ArgumentMustBeAStringOrNullException
      */
-    public static function stringOrNull($v, $name)
+    public static function hasToBeStringOrNull($v, $name)
     {
         if (!is_string($v) && !is_null($v)) {
             $message = sprintf('Argument for `%s` must be a string or null', $name);

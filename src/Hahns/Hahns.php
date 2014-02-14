@@ -68,7 +68,7 @@ class Hahns
     public function __construct($debug = false)
     {
         // set debug mode
-        BooleanValidator::boolean($debug, 'debug');
+        BooleanValidator::hasTo($debug, 'debug');
         $this->debug = $debug;
 
         // create config, service holder and parameter holder
@@ -166,7 +166,7 @@ class Hahns
      */
     public function on($event, \Closure $callback)
     {
-        IntegerValidator::integer($event, 'event');
+        IntegerValidator::hasTo($event, 'event');
 
         // check if event is exists
         if (!isset($this->eventHandler[$event])) {
@@ -303,8 +303,8 @@ class Hahns
     {
         $this->trigger(Hahns::EVENT_BEFORE_RUNNING, [$route, $this]);
 
-        StringValidator::stringOrNull($route, 'route');
-        StringValidator::stringOrNull($requestMethod, 'requestMethod');
+        StringValidator::hasToBeStringOrNull($route, 'route');
+        StringValidator::hasToBeStringOrNull($requestMethod, 'requestMethod');
 
         // get route
         if ($route !== null) {
@@ -379,7 +379,7 @@ class Hahns
      */
     protected function trigger($handler, $args = [])
     {
-        IntegerValidator::integer($handler, 'handler');
+        IntegerValidator::hasTo($handler, 'handler');
 
         if (isset($this->eventHandler[$handler])) {
             $eventHandler = $this->eventHandler[$handler];

@@ -80,8 +80,8 @@ abstract class AbstractImpl implements Response
      */
     public function status($code = Response::CODE_OK, $message = null, $httpVersion = '1.1')
     {
-        IntegerValidator::integer($code, 'code');
-        StringValidator::stringOrNull($message, 'message');
+        IntegerValidator::hasTo($code, 'code');
+        StringValidator::hasToBeStringOrNull($message, 'message');
 
         if (!is_string($httpVersion)) {
             $message = 'Argument for `httpVersion` must be a string';

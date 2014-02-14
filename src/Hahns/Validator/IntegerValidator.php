@@ -14,7 +14,7 @@ class IntegerValidator
      * @param string $name
      * @throws \Hahns\Exception\ArgumentMustBeAnIntegerException
      */
-    public static function integer($v, $name)
+    public static function hasTo($v, $name)
     {
         if (!is_int($v)) {
             $message = sprintf('Argument for `%s` must be an integer', $name);
