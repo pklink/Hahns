@@ -8,8 +8,8 @@ use Hahns\Exception\CallbackDoesNotExistException;
 use Hahns\Exception\NotFoundException;
 use Hahns\Exception\ArgumentMustBeAClosureOrStringException;
 use Hahns\Exception\ArgumentMustBeAStringException;
-use Hahns\Exception\ArgumentMustBeAStringOrNullException;
 use Hahns\Exception\RouteDoesNotExistException;
+use Hahns\Validator\Argument\StringValidator;
 
 class Router
 {
@@ -50,15 +50,8 @@ class Router
      */
     public function add($route, $callbackOrNamedRoute, $name = null)
     {
-        if (!is_string($route)) {
-            $message = 'Argument for `route` must be a string';
-            throw new ArgumentMustBeAStringException($message);
-        }
-
-        if (!is_null($name) && !is_string($name)) {
-            $message = 'Parameter `name` must be a string or null';
-            throw new ArgumentMustBeAStringOrNullException($message);
-        }
+        StringValidator::string($route, 'route');
+        StringValidator::stringOrNull($name, 'name');
 
         // get callback
         if ($callbackOrNamedRoute instanceof \Closure) {

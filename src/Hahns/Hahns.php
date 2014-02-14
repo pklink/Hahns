@@ -12,6 +12,7 @@ use Hahns\Exception\ArgumentMustBeAStringOrNullException;
 use Hahns\Response\Html;
 use Hahns\Response\Json;
 use Hahns\Response\Text;
+use Hahns\Validator\Argument\StringValidator;
 use WebDriver\Exception;
 
 class Hahns
@@ -303,15 +304,8 @@ class Hahns
     {
         $this->trigger(Hahns::EVENT_BEFORE_RUNNING, [$route, $this]);
 
-        if (!is_string($route) && !is_null($route)) {
-            $message = 'Argument for `route` must be a string or null';
-            throw new ArgumentMustBeAStringOrNullException($message);
-        }
-
-        if (!is_null($requestMethod) && !is_string($requestMethod)) {
-            $message = 'Argument for `requestMethod` must be a string or null';
-            throw new ArgumentMustBeAStringOrNullException($message);
-        }
+        StringValidator::stringOrNull($route, 'route');
+        StringValidator::stringOrNull($requestMethod, 'requestMethod');
 
         // get route
         if ($route !== null) {

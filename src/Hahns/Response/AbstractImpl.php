@@ -4,11 +4,11 @@
 namespace Hahns\Response;
 
 
-use Hahns\Exception\ArgumentMustBeAnIntegerException;
 use Hahns\Exception\ArgumentMustBeAStringException;
-use Hahns\Exception\ArgumentMustBeAStringOrNullException;
 use Hahns\Exception\StatusMessageCannotFindException;
 use Hahns\Response;
+use Hahns\Validator\Argument\IntegerValidator;
+use Hahns\Validator\Argument\StringValidator;
 
 abstract class AbstractImpl implements Response
 {
@@ -80,15 +80,8 @@ abstract class AbstractImpl implements Response
      */
     public function status($code = Response::CODE_OK, $message = null, $httpVersion = '1.1')
     {
-        if (!is_int($code)) {
-            $message = 'Argument for `status` must be an integer';
-            throw new ArgumentMustBeAnIntegerException($message);
-        }
-
-        if (!is_null($message) && !is_string($message)) {
-            $message = 'Parameter `message` must be a string or null';
-            throw new ArgumentMustBeAStringOrNullException($message);
-        }
+        IntegerValidator::integer($code, 'code');
+        StringValidator::stringOrNull($message, 'message');
 
         if (!is_string($httpVersion)) {
             $message = 'Argument for `httpVersion` must be a string';
