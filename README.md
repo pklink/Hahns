@@ -399,3 +399,7 @@ void   status(int code, string $message, string $httpVersion)   // send status c
 
 [1]: http://getcomposer.org/
 [2]: http://en.wikipedia.org/wiki/Regular_expression
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/pklink/hahns/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
