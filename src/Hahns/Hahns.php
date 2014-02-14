@@ -12,7 +12,10 @@ use Hahns\Exception\ArgumentMustBeAStringOrNullException;
 use Hahns\Response\Html;
 use Hahns\Response\Json;
 use Hahns\Response\Text;
+use Hahns\Validator\ArrayValidator;
 use Hahns\Validator\BooleanValidator;
+use Hahns\Validator\CallableValidator;
+use Hahns\Validator\IntegerValidator;
 use Hahns\Validator\StringValidator;
 use WebDriver\Exception;
 
@@ -163,11 +166,9 @@ class Hahns
      */
     public function on($event, \Closure $callback)
     {
-        if (!is_int($event)) {
-            $message = 'Argument for `event` must be an integer';
-            throw new ArgumentMustBeAnIntegerException($message);
-        }
+        IntegerValidator::integer($event, 'event');
 
+        // check if event is exists
         if (!isset($this->eventHandler[$event])) {
             $this->eventHandler[$event] = [];
         }
@@ -378,23 +379,15 @@ class Hahns
      */
     protected function trigger($handler, $args = [])
     {
-        if (!is_int($handler)) {
-            $message = 'Argument for `event` must be an integer';
-            throw new ArgumentMustBeAnIntegerException($message);
-        }
+        IntegerValidator::integer($handler, 'handler');
 
         if (isset($this->eventHandler[$handler])) {
             $eventHandler = $this->eventHandler[$handler];
 
-            if (!is_array($eventHandler)) {
-                throw new \Exception('`$eventHandler` must be an array');
-            }
+            ArrayValidator::hasTo($eventHandler, 'eventHandler');
 
             foreach ($eventHandler as $handler) {
-                if (!is_callable($handler)) {
-                    throw new \Exception('`$handler` must be callable');
-                }
-
+                CallableValidator::hasTo($handler, 'handler');
                 call_user_func_array($handler, $args);
             }
         }
