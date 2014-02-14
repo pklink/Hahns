@@ -4,10 +4,10 @@
 namespace Hahns;
 
 
-use Hahns\Exception\ArgumentMustBeABooleanException;
-use Hahns\Exception\ArgumentMustBeAStringException;
 use Hahns\Exception\ParameterCallbackReturnsWrongTypeException;
 use Hahns\Exception\ParameterDoesNotExistException;
+use Hahns\Validator\Argument\BooleanValidator;
+use Hahns\Validator\Argument\StringValidator;
 
 class ParameterHolder
 {
@@ -27,15 +27,8 @@ class ParameterHolder
      */
     public function register($type, \Closure $callback, $asSingleton = true, $args = [])
     {
-        if (!is_string($type)) {
-            $message = 'Argument for `type` must be a string';
-            throw new ArgumentMustBeAStringException($message);
-        }
-
-        if (!is_bool($asSingleton)) {
-            $message = 'Argument for `asSingleton` must be a boolean';
-            throw new ArgumentMustBeABooleanException($message);
-        }
+        StringValidator::string($type, 'type');
+        BooleanValidator::boolean($asSingleton, 'asSingleton');
 
         // remove first backslash
         if (strlen($type) > 0 && $type{0} == '\\') {

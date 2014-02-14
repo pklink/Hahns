@@ -12,6 +12,7 @@ use Hahns\Exception\ArgumentMustBeAStringOrNullException;
 use Hahns\Response\Html;
 use Hahns\Response\Json;
 use Hahns\Response\Text;
+use Hahns\Validator\Argument\BooleanValidator;
 use Hahns\Validator\Argument\StringValidator;
 use WebDriver\Exception;
 
@@ -64,10 +65,7 @@ class Hahns
     public function __construct($debug = false)
     {
         // set debug mode
-        if (!is_bool($debug)) {
-            $message = 'Argument for `debug` must be a boolean';
-            throw new ArgumentMustBeABooleanException($message);
-        }
+        BooleanValidator::boolean($debug, 'debug');
         $this->debug = $debug;
 
         // create config, service holder and parameter holder
