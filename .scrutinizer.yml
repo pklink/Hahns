@@ -11,9 +11,6 @@ tools:
   php_analyzer:
     filter:
       paths: [src/*]
-    config:
-      checkstyle:
-        enabled: true
 
   php_cpd:
     excluded_dirs: [vendor, tests]
