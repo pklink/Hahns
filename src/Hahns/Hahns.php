@@ -42,7 +42,7 @@ class Hahns
     protected $debug = false;
 
     /**
-     * @var callable[]
+     * @var callable[][]
      */
     protected $eventHandler = [];
 
