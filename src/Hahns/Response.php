@@ -191,6 +191,7 @@ interface Response
     /**
      * @param string $name
      * @param string $value
+     * @return void
      */
     public function header($name, $value);
 
@@ -204,7 +205,7 @@ interface Response
     /**
      * @param mixed    $data
      * @param int|null $status
-     * @return mixed
+     * @return string
      */
     public function send($data, $status = null);
 

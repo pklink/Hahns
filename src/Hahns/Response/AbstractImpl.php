@@ -15,6 +15,7 @@ abstract class AbstractImpl implements Response
     /**
      * @param string $name
      * @param string $value
+     * @return void
      * @throws \Hahns\Exception\VariableHasToBeAStringException
      */
     public function header($name, $value)
@@ -27,6 +28,7 @@ abstract class AbstractImpl implements Response
     /**
      * @param string $location
      * @param int $status
+     * @return void
      * @throws \Hahns\Exception\VariableHasToBeAStringException
      */
     public function redirect($location, $status = Response::CODE_MOVED_PERMANENTLY)
@@ -57,6 +59,7 @@ abstract class AbstractImpl implements Response
      * @param int $code
      * @param string|null $message
      * @param string $httpVersion
+     * @return void
      * @throws \Hahns\Exception\StatusMessageCannotFindException
      * @throws \Hahns\Exception\VariableHasToBeAnIntegerException
      * @throws \Hahns\Exception\VariableHasToBeAStringOrNullException
