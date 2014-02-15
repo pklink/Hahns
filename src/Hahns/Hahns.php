@@ -42,7 +42,7 @@ class Hahns
     protected $debug = false;
 
     /**
-     * @var callable[][]
+     * @var \Closure[][]
      */
     protected $eventHandler = [];
 
@@ -85,7 +85,7 @@ class Hahns
     /**
      * @param string $prefix
      * @param string $route
-     * @param callable|string $callbackOrNamedRoute
+     * @param \Closure|string $callbackOrNamedRoute
      * @param string|null $name
      * @throws VariableHasToBeAStringException
      */
@@ -97,7 +97,7 @@ class Hahns
 
     /**
      * @param string $route
-     * @param callable|string $callbackOrNamedRoute
+     * @param \Closure|string $callbackOrNamedRoute
      * @param string|null $name
      */
     public function any($route, $callbackOrNamedRoute, $name = null)
@@ -126,7 +126,7 @@ class Hahns
 
     /**
      * @param string $route
-     * @param callable|string $callbackOrNamedRoute
+     * @param \Closure|string $callbackOrNamedRoute
      * @param string|null $name
      */
     public function delete($route, $callbackOrNamedRoute, $name = null)
@@ -136,7 +136,7 @@ class Hahns
 
     /**
      * @param string $route
-     * @param callable|string $callbackOrNamedRoute
+     * @param \Closure|string $callbackOrNamedRoute
      * @param string|null $name
      */
     public function get($route, $callbackOrNamedRoute, $name = null)
@@ -146,7 +146,7 @@ class Hahns
 
     /**
      * @param int $event
-     * @param callable $callback
+     * @param \Closure $callback
      * @throws VariableHasToBeAnIntegerException
      */
     public function on($event, \Closure $callback)
@@ -163,7 +163,7 @@ class Hahns
 
     /**
      * @param string $type
-     * @param callable $callback
+     * @param \Closure $callback
      * @param boolean $asSingleton
      */
     public function parameter($type, \Closure $callback, $asSingleton = true)
@@ -173,7 +173,7 @@ class Hahns
 
     /**
      * @param string $route
-     * @param callable|string $callbackOrNamedRoute
+     * @param \Closure|string $callbackOrNamedRoute
      * @param string|null $name
      */
     public function patch($route, $callbackOrNamedRoute, $name = null)
@@ -183,7 +183,7 @@ class Hahns
 
     /**
      * @param string $route
-     * @param callable|string $callbackOrNamedRoute
+     * @param \Closure|string $callbackOrNamedRoute
      * @param string|null $name
      */
     public function post($route, $callbackOrNamedRoute, $name = null)
@@ -193,7 +193,7 @@ class Hahns
 
     /**
      * @param string $route
-     * @param callable|string $callbackOrNamedRoute
+     * @param \Closure|string $callbackOrNamedRoute
      * @param string|null $name
      */
     public function put($route, $callbackOrNamedRoute, $name = null)
@@ -372,7 +372,7 @@ class Hahns
 
     /**
      * @param string $name
-     * @param callable $callback
+     * @param \Closure $callback
      * @return object|null
      */
     public function service($name, \Closure $callback = null)

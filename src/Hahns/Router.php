@@ -25,7 +25,7 @@ class Router
     protected $namedParameters = [];
 
     /**
-     * @var callable
+     * @var \Closure
      */
     protected $callback;
 
@@ -36,7 +36,7 @@ class Router
 
     /**
      * @param string $route
-     * @param callable|string $callbackOrNamedRoute
+     * @param \Closure|string $callbackOrNamedRoute
      * @param string|null $name
      * @throws Exception\VariableHasToBeAStringException
      * @throws Exception\VariableHasToBeAStringOrNullException
@@ -66,7 +66,7 @@ class Router
     }
 
     /**
-     * @return callable
+     * @return \Closure
      * @throws Exception\CallbackDoesNotExistException
      */
     public function getCallback()
