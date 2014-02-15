@@ -19,7 +19,7 @@ class ParameterHolder
 
     /**
      * @param string   $type
-     * @param \Closure $callback
+     * @param callable $callback
      * @param bool     $asSingleton
      * @param array    $args
      * @throws Exception\VariableHasToBeAStringException

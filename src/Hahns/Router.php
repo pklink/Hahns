@@ -7,7 +7,7 @@ namespace Hahns;
 use Hahns\Exception\CallbackDoesNotExistException;
 use Hahns\Exception\NotFoundException;
 use Hahns\Exception\RouteDoesNotExistException;
-use Hahns\Exception\VariableHasToBeAClosureOrStringException;
+use Hahns\Exception\VariableHasToBeACallableOrStringException;
 use Hahns\Exception\VariableHasToBeAStringException;
 use Hahns\Validator\StringValidator;
 
@@ -25,7 +25,7 @@ class Router
     protected $namedParameters = [];
 
     /**
-     * @var \Closure
+     * @var callable
      */
     protected $callback;
 
@@ -36,17 +36,11 @@ class Router
 
     /**
      * @param string $route
-     * @param \Closure $callback
-     * @throws Exception\VariableHasToBeAStringException
-     */
-
-    /**
-     * @param string $route
-     * @param \Closure|string $callbackOrNamedRoute
+     * @param callable|string $callbackOrNamedRoute
      * @param string|null $name
      * @throws Exception\VariableHasToBeAStringException
      * @throws Exception\VariableHasToBeAStringOrNullException
-     * @throws VariableHasToBeAClosureOrStringException
+     * @throws VariableHasToBeACallableOrStringException
      */
     public function add($route, $callbackOrNamedRoute, $name = null)
     {
@@ -60,7 +54,7 @@ class Router
             $callback = $this->getRoute($callbackOrNamedRoute)[1];
         } else {
             $message = 'Argumet for `callbackOrNamedRoute` must be a \\Closure or a string';
-            throw new VariableHasToBeAClosureOrStringException($message);
+            throw new VariableHasToBeACallableOrStringException($message);
         }
 
         if (!is_null($name)) {
@@ -72,7 +66,7 @@ class Router
     }
 
     /**
-     * @return \Closure
+     * @return callable
      * @throws Exception\CallbackDoesNotExistException
      */
     public function getCallback()

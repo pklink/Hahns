@@ -19,7 +19,7 @@ class ServiceHolder
 
     /**
      * @param string   $name
-     * @param \Closure $callable
+     * @param callable $callable
      * @param array    $args
      * @throws Exception\VariableHasToBeAStringException
      * @throws Exception\VariableHasToBeAnArrayException
