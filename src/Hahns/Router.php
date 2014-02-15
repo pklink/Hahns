@@ -6,9 +6,9 @@ namespace Hahns;
 
 use Hahns\Exception\CallbackDoesNotExistException;
 use Hahns\Exception\NotFoundException;
+use Hahns\Exception\RouteDoesNotExistException;
 use Hahns\Exception\VariableHasToBeAClosureOrStringException;
 use Hahns\Exception\VariableHasToBeAStringException;
-use Hahns\Exception\RouteDoesNotExistException;
 use Hahns\Validator\StringValidator;
 
 class Router
@@ -109,10 +109,7 @@ class Router
      */
     public function getRoute($name)
     {
-        if (!is_string($name)) {
-            $message = 'Argument for `name` must be a string';
-            throw new VariableHasToBeAStringException($message);
-        }
+        StringValidator::hasTo($name, 'name');
 
         $index = sprintf('named-%s', $name);
         if (!isset($this->routes[$index])) {

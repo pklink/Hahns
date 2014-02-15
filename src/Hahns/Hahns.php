@@ -4,10 +4,10 @@
 namespace Hahns;
 
 
-use Hahns\Exception\VariableHasToBeAStringException;
 use Hahns\Exception\NotFoundException;
 use Hahns\Exception\VariableHasToBeABooleanException;
 use Hahns\Exception\VariableHasToBeAnIntegerException;
+use Hahns\Exception\VariableHasToBeAStringException;
 use Hahns\Exception\VariableHasToBeAStringOrNullException;
 use Hahns\Response\Html;
 use Hahns\Response\Json;

@@ -4,10 +4,10 @@
 namespace Hahns;
 
 
-use Hahns\Exception\VariableHasToBeAnArrayException;
-use Hahns\Exception\VariableHasToBeAStringException;
 use Hahns\Exception\ServiceDoesNotExistException;
 use Hahns\Exception\ServiceHasToBeAnObjectException;
+use Hahns\Validator\ArrayValidator;
+use Hahns\Validator\StringValidator;
 
 class ServiceHolder
 {
@@ -26,15 +26,8 @@ class ServiceHolder
      */
     public function register($name, \Closure $callable, $args = [])
     {
-        if (!is_string($name)) {
-            $message = 'Argument for `name` must be a string';
-            throw new VariableHasToBeAStringException($message);
-        }
-
-        if (!is_array($args)) {
-            $message = 'Argument for `args` must be an array';
-            throw new VariableHasToBeAnArrayException($message);
-        }
+        StringValidator::hasTo($name, 'name');
+        ArrayValidator::hasTo($args, 'args');
 
         $this->services[$name] = [
             'callable' => $callable,
@@ -51,10 +44,7 @@ class ServiceHolder
      */
     public function get($name)
     {
-        if (!is_string($name)) {
-            $message = 'Argument for `name` must be a string';
-            throw new VariableHasToBeAStringException($message);
-        }
+        StringValidator::hasTo($name, 'name');
 
         if (!isset($this->services[$name])) {
             $message = sprintf('Service `%s` does not exist', $name);

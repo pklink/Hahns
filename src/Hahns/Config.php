@@ -4,7 +4,7 @@
 namespace Hahns;
 
 
-use Hahns\Exception\VariableHasToBeAStringException;
+use Hahns\Validator\StringValidator;
 
 class Config
 {
@@ -22,10 +22,7 @@ class Config
      */
     public function get($name, $default = null)
     {
-        if (!is_string($name)) {
-            $message = 'Argument for `name` must be a string';
-            throw new VariableHasToBeAStringException($message);
-        }
+        StringValidator::hasTo($name, 'name');
 
         if (!isset($this->config[$name])) {
             return $default;
@@ -41,11 +38,7 @@ class Config
      */
     public function set($name, $value)
     {
-        if (!is_string($name)) {
-            $message = 'Argument for `name` must be a string';
-            throw new VariableHasToBeAStringException($message);
-        }
-
+        StringValidator::hasTo($name, 'name');
         $this->config[$name] = $value;
     }
 }

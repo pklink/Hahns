@@ -4,7 +4,6 @@
 namespace Hahns\Response;
 
 
-use Hahns\Exception\VariableHasToBeAStringException;
 use Hahns\Exception\StatusMessageCannotFindException;
 use Hahns\Response;
 use Hahns\Validator\IntegerValidator;
@@ -20,16 +19,8 @@ abstract class AbstractImpl implements Response
      */
     public function header($name, $value)
     {
-        if (!is_string($name)) {
-            $message = 'Argument for `name` must be a string';
-            throw new VariableHasToBeAStringException($message);
-        }
-
-        if (!is_string($value)) {
-            $message = 'Argument for `value` must be a string';
-            throw new VariableHasToBeAStringException($message);
-        }
-
+        StringValidator::hasTo($name, 'name');
+        StringValidator::hasTo($value, 'value');
         header(sprintf('%s: %s', $name, $value));
     }
 
@@ -40,11 +31,7 @@ abstract class AbstractImpl implements Response
      */
     public function redirect($location, $status = Response::CODE_MOVED_PERMANENTLY)
     {
-        if (!is_string($location)) {
-            $message = 'Argument for `location` must be a string';
-            throw new VariableHasToBeAStringException($message);
-        }
-
+        StringValidator::hasTo($location, 'location');
         $this->status($status);
         $this->header('Location', $location);
     }
@@ -57,10 +44,7 @@ abstract class AbstractImpl implements Response
      */
     public function send($data, $status = null)
     {
-        if (!is_string($data)) {
-            $message = 'Argument for `data` must be a string';
-            throw new VariableHasToBeAStringException($message);
-        }
+        StringValidator::hasTo($data, 'data');
 
         if (!is_null($status)) {
             $this->status($status);
@@ -82,11 +66,7 @@ abstract class AbstractImpl implements Response
     {
         IntegerValidator::hasTo($code, 'code');
         StringValidator::hasToBeStringOrNull($message, 'message');
-
-        if (!is_string($httpVersion)) {
-            $message = 'Argument for `httpVersion` must be a string';
-            throw new VariableHasToBeAStringException($message);
-        }
+        StringValidator::hasTo($httpVersion, 'httpVersion');
 
         // get message
         if (is_null($message)) {

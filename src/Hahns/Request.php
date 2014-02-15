@@ -4,7 +4,7 @@
 namespace Hahns;
 
 
-use Hahns\Exception\VariableHasToBeAStringException;
+use Hahns\Validator\StringValidator;
 
 class Request
 {
@@ -62,10 +62,7 @@ class Request
      */
     public function header($name, $default = null)
     {
-        if (!is_string($name)) {
-            $message = 'Argument for `name` must be a string';
-            throw new VariableHasToBeAStringException($message);
-        }
+        StringValidator::hasTo($name, 'name');
 
         $name = sprintf('HTTP_%s', strtoupper($name));
         $name = str_replace('-', '_', $name);
