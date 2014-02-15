@@ -1,0 +1,19 @@
+imports:
+  - php
+
+filter:
+  paths: [src/*]
+
+tools:
+  php_pdepend:
+    excluded_dirs: [vendor, tests]
+
+  php_analyzer:
+    filter:
+      paths: [src/*]
+    config:
+      checkstyle:
+        enabled: true
+
+  php_cpd:
+    excluded_dirs: [vendor, tests]
