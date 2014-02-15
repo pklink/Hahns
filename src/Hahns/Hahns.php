@@ -22,14 +22,14 @@ use WebDriver\Exception;
 class Hahns
 {
 
-    const EVENT_NOT_FOUND              = 404;
-    const EVENT_ERROR                  = 500;
-    const EVENT_BEFORE_RUNNING         = 100;
-    const EVENT_AFTER_RUNNING          = 101;
-    const EVENT_BEFORE_ROUTING         = 102;
-    const EVENT_AFTER_ROUTING          = 103;
+    const EVENT_NOT_FOUND = 404;
+    const EVENT_ERROR = 500;
+    const EVENT_BEFORE_RUNNING = 100;
+    const EVENT_AFTER_RUNNING = 101;
+    const EVENT_BEFORE_ROUTING = 102;
+    const EVENT_AFTER_ROUTING = 103;
     const EVENT_BEFORE_EXECUTING_ROUTE = 104;
-    const EVENT_AFTER_EXECUTING_ROUTE  = 105;
+    const EVENT_AFTER_EXECUTING_ROUTE = 105;
 
     /**
      * @var Config
@@ -72,27 +72,12 @@ class Hahns
         $this->debug = $debug;
 
         // create config, service holder and parameter holder
-        $this->config          = new Config();
-        $this->serviceHolder   = new ServiceHolder();
+        $this->config = new Config();
+        $this->serviceHolder = new ServiceHolder();
         $this->parameterHolder = new ParameterHolder();
 
-        // register 404-event-hander
-        $this->on(Hahns::EVENT_NOT_FOUND, function () {
-            $this->service('json-response')->status(404);
-        });
-
-        $this->on(Hahns::EVENT_ERROR, function () {
-            $this->service('text-response')->status(500);
-        });
-
-        // register error_handler for throwing exceptions instead of trigger errors
-        if ($this->debug) {
-            set_error_handler(function ($errno, $errstr, $errfile, $errline) {
-                $e = new \ErrorException($errstr, $errno, 0, $errfile, $errline);
-                $this->trigger(Hahns::EVENT_ERROR, [$e, $this]);
-            });
-        }
-
+        $this->registerBuiltInEventHandler();
+        $this->registerErrorHandler();
         $this->registerBuiltInServices();
         $this->registerBuiltInParameters();
     }
@@ -111,9 +96,9 @@ class Hahns
     }
 
     /**
-     * @param string          $route
+     * @param string $route
      * @param \Closure|string $callbackOrNamedRoute
-     * @param string|null     $name
+     * @param string|null $name
      */
     public function any($route, $callbackOrNamedRoute, $name = null)
     {
@@ -177,9 +162,9 @@ class Hahns
     }
 
     /**
-     * @param string   $type
+     * @param string $type
      * @param \Closure $callback
-     * @param boolean  $asSingleton
+     * @param boolean $asSingleton
      */
     public function parameter($type, \Closure $callback, $asSingleton = true)
     {
@@ -214,6 +199,21 @@ class Hahns
     public function put($route, $callbackOrNamedRoute, $name = null)
     {
         $this->addPrefixedRoute('put', $route, $callbackOrNamedRoute, $name);
+    }
+
+    /**
+     * @return void
+     */
+    protected function registerBuiltInEventHandler()
+    {
+        // register 404-event-hander
+        $this->on(Hahns::EVENT_NOT_FOUND, function () {
+            $this->service('json-response')->status(404);
+        });
+
+        $this->on(Hahns::EVENT_ERROR, function () {
+            $this->service('text-response')->status(500);
+        });
     }
 
     /**
@@ -266,6 +266,20 @@ class Hahns
         $this->serviceHolder->register('html-response', function () {
             return new Html();
         });
+    }
+
+    /**
+     * @return void
+     */
+    protected function registerErrorHandler()
+    {
+        // register error_handler for throwing exceptions instead of trigger errors
+        if ($this->debug) {
+            set_error_handler(function ($errno, $errstr, $errfile, $errline) {
+                $e = new \ErrorException($errstr, $errno, 0, $errfile, $errline);
+                $this->trigger(Hahns::EVENT_ERROR, [$e, $this]);
+            });
+        }
     }
 
     /**
@@ -335,11 +349,11 @@ class Hahns
             $callback = $this->router()->getCallback();
 
             // get attributes for callback
-            $attributes         = [];
+            $attributes = [];
             $callbackReflection = new \ReflectionFunction($callback);
 
             foreach ($callbackReflection->getParameters() as $parameter) {
-                $type         = $parameter->getClass()->getName();
+                $type = $parameter->getClass()->getName();
                 $attributes[] = $this->parameterHolder->get($type);
             }
 
