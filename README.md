@@ -50,7 +50,7 @@ Every DELETE-request to `/` will respond
 
 ### Debug mode
 
-For enable debugging pass `true` to the constructor of Hahns
+For enable debugging set `debug` in the configuration to `true`
 
 ```php
 $app = new \Hahns\Hahns(['debug' => true]);
