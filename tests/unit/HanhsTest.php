@@ -14,7 +14,11 @@ class HanhsTest extends \Codeception\TestCase\Test
 
     protected function _before()
     {
-        $this->instance = new \Hahns\Hahns();
+        $config = [
+            'clif' => 'blabla'
+        ];
+
+        $this->instance = new \Hahns\Hahns($config);
         $_SERVER['REQUEST_METHOD'] = 'GET';
     }
 
@@ -159,13 +163,12 @@ class HanhsTest extends \Codeception\TestCase\Test
 
     public function testConfig()
     {
-        $this->instance->config('clif', 'blabla');
         $this->assertEquals('blabla', $this->instance->config('clif'));
 
         try {
             $this->instance->config([]);
             $this->fail();
-        } catch (\Hahns\Exception\VariableHasToBeAStringException $e) { }
+        } catch (InvalidArgumentException $e) { }
     }
 
     public function testOn()

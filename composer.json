@@ -2,7 +2,6 @@
     "name": "pklink/hahns",
     "description": "micro framework for PHP 5.4+",
     "keywords": ["framework", "router", "microframework", "rest"],
-    "minimum-stability": "beta",
     "license": "MIT",
     "authors": [
         {
@@ -16,6 +15,7 @@
         }
     },
     "require": {
+        "pklink/dotor": "~0.3",
         "php": ">=5.4.0",
         "ext-json": "*"
     },

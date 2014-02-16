@@ -12,7 +12,7 @@ class ArrayValidator
     /**
      * @param mixed  $v
      * @param string $name
-     * @throws \Exception
+     * @throws VariableHasToBeAnArrayException
      */
     public static function hasTo($v, $name)
     {

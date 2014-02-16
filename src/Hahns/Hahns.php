@@ -4,6 +4,7 @@
 namespace Hahns;
 
 
+use Dotor\Dotor;
 use Hahns\Exception\NotFoundException;
 use Hahns\Exception\VariableHasToBeABooleanException;
 use Hahns\Exception\VariableHasToBeAnIntegerException;
@@ -62,17 +63,21 @@ class Hahns
     protected $serviceHolder;
 
     /**
-     * @param bool $debug
+     * @param array $config
      * @throws VariableHasToBeABooleanException
      */
-    public function __construct($debug = false)
+    public function __construct($config = [])
     {
-        // set debug mode
-        BooleanValidator::hasTo($debug, 'debug');
-        $this->debug = $debug;
+        // validate config
+        ArrayValidator::hasTo($config, 'debug');
 
-        // create config, service holder and parameter holder
-        $this->config = new Config();
+        // create config
+        $this->config = new Dotor($config);
+
+        // set debug mode
+        $this->debug = $this->config->getBool('debug', false);
+
+        // create service holder and parameter holder
         $this->serviceHolder = new ServiceHolder();
         $this->parameterHolder = new ParameterHolder();
 
@@ -111,17 +116,11 @@ class Hahns
 
     /**
      * @param string $name
-     * @param string|null $value
      * @return mixed|null
      */
-    public function config($name, $value = null)
+    public function config($name)
     {
-        if (!is_null($value)) {
-            $this->config->set($name, $value);
-            return null;
-        } else {
-            return $this->config->get($name);
-        }
+        return $this->config->get($name);
     }
 
     /**
