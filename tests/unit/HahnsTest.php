@@ -12,37 +12,60 @@ class HahnsTest extends \Codeception\TestCase\Test
      */
     protected $instance;
 
+    /**
+     * @return void
+     */
     protected function _before()
     {
+        // create configuration
         $config = [
             'clif' => 'blabla'
         ];
 
+        // create instance of Hahns
         $this->instance = new \Hahns\Hahns($config);
+
+        // simulate the request
         $_SERVER['REQUEST_METHOD'] = 'GET';
     }
 
+    /**
+     * test DELETE-routing
+     */
     public function testDelete()
     {
+        // set DELETE route `delete`
         $this->instance->delete('delete', function() {});
     }
 
+    /**
+     * test GET-routing
+     */
     public function testGet()
     {
+        // set GET route `get`
         $this->instance->get('get', function() {});
     }
 
-
+    /**
+     * test handlich of notFound event
+     */
     public function testNotFound()
     {
         $this->instance->on(\Hahns\Hahns::EVENT_NOT_FOUND, function() {});
     }
 
+    /**
+     * test PATCH-routing
+     */
     public function testPatch()
     {
         $this->instance->patch('patch', function() {});
     }
 
+    /**
+     * test POST-routing
+     */
     public function testPost()
     {
         $this->instance->post('post', function() {});
@@ -56,52 +79,60 @@ class HahnsTest extends \Codeception\TestCase\Test
         $app->run('asdas');
         $app->run('asdas', 'asdas');
 
+        // invalid route
         try {
             $app->run([]);
             $this->fail();
-        } catch (\Hahns\Exception\VariableHasToBeAStringOrNullException $e) { }
+        } catch (InvalidArgumentException $e) { }
 
+        // invalid request method
         try {
             $app->run('asd', []);
             $this->fail();
-        } catch (\Hahns\Exception\VariableHasToBeAStringOrNullException $e) { }
+        } catch (InvalidArgumentException $e) { }
 
-        $app->get('/test', function(\Hahns\Hahns $p) {
-            $p->config('test', 'test');
+        // check if routing argument is working
+        $tmp = '';
+        $app->get('/test', function() use (&$tmp) {
+            $tmp = 'test';
         });
         $app->run('/test');
-        $this->assertEquals('test', $app->config('test'));
+        $this->assertEquals('test', $tmp);
 
-        $app->post('/test', function(\Hahns\Hahns $p) {
-            $p->config('test', 'test2');
+        // check if requestMethod argument is working
+        $tmp = '';
+        $app->post('/test', function() use (&$tmp) {
+            $tmp = 'test2';
         });
         $app->run('/test', 'post');
-        $this->assertEquals('test2', $app->config('test'));
+        $this->assertEquals('test2', $tmp);
     }
 
     public function testService()
     {
-        $this->instance->service('bla', function() { return new stdClass(); });
-        $this->instance->service('bla');
-
-        $this->instance->config('service-test-bla', 'hello wort!');
-        $this->instance->service('bla', function(\Hahns\Hahns $app) {
-            $o = new stdClass();
-            $o->arg = $app->config('service-test-bla');
-            return $o;
+        // check if registration of service is working
+        $this->instance->service('bla', function() {
+            $x = new stdClass();
+            $x->test = 'blub';
+            return $x;
         });
-        $this->assertEquals('hello wort!', $this->instance->service('bla')->arg);
+        $service = $this->instance->service('bla');
+        $this->assertInstanceOf('stdClass', $service);
+        $this->assertEquals('blub', $service->test);
 
+        // check if Hahns will throw an exception on getting a non-existing service
         try {
             $this->instance->service('asdasd');
             $this->fail();
         } catch (\Hahns\Exception\ServiceDoesNotExistException $e) { }
 
+        // check if Hahns will throw an exception on getting a service with an invalid name
         try {
             $this->instance->service([]);
             $this->fail();
-        } catch (\Hahns\Exception\VariableHasToBeAStringException $e) { }
+        } catch (InvalidArgumentException $e) { }
 
+        // register invalid service
         try {
             $this->instance->service('asdas', 'asdas');
             $this->fail();
@@ -111,60 +142,87 @@ class HahnsTest extends \Codeception\TestCase\Test
     public function testConstructor()
     {
         new \Hahns\Hahns();
+        new \Hahns\Hahns([]);
+
+        // invalid configuration
+        try {
+            new \Hahns\Hahns('asd');
+            $this->fail();
+        } catch (InvalidArgumentException $e) { }
+
+        try {
+            new \Hahns\Hahns(1);
+            $this->fail();
+        } catch (InvalidArgumentException $e) { }
+
+        try {
+            new \Hahns\Hahns(new stdClass());
+            $this->fail();
+        } catch (InvalidArgumentException $e) { }
     }
 
     public function testParameter()
     {
+        // register parameter
         $this->instance->parameter('type', function () {});
 
+        // register parameter with invalid type
         try {
             $this->instance->parameter([], function () {});
             $this->fail();
-        } catch (\Hahns\Exception\VariableHasToBeAStringException $e) { }
+        } catch (InvalidArgumentException $e) { }
 
+        // register invalid parameter
         try {
             $this->instance->parameter('type', 'invalid');
             $this->fail();
         } catch (ErrorException $e) { }
 
-        // with app as parameter. parameterparameter roflcopter
-        $this->instance->get('/bla', function (\Hahns\Hahns $app) {
-            $app->config('roflcopter', '111');
+        // with app as parameter
+        $tmp = '';
+        $this->instance->get('/bla', function (\Hahns\Hahns $app) use (&$tmp) {
+            $tmp = $app;
         });
         $this->instance->run('/bla', 'get');
-        $this->assertEquals('111', $this->instance->config('roflcopter'));
+        $this->assertInstanceOf('\Hahns\Hahns', $tmp);
 
-        // singleton test
+        // register parameter as singleton (default)
         $hahns = new \Hahns\Hahns();
         $hahns->parameter('\\IsSingleton', function() {
             return new IsSingleton();
         });
 
+        // regiser parameter as non-singleton
         $hahns->parameter('\\IsNotSingleton', function() {
             return new IsNotSingleton();
         }, false);
 
-        $hahns->get('/singleton', function(IsSingleton $p, \Hahns\Hahns $app) {
-            $app->config('test', $p->test);
+        // test singleton parameter
+        $tmp = '';
+        $hahns->get('/singleton', function(IsSingleton $p) use ($tmp) {
+            $tmp = $p->test;
         });
         $hahns->run('/singleton', 'get');
-        $test = $hahns->config('test');
+        $test = $tmp;
         $hahns->run('/singleton', 'get');
-        $this->assertEquals($test, $hahns->config('test'));
+        $this->assertEquals($test, $tmp);
 
-        $hahns->get('/is/not/singleton', function(IsNotSingleton $p, \Hahns\Hahns $app) {
-            $app->config('test', $p->test);
+        // test non-singleton parameter
+        $tmp = '';
+        $hahns->get('/is/not/singleton', function(IsNotSingleton $p) use (&$tmp) {
+            $tmp = $p->test;
         });
         $hahns->run('/is/not/singleton', 'get');
-        $test = $hahns->config('test');
+        $test = $tmp;
         $hahns->run('/is/not/singleton', 'get');
-        $this->assertNotEquals($test, $hahns->config('test'));
+        $this->assertNotEquals($test, $tmp);
     }
 
     public function testConfig()
     {
         $this->assertEquals('blabla', $this->instance->config('clif'));
 
+        // illegal config-key
         try {
             $this->instance->config([]);
             $this->fail();
@@ -173,19 +231,21 @@ class HahnsTest extends \Codeception\TestCase\Test
 
     public function testOn()
     {
+        // register handler for event 213
         $this->instance->on(213, function() {});
 
+        // invalid event
         try {
             $this->instance->on('2', function() {});
             $this->fail();
-        } catch (\Hahns\Exception\VariableHasToBeAnIntegerException $e) { }
+        } catch (InvalidArgumentException $e) { }
 
+        // register invalid event handler
         try {
             $this->instance->on(21, '');
             $this->fail()
 ;        } catch (ErrorException $e) { }
     }
-
 
     public function testAny()
     {
