@@ -21,8 +21,7 @@ class ServiceHolder
      * @param string   $name
      * @param \Closure $callable
      * @param array    $args
-     * @throws Exception\VariableHasToBeAStringException
-     * @throws Exception\VariableHasToBeAnArrayException
+     * @throws \InvalidArgumentException
      */
     public function register($name, \Closure $callable, $args = [])
     {
@@ -40,7 +39,7 @@ class ServiceHolder
      * @return object
      * @throws Exception\ServiceDoesNotExistException
      * @throws Exception\ServiceHasToBeAnObjectException
-     * @throws Exception\VariableHasToBeAStringException
+     * @throws \InvalidArgumentException
      */
     public function get($name)
     {

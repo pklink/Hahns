@@ -7,8 +7,6 @@ namespace Hahns;
 use Hahns\Exception\CallbackDoesNotExistException;
 use Hahns\Exception\NotFoundException;
 use Hahns\Exception\RouteDoesNotExistException;
-use Hahns\Exception\VariableHasToBeACallableOrStringException;
-use Hahns\Exception\VariableHasToBeAStringException;
 use Hahns\Validator\StringValidator;
 
 class Router
@@ -38,9 +36,7 @@ class Router
      * @param string $route
      * @param \Closure|string $callbackOrNamedRoute
      * @param string|null $name
-     * @throws Exception\VariableHasToBeAStringException
-     * @throws Exception\VariableHasToBeAStringOrNullException
-     * @throws VariableHasToBeACallableOrStringException
+     * @throws \InvalidArgumentException
      */
     public function add($route, $callbackOrNamedRoute, $name = null)
     {
@@ -54,7 +50,7 @@ class Router
             $callback = $this->getRoute($callbackOrNamedRoute)[1];
         } else {
             $message = 'Argumet for `callbackOrNamedRoute` must be a \\Closure or a string';
-            throw new VariableHasToBeACallableOrStringException($message);
+            throw new \InvalidArgumentException($message);
         }
 
         if (!is_null($name)) {
@@ -98,7 +94,7 @@ class Router
     /**
      * @param string $name
      * @return array [route, callback]
-     * @throws Exception\VariableHasToBeAStringException
+     * @throws \InvalidArgumentException
      * @throws Exception\RouteDoesNotExistException
      */
     public function getRoute($name)
@@ -139,14 +135,11 @@ class Router
     /**
      * @param string $parsable
      * @throws Exception\NotFoundException
-     * @throws Exception\VariableHasToBeAStringException
+     * @throws \InvalidArgumentException
      */
     public function dispatch($parsable)
     {
-        if (!is_string($parsable)) {
-            $message = 'Argument for `parseable` must be a string';
-            throw new VariableHasToBeAStringException($message);
-        }
+        StringValidator::hasTo($parsable, 'parsable');
 
         // clear named parameters
         $this->namedParameters =[];

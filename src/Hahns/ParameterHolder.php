@@ -22,8 +22,7 @@ class ParameterHolder
      * @param \Closure $callback
      * @param bool     $asSingleton
      * @param array    $args
-     * @throws Exception\VariableHasToBeAStringException
-     * @throws Exception\VariableHasToBeABooleanException
+     * @throws \InvalidArgumentException
      */
     public function register($type, \Closure $callback, $asSingleton = true, $args = [])
     {

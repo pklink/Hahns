@@ -6,15 +6,10 @@ namespace Hahns;
 
 use Dotor\Dotor;
 use Hahns\Exception\NotFoundException;
-use Hahns\Exception\VariableHasToBeABooleanException;
-use Hahns\Exception\VariableHasToBeAnIntegerException;
-use Hahns\Exception\VariableHasToBeAStringException;
-use Hahns\Exception\VariableHasToBeAStringOrNullException;
 use Hahns\Response\Html;
 use Hahns\Response\Json;
 use Hahns\Response\Text;
 use Hahns\Validator\ArrayValidator;
-use Hahns\Validator\BooleanValidator;
 use Hahns\Validator\CallableValidator;
 use Hahns\Validator\IntegerValidator;
 use Hahns\Validator\StringValidator;
@@ -33,7 +28,7 @@ class Hahns
     const EVENT_AFTER_EXECUTING_ROUTE = 105;
 
     /**
-     * @var Config
+     * @var Dotor
      */
     protected $config;
 
@@ -64,7 +59,7 @@ class Hahns
 
     /**
      * @param array $config
-     * @throws VariableHasToBeABooleanException
+     * @throws \InvalidArgumentException
      */
     public function __construct($config = [])
     {
@@ -92,7 +87,6 @@ class Hahns
      * @param string $route
      * @param \Closure|string $callbackOrNamedRoute
      * @param string|null $name
-     * @throws VariableHasToBeAStringException
      */
     protected function addPrefixedRoute($prefix, $route, $callbackOrNamedRoute, $name = null)
     {
@@ -146,7 +140,7 @@ class Hahns
     /**
      * @param int $event
      * @param \Closure $callback
-     * @throws VariableHasToBeAnIntegerException
+     * @throws \InvalidArgumentException
      */
     public function on($event, \Closure $callback)
     {
@@ -310,7 +304,7 @@ class Hahns
     }
 
     /**
-     * @throws VariableHasToBeAStringOrNullException
+     * @throws \InvalidArgumentException
      */
     public function run($route = null, $requestMethod = null)
     {
@@ -387,8 +381,7 @@ class Hahns
     /**
      * @param int $handler
      * @param array $args
-     * @throws VariableHasToBeAnIntegerException
-     * @throws \Exception
+     * @throws \InvalidArgumentException
      */
     protected function trigger($handler, $args = [])
     {

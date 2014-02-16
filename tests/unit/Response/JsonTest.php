@@ -26,12 +26,12 @@ class JsonTest extends \Codeception\TestCase\Test
         try {
             $instance->send('asd');
             $this->fail();
-        } catch (\Hahns\Exception\VariableHasToBeAnArrayOrAnObjectException $e) { }
+        } catch (InvalidArgumentException $e) { }
 
         try {
             $instance->send([], 'as');
             $this->fail();
-        } catch (\Hahns\Exception\VariableHasToBeAnIntegerException $e) { }
+        } catch (InvalidArgumentException $e) { }
     }
 
 }

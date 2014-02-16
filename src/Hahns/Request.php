@@ -58,7 +58,7 @@ class Request
      * @param string $name
      * @param mixed $default
      * @return mixed
-     * @throws Exception\VariableHasToBeAStringException
+     * @throws \InvalidArgumentException
      */
     public function header($name, $default = null)
     {
