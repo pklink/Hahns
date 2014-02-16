@@ -53,7 +53,7 @@ Every DELETE-request to `/` will respond
 For enable debugging pass `true` to the constructor of Hahns
 
 ```php
-$app = new \Hahns\Hahns(true);
+$app = new \Hahns\Hahns(['debug' => true]);
 ```
 
 ### Parameters for routing callback
@@ -318,7 +318,6 @@ void            any(string $route, string $namedRoute)	                        /
 void            any(string $route, \Closure $callback, string $name)	        // register routes for all verbs route with name $name
 void            any(string $route, string $namedRoute, string $name)	        // register route for all verbs with name $name using the previous route named $namedRoute
 mixed           config(string $name)	                                        // get value $name from config
-void            config(string $name, mixed $value)	                            // set value $value to config
 void            delete(string $route, \Closure $callback)	                    // register DELETE-route
 void            delete(string $route, string $namedRoute)	                    // register DELETE-route using the previous route $namedRoute
 void            delete(string $route, \Closure $callback, string $name)	        // register DELETE-route with name $name
