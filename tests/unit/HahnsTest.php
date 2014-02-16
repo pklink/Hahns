@@ -1,6 +1,6 @@
 <?php
 
-class HanhsTest extends \Codeception\TestCase\Test
+class HahnsTest extends \Codeception\TestCase\Test
 {
    /**
     * @var \CodeGuy
