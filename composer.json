@@ -15,7 +15,7 @@
         }
     },
     "require": {
-        "pklink/dotor": "~0.3",
+        "pklink/dotor": "~1.0",
         "php": ">=5.4.0",
         "ext-json": "*"
     },
