@@ -4,12 +4,12 @@
 
 $tmp = '';
 
-$app->on(\Hahns\Hahns::EVENT_BEFORE_ROUTING, function($usedRoute) use ($tmp) {
+$app->on(\Hahns\Hahns::EVENT_BEFORE_ROUTING, function($usedRoute) use (&$tmp) {
     $tmp = $usedRoute;
 });
 
 
-$app->get('/event', function (\Hahns\Hahns $app) use ($tmp) {
+$app->get('/event', function () use (&$tmp) {
     echo $tmp;
 });
 

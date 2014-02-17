@@ -37,6 +37,7 @@ class Router
      * @param \Closure|string $callbackOrNamedRoute
      * @param string|null $name
      * @throws \InvalidArgumentException
+     * @throws Exception\RouteDoesNotExistException
      */
     public function add($route, $callbackOrNamedRoute, $name = null)
     {

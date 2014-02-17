@@ -21,21 +21,31 @@ class RouterTest extends \Codeception\TestCase\Test
 
     public function testAdd()
     {
+        // add route
         $this->instance->add('asdas', function(){});
+
+        // add route with name `name`
         $this->instance->add('asdas', function(){}, 'name');
+
+        // add named route
         $this->instance->add('asdas', 'name', 'anothername');
+
+        // add another named route
         $this->instance->add('asdas', 'anothername');
 
+        // add invalid route name
         try {
             $this->instance->add([], function() {});
             $this->fail();
         } catch (InvalidArgumentException $e) { }
 
+        // add non-existing named route
         try {
             $this->instance->add('bla', 'bla');
             $this->fail();
-        } catch (InvalidArgumentException $e) { }
+        } catch (\Hahns\Exception\RouteDoesNotExistException $e) { }
 
+        // add route with invalid name
         try {
             $this->instance->add('asdas', function(){}, []);
             $this->fail();
